@@ -1,0 +1,12 @@
+.tabContainer {
+  padding-right: 0 !important;
+}
+
+.tabContainer,
+.codeEditor {
+  @apply !text-f-p-mobile lg:!text-f-p;
+}
+
+.scroller {
+  overflow-x: auto;
+}
