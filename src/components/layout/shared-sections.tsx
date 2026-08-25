@@ -4,14 +4,18 @@ import { motion } from "motion/react"
 import { usePathname } from "next/navigation"
 
 import { Link } from "@/components/primitives/link"
-import { useDeviceDetect } from "@/hooks/use-device-detect"
 import { useHandleContactButton } from "@/hooks/use-handle-contact"
 import { cn } from "@/utils/cn"
 import { isInPath } from "@/utils/is-in-path"
 
 interface InternalLinksProps {
   className?: string
-  links: { title: string; href: string; count?: number }[]
+  links: {
+    title: string
+    href: string
+    count?: number
+    reloadDocument?: boolean
+  }[]
   onClick?: () => void
   onNav?: boolean
   animated?: boolean
@@ -32,12 +36,7 @@ export const InternalLinks = ({
   animated = false
 }: InternalLinksProps) => {
   const handleContactButton = useHandleContactButton()
-  const { isMobile } = useDeviceDetect()
   const pathname = usePathname()
-
-  const filteredLinks = links.filter(
-    (link) => !(isMobile && link.href.includes("lab"))
-  )
 
   const animateProps = animated
     ? {
@@ -55,7 +54,7 @@ export const InternalLinks = ({
         className
       )}
     >
-      {filteredLinks.map((link, idx) => (
+      {links.map((link, idx) => (
         <motion.li
           key={`${link.title}-${idx}`}
           {...animateProps}
@@ -82,6 +81,7 @@ export const InternalLinks = ({
             href={link.href}
             onClick={onClick}
             fromMobileNav={onNav}
+            reloadDocument={link.reloadDocument}
           >
             <span className="actionable">{link.title}</span>
             {link.count && (
@@ -121,7 +121,7 @@ export const InternalLinks = ({
             onNav && isInPath("/contact", pathname) && "!text-brand-o"
           )}
         >
-          <span className="actionable">Contact Us</span>
+          <span className="actionable">联系我</span>
         </button>
       </motion.li>
     </ul>
@@ -174,25 +174,6 @@ export const SocialLinks = ({ className, links }: SocialLinksProps) => (
     </Link>
   </div>
 )
-
-export const Copyright = ({
-  year,
-  className
-}: {
-  year: number
-  className?: string
-}) => {
-  return (
-    <p
-      className={cn(
-        "text-right !text-f-p-mobile text-brand-g1 lg:!text-f-p",
-        className
-      )}
-    >
-      © basement.studio LLC {year} all rights reserved
-    </p>
-  )
-}
 
 export const SoDa = ({ className }: { className?: string }) => (
   <div className={cn("mb-2 w-full", className)}>

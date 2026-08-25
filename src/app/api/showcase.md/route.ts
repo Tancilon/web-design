@@ -1,9 +1,8 @@
 import * as Sentry from "@sentry/nextjs"
 import { NextResponse } from "next/server"
 
-import { fetchShowcaseListForMarkdown } from "@/app/(site)/(canvas)/(content)/showcase/sanity"
+import { beyondDesignWorks } from "@/lib/beyond-design"
 import { SITE_URL } from "@/lib/constants"
-import { truncateDescription } from "@/utils/seo"
 
 const MD_HEADERS = {
   "Content-Type": "text/markdown; charset=utf-8",
@@ -11,38 +10,14 @@ const MD_HEADERS = {
   "X-Content-Type-Options": "nosniff"
 } as const
 
-// CMS strings land inside `[label](url)` syntax — escape the delimiters so a
-// bracketed label can't break the link.
-const escapeLinkLabel = (text: string) => text.replace(/[\\[\]]/g, "\\$&")
-
 export async function GET() {
   try {
-    const projects = await fetchShowcaseListForMarkdown()
-
-    const list = projects
-      .map((project) => {
-        const clientYear = [project.client, project.year]
-          .filter(Boolean)
-          .join(", ")
-        const categories = project.categories?.length
-          ? `(${project.categories.join(", ")})`
-          : null
-        const meta = [clientYear || null, categories].filter(Boolean).join(" ")
-        const detail = [
-          meta || null,
-          truncateDescription(project.description) || null
-        ]
-          .filter(Boolean)
-          .join(" — ")
-        const link = `[${escapeLinkLabel(project.title)}](${SITE_URL}/showcase/${project.slug}.md)`
-        return detail ? `- ${link} — ${detail}` : `- ${link}`
-      })
-      .join("\n")
+    const list = beyondDesignWorks.map((work) => `- ${work.label}`).join("\n")
 
     const parts: Array<string | null> = [
-      "# Showcase",
+      "# 设计之外",
       "",
-      "Selected projects by basement.studio.",
+      `江含的个人设计作品图库，共 ${beyondDesignWorks.length} 件作品。`,
       list ? "" : null,
       list || null,
       "",

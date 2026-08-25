@@ -22,7 +22,6 @@ export interface PostDetail {
   intro: PortableTextBlock[] | null
   content: PortableTextBlock[] | null
   categories: Array<{ title: string; slug: string }> | null
-  authors: Array<{ title: string }> | null
   heroImage: SanityImage | null
   heroVideo: string | null
 }
@@ -59,13 +58,6 @@ export async function fetchPostBySlug(
         ...,
         asset->{url, metadata{dimensions{width, height}, lqip}}
       },
-      _type == "quoteWithAuthor" => {
-        ...,
-        avatar{
-          asset->{url, metadata{dimensions{width, height}, lqip}},
-          alt
-        }
-      },
       _type == "gridGallery" => {
         ...,
         images[]{
@@ -80,7 +72,6 @@ export async function fetchPostBySlug(
       }
     },
     categories[]->{ title, "slug": slug.current },
-    authors[]->{ title },
     heroImage ${imageFragment},
     heroVideo
   }`

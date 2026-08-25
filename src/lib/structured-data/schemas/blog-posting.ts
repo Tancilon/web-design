@@ -12,7 +12,6 @@ interface BlogPostData {
   modifiedAt?: string | null
   intro?: PortableTextBlock[] | null
   heroImage?: SanityImage | null
-  authors?: { title: string; url?: string | null }[] | null
   categories?: { title: string }[] | null
 }
 
@@ -35,22 +34,6 @@ export const generateBlogPostingSchema = (post: BlogPostData) => {
     ...(post.modifiedAt ? { dateModified: post.modifiedAt } : {}),
     ...(description ? { description } : {}),
     ...(image ? { image } : {}),
-    ...(post.authors && post.authors.length > 0
-      ? {
-          author:
-            post.authors.length === 1
-              ? {
-                  "@type": "Person",
-                  name: post.authors[0].title,
-                  ...(post.authors[0].url ? { url: post.authors[0].url } : {})
-                }
-              : post.authors.map((a) => ({
-                  "@type": "Person",
-                  name: a.title,
-                  ...(a.url ? { url: a.url } : {})
-                }))
-        }
-      : {}),
     ...(articleSection?.length ? { articleSection } : {}),
     publisher: { "@id": ORGANIZATION_ID }
   }

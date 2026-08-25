@@ -1,15 +1,9 @@
 import { sanityFetchCached } from "@/service/sanity"
-import {
-  imageFragment,
-  muxVideoFragment,
-  videoFragment
-} from "@/service/sanity/queries"
+import { imageFragment } from "@/service/sanity/queries"
 import type {
   PortableTextBlock,
   SanityImage,
-  SanityMuxVideo,
-  SanitySlug,
-  SanityVideo
+  SanitySlug
 } from "@/service/sanity/types"
 
 // ---------------------------------------------------------------------------
@@ -18,28 +12,10 @@ import type {
 
 export interface HomepageData {
   homepage: {
-    introTitle: PortableTextBlock[] | null
-    introSubtitle: PortableTextBlock[] | null
     capabilitiesIntro: PortableTextBlock[] | null
-    featuredProjects: FeaturedProjectItem[] | null
     capabilities: SanityProjectCategory[] | null
     clients: SanityClient[] | null
   }
-}
-
-export interface FeaturedProjectItem {
-  _key: string
-  title: string | null
-  excerpt: string | null
-  project: {
-    _id: string
-    title: string
-    slug: SanitySlug
-    categories: Array<{ _id: string; title: string }> | null
-  } | null
-  cover: SanityImage | null
-  coverVideo: SanityVideo | null
-  muxCoverVideo: SanityMuxVideo | null
 }
 
 export interface SanityClient {
@@ -63,26 +39,7 @@ export interface SanityProjectCategory {
 
 const homepageQuery = /* groq */ `{
   "homepage": *[_type == "homepage"][0]{
-    introTitle,
-    introSubtitle,
     capabilitiesIntro,
-    featuredProjects[]{
-      _key,
-      title,
-      excerpt,
-      project->{
-        _id,
-        title,
-        slug,
-        categories[]->{
-          _id,
-          title
-        }
-      },
-      cover ${imageFragment},
-      coverVideo ${videoFragment},
-      muxCoverVideo ${muxVideoFragment}
-    },
     "capabilities": capabilities[]->{
       _id,
       title,

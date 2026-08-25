@@ -37,14 +37,9 @@ export const ModeToggle = ({ mode }: { mode: "human" | "machine" }) => {
   const [atBottom, setAtBottom] = useState(false)
   const pathname = usePathname() ?? ""
 
-  // Blog posts have a per-page machine mirror (/post/<slug> ↔ /ai/post/<slug>)
-  // and the blog index (including category views) mirrors to /ai/blog;
-  // everything else toggles against the /ai index.
-  const machineHref = pathname.startsWith("/post/")
-    ? `/ai${pathname}`
-    : pathname === "/blog" || pathname.startsWith("/blog/")
-      ? "/ai/blog"
-      : "/ai"
+  // The resume entry always opens the site-level machine index. Keep this a
+  // full document navigation so the WebGL tree is not remounted across roots.
+  const machineHref = "/ai"
   const humanHref = pathname.startsWith("/ai/")
     ? pathname.slice("/ai".length)
     : "/"
@@ -150,7 +145,7 @@ export const ModeToggle = ({ mode }: { mode: "human" | "machine" }) => {
       >
         {mode === "human" ? (
           <span aria-current="page" className={cn(segmentClass, activeClass)}>
-            Human
+            首页
           </span>
         ) : (
           <a
@@ -158,12 +153,12 @@ export const ModeToggle = ({ mode }: { mode: "human" | "machine" }) => {
             onClick={handleBackToHuman}
             className={cn(segmentClass, inactiveClass)}
           >
-            Human
+            首页
           </a>
         )}
         {mode === "machine" ? (
           <span aria-current="page" className={cn(segmentClass, activeClass)}>
-            Machine
+            个人简历
           </span>
         ) : (
           <a
@@ -171,7 +166,7 @@ export const ModeToggle = ({ mode }: { mode: "human" | "machine" }) => {
             onClick={handleEnterMachine}
             className={cn(segmentClass, inactiveClass)}
           >
-            Machine
+            个人简历
           </a>
         )}
       </div>

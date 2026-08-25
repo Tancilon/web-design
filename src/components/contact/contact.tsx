@@ -56,10 +56,6 @@ const RenderContact = () => {
         setTimeout(() => {
           playSoundFX("CONTACT_ANTENNA", 0.2)
         }, 700)
-      } else if (type === "button-animation-start") {
-        setTimeout(() => {
-          playSoundFX("ARCADE_BUTTON_0_PRESS", 0.4)
-        }, 700)
       }
     }
 

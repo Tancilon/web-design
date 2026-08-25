@@ -45,42 +45,52 @@ export async function fetchAssetsLocal(): Promise<AssetsResult> {
     }
   })
 
-  const scenes = (config.scenes ?? []).map((s) => ({
-    name: s.sceneName ?? "",
-    cameraConfig: {
-      position: [
-        s.cameraConfig?.posX ?? 0,
-        s.cameraConfig?.posY ?? 0,
-        s.cameraConfig?.posZ ?? 0
-      ] as [number, number, number],
-      target: [
-        s.cameraConfig?.tarX ?? 0,
-        s.cameraConfig?.tarY ?? 0,
-        s.cameraConfig?.tarZ ?? 0
-      ] as [number, number, number],
-      fov: s.cameraConfig?.fov ?? 60,
-      targetScrollY: s.cameraConfig?.targetScrollY ?? -1.5,
-      offsetMultiplier: s.cameraConfig?.offsetMultiplier ?? 1
-    },
-    tabs: (s.tabs ?? []).map((tab) => ({
-      tabName: tab.tabName ?? "",
-      tabRoute: tab.tabRoute ?? "",
-      tabHoverName: tab.tabHoverName ?? "",
-      tabClickableName: tab.tabClickableName ?? "",
-      plusShapeScale: tab.plusShapeScale ?? 1
-    })),
-    postprocessing: {
-      contrast: s.postprocessing?.contrast ?? 1,
-      brightness: s.postprocessing?.brightness ?? 1,
-      exposure: s.postprocessing?.exposure ?? 1,
-      gamma: s.postprocessing?.gamma ?? 1,
-      vignetteRadius: s.postprocessing?.vignetteRadius ?? 1,
-      vignetteSpread: s.postprocessing?.vignetteSpread ?? 1,
-      bloomStrength: s.postprocessing?.bloomStrength ?? 1,
-      bloomRadius: s.postprocessing?.bloomRadius ?? 1,
-      bloomThreshold: s.postprocessing?.bloomThreshold ?? 1
-    }
-  }))
+  const disabledScenes = new Set(["lab", "people"])
+  const scenes = (config.scenes ?? [])
+    .filter(
+      (scene) => !disabledScenes.has(scene.sceneName?.toLowerCase() ?? "")
+    )
+    .map((s) => ({
+      name: s.sceneName ?? "",
+      cameraConfig: {
+        position: [
+          s.cameraConfig?.posX ?? 0,
+          s.cameraConfig?.posY ?? 0,
+          s.cameraConfig?.posZ ?? 0
+        ] as [number, number, number],
+        target: [
+          s.cameraConfig?.tarX ?? 0,
+          s.cameraConfig?.tarY ?? 0,
+          s.cameraConfig?.tarZ ?? 0
+        ] as [number, number, number],
+        fov: s.cameraConfig?.fov ?? 60,
+        targetScrollY: s.cameraConfig?.targetScrollY ?? -1.5,
+        offsetMultiplier: s.cameraConfig?.offsetMultiplier ?? 1
+      },
+      tabs: (s.tabs ?? [])
+        .filter((tab) => {
+          const route = tab.tabRoute?.replace(/^\/+/, "").toLowerCase() ?? ""
+          return !disabledScenes.has(route)
+        })
+        .map((tab) => ({
+          tabName: tab.tabName ?? "",
+          tabRoute: tab.tabRoute ?? "",
+          tabHoverName: tab.tabHoverName ?? "",
+          tabClickableName: tab.tabClickableName ?? "",
+          plusShapeScale: tab.plusShapeScale ?? 1
+        })),
+      postprocessing: {
+        contrast: s.postprocessing?.contrast ?? 1,
+        brightness: s.postprocessing?.brightness ?? 1,
+        exposure: s.postprocessing?.exposure ?? 1,
+        gamma: s.postprocessing?.gamma ?? 1,
+        vignetteRadius: s.postprocessing?.vignetteRadius ?? 1,
+        vignetteSpread: s.postprocessing?.vignetteSpread ?? 1,
+        bloomStrength: s.postprocessing?.bloomStrength ?? 1,
+        bloomRadius: s.postprocessing?.bloomRadius ?? 1,
+        bloomThreshold: s.postprocessing?.bloomThreshold ?? 1
+      }
+    }))
 
   const physicsParams = (config.physics?.physicsParams ?? []).map((p) => ({
     _title: p.title ?? "",

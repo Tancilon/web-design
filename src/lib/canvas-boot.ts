@@ -287,10 +287,8 @@ const commonFields = () => {
     assets,
     tags: {
       "boot.was_hidden": String(wasHidden),
-      // Deliberately not `isbot` (used in proxy.ts): its UA table costs ~1.5KB
-      // gzipped on every route, and lazy-loading it would mean fetching a chunk
-      // over the network this timeout is trying to diagnose. `webdriver` alone
-      // caught the only headless agent in the reported events.
+      // `webdriver` catches the headless agents seen in reported events without
+      // adding a user-agent parser to the canvas boot path.
       "boot.automated": String(navigator.webdriver === true),
       "net.effective_type": device.effectiveType ?? "unknown",
       "device.memory_bucket": memoryBucket(device.deviceMemoryGb)

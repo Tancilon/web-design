@@ -1,58 +1,42 @@
+import { BEYOND_DESIGN_COUNT } from "@/lib/beyond-design"
+
 import { NavbarContent } from "./navbar-content"
-import {
-  fetchCompanyInfo,
-  fetchCurrentYear,
-  fetchPostsCount,
-  fetchProjectsCount
-} from "./sanity"
+import { fetchCompanyInfo } from "./sanity"
 
 interface NavbarLink {
   title: string
   href: string
   count?: number
+  reloadDocument?: boolean
 }
 
 export const Navbar = async () => {
-  const [projectsCount, postsCount, companyInfo, year] = await Promise.all([
-    fetchProjectsCount(),
-    fetchPostsCount(),
-    fetchCompanyInfo(),
-    fetchCurrentYear()
-  ])
+  const companyInfo = await fetchCompanyInfo()
 
   const LINKS: NavbarLink[] = [
     {
-      title: "Home",
+      title: "首页",
       href: "/"
     },
     {
-      title: "Services",
+      title: "荣誉",
       href: "/services"
     },
     {
-      title: "Showcase",
+      title: "设计之外",
       href: "/showcase",
-      count: projectsCount
+      count: BEYOND_DESIGN_COUNT
     },
     {
-      title: "People",
-      href: "/people"
-    },
-    {
-      title: "Blog",
-      href: "/blog",
-      count: postsCount
-    },
-    {
-      title: "Lab",
-      href: "/lab"
+      title: "个人简历",
+      href: "/ai",
+      reloadDocument: true
     }
   ]
 
   return (
     <NavbarContent
       key="navbar-content"
-      year={year}
       links={LINKS}
       socialLinks={{
         twitter: companyInfo.twitter || "",
@@ -60,7 +44,6 @@ export const Navbar = async () => {
         github: companyInfo.github || "",
         linkedIn: companyInfo.linkedIn || ""
       }}
-      newsletter={companyInfo.newsletter || []}
     />
   )
 }

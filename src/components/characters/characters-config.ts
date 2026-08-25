@@ -13,10 +13,7 @@ export enum CharacterAnimationName {
   "Home.02" = "Home.02",
   "Blog.01" = "Blog.01",
   "Blog.02" = "Blog.02",
-  "People.01.a" = "People.01.a",
-  "People.01.b" = "People.01.b",
   "People.02.a" = "People.02.a",
-  "People.02.b" = "People.02.b",
   "Services.01" = "Services.01",
   "Services.02" = "Services.02"
 }

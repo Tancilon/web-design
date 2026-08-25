@@ -120,7 +120,7 @@ function LoadingCanvas({ hide }: { hide: boolean }) {
     <div
       className={cn(
         "absolute inset-0",
-        (scene === "basketball" || scene === "lab" || scene === "404") &&
+        (scene === "basketball" || scene === "404") &&
           "inset-x-0 top-0 h-[100svh]",
         hide && "hidden",
         !canRunMainApp && "bg-black"

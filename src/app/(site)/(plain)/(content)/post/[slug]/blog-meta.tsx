@@ -27,7 +27,6 @@ interface BlogMetaProps {
   title: string
   date: string | null
   categories?: Array<{ title: string; slug: string }> | null
-  authors?: Array<{ title: string }> | null
 }
 
 interface BlogMetaComponentProps {
@@ -59,9 +58,6 @@ export const BlogMeta = ({ data, categories }: BlogMetaComponentProps) => (
           {typeof data.date === "string"
             ? formatDate(data.date, false, "UTC")
             : null}
-          <span className="inline-block size-1 bg-brand-g1" />{" "}
-          {data.authors?.map((author) => author.title).join(", ") ||
-            "basement.studio"}
         </p>
         <div className="flex gap-2">
           {socialLinks.map((social, index) => (

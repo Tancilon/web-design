@@ -30,8 +30,6 @@ interface CodeBlockValue {
 
 interface QuoteValue {
   quote?: PortableTextBlock[]
-  author?: string
-  role?: string
 }
 
 interface SideNoteValue {
@@ -103,7 +101,7 @@ function renderBlock(
       return renderImage(block as unknown as SanityImage & { caption?: string })
     case "gridGallery":
       return renderGallery(block as unknown as GalleryValue)
-    case "quoteWithAuthor":
+    case "quote":
       return renderQuote(block as unknown as QuoteValue, baseUrl)
     case "sideNote":
       return renderSideNote(block as unknown as SideNoteValue, baseUrl)
@@ -204,11 +202,7 @@ function renderQuote(
   baseUrl: string | undefined
 ): string | null {
   const quoteMd = portableTextToMarkdown(block.quote, { baseUrl })
-  const attribution = [block.author, block.role].filter(Boolean).join(", ")
-  const inner = [quoteMd, attribution && `— ${attribution}`]
-    .filter(Boolean)
-    .join("\n\n")
-  return inner ? blockquote(inner) : null
+  return quoteMd ? blockquote(quoteMd) : null
 }
 
 function renderSideNote(

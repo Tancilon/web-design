@@ -9,7 +9,6 @@ import { useInspectable } from "@/components/inspectables/context"
 import { useCurrentScene } from "@/hooks/use-current-scene"
 import { useHandleNavigation } from "@/hooks/use-handle-navigation"
 import { useKeyPress } from "@/hooks/use-key-press"
-import { useArcadeStore } from "@/store/arcade-store"
 
 import { IScene } from "./navigation.interface"
 import { useNavigationStore } from "./navigation-store"
@@ -35,11 +34,6 @@ export const NavigationHandler = () => {
   const scenes: IScene[] = useAssets().scenes
   const { handleNavigation } = useHandleNavigation()
   const scene = useCurrentScene()
-  const setLabTabIndex = useArcadeStore((state) => state.setLabTabIndex)
-  const setIsSourceButtonSelected = useArcadeStore(
-    (state) => state.setIsSourceButtonSelected
-  )
-  const isInGame = useArcadeStore((state) => state.isInGame)
   const { selected } = useInspectable()
 
   useEffect(() => setScenes(scenes), [scenes, setScenes])
@@ -96,9 +90,7 @@ export const NavigationHandler = () => {
         ? scenes.find((scene) => scene.name.toLowerCase() === "home")
         : pathname.startsWith("/post/")
           ? scenes.find((scene) => scene.name === "blog")
-          : pathname.startsWith("/careers/")
-            ? scenes.find((scene) => scene.name === "people")
-            : scenes.find((scene) => scene.name === pathname.split("/")[1])
+          : scenes.find((scene) => scene.name === pathname.split("/")[1])
 
     if (
       expectedScene &&
@@ -137,9 +129,7 @@ export const NavigationHandler = () => {
         ? scenes.find((scene) => scene.name.toLowerCase() === "home")
         : pathname.startsWith("/post/")
           ? scenes.find((scene) => scene.name === "blog")
-          : pathname.startsWith("/careers/")
-            ? scenes.find((scene) => scene.name === "people")
-            : scenes.find((scene) => scene.name === pathname.split("/")[1])
+          : scenes.find((scene) => scene.name === pathname.split("/")[1])
 
     if (!currentScene) {
       const notFoundScene = scenes.find((scene) => scene.name === "404")
@@ -166,98 +156,10 @@ export const NavigationHandler = () => {
       }
 
       e.preventDefault()
-      const isInLabTab = useArcadeStore.getState().isInLabTab
-      const setIsInLabTab = useArcadeStore.getState().setIsInLabTab
-      const labTabs = useArcadeStore.getState().labTabs
-      const labTabIndex = useArcadeStore.getState().labTabIndex
-      const isSourceButtonSelected =
-        useArcadeStore.getState().isSourceButtonSelected
-
-      if (pathname === "/lab") {
-        if (!e.shiftKey) {
-          if (currentTabIndex === 0 && !isInLabTab) {
-            setIsInLabTab(true)
-            setLabTabIndex(0)
-            setCurrentTabIndex(-1)
-            setIsSourceButtonSelected(false)
-            return
-          }
-
-          if (isInLabTab) {
-            if (labTabIndex === 0) {
-              setLabTabIndex(1)
-              setIsSourceButtonSelected(false)
-              return
-            }
-
-            if (isSourceButtonSelected) {
-              const nextIndex = labTabIndex + 1
-              if (nextIndex < labTabs.length) {
-                setLabTabIndex(nextIndex)
-                setIsSourceButtonSelected(false)
-                return
-              }
-
-              setIsInLabTab(false)
-              setCurrentTabIndex(1)
-              return
-            } else {
-              const currentTab = labTabs[labTabIndex]
-              if (currentTab?.type === "experiment") {
-                setIsSourceButtonSelected(true)
-                return
-              } else {
-                const nextIndex = labTabIndex + 1
-                if (nextIndex < labTabs.length) {
-                  setLabTabIndex(nextIndex)
-                  return
-                }
-
-                setIsInLabTab(false)
-                setCurrentTabIndex(1)
-                return
-              }
-            }
-          }
-        } else {
-          if (isInLabTab) {
-            if (isSourceButtonSelected) {
-              setIsSourceButtonSelected(false)
-              return
-            } else {
-              const prevIndex = labTabIndex - 1
-              if (prevIndex >= 0) {
-                const prevTab = labTabs[prevIndex]
-                if (prevTab?.type === "experiment") {
-                  setLabTabIndex(prevIndex)
-                  setIsSourceButtonSelected(true)
-                  return
-                } else {
-                  setLabTabIndex(prevIndex)
-                  setIsSourceButtonSelected(false)
-                  return
-                }
-              }
-
-              setIsInLabTab(false)
-              setCurrentTabIndex(0)
-              return
-            }
-          } else if (currentTabIndex === 1) {
-            setIsInLabTab(true)
-            setLabTabIndex(labTabs.length - 1)
-            setIsSourceButtonSelected(false)
-            setCurrentTabIndex(-1)
-            return
-          }
-        }
-      }
-
       const newIndex = e.shiftKey ? currentTabIndex - 1 : currentTabIndex + 1
 
       if (newIndex < 0 || newIndex >= currentScene.tabs.length) {
         setIsCanvasTabMode(false)
-        setIsInLabTab(false)
 
         setTimeout(() => {
           const tabEvent = new KeyboardEvent("keydown", {
@@ -274,14 +176,12 @@ export const NavigationHandler = () => {
 
       setCurrentTabIndex(newIndex)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       isCanvasTabMode,
       setCurrentTabIndex,
       currentTabIndex,
       currentScene,
-      setIsCanvasTabMode,
-      pathname
+      setIsCanvasTabMode
     ]
   )
 
@@ -298,7 +198,6 @@ export const NavigationHandler = () => {
   useKeyPress(
     "Escape",
     useCallback(() => {
-      if (isInGame) return
       if (useContactStore.getState().isContactOpen) return
       if (selected) {
         setSelected(null)
@@ -321,9 +220,7 @@ export const NavigationHandler = () => {
       if (
         scene === "services" ||
         scene === "blog" ||
-        scene === "people" ||
         scene === "basketball" ||
-        scene === "lab" ||
         scene === "showcase"
       ) {
         const enteredByKeyboard =
@@ -341,8 +238,7 @@ export const NavigationHandler = () => {
       pathname,
       scenes,
       setCurrentTabIndex,
-      selected,
-      isInGame
+      selected
     ])
   )
 

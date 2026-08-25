@@ -14,15 +14,12 @@ import { useContactStore } from "./contact-store"
 export const ContactScreen = () => {
   const contentRef = useRef(null)
   const formRef = useRef<HTMLFormElement>(null)
-  const updatePositionRef = useRef<(() => void) | null>(null)
   const animation = useAnimation()
   const worker = useContactStore((state) => state.worker)
   const closeContact = useContactStore.getState().setIsContactOpen
   const { playSoundFX } = useSiteAudio()
   const scene = useCurrentScene()
-  const isPeople = scene === "people"
   const isBlog = scene === "blog"
-  const desiredVolume = isBlog ? 0.07 : 0.22
 
   const [submitting, setSubmitting] = useState(false)
   const [showSubmittedMessage, setShowSubmittedMessage] = useState(false)
@@ -86,9 +83,6 @@ export const ContactScreen = () => {
     worker.addEventListener("message", handleMessage)
     return () => {
       worker.removeEventListener("message", handleMessage)
-      if (updatePositionRef.current) {
-        window.removeEventListener("resize", updatePositionRef.current)
-      }
     }
   }, [worker, animation])
 
@@ -105,8 +99,8 @@ export const ContactScreen = () => {
     setShowSubmittedMessage(false)
 
     // play interference sound when submitting
-    if (isPeople || isBlog) {
-      playSoundFX("CONTACT_INTERFERENCE", desiredVolume)
+    if (isBlog) {
+      playSoundFX("CONTACT_INTERFERENCE", 0.07)
     }
 
     if (worker) {

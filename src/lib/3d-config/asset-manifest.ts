@@ -49,8 +49,7 @@ export const ASSETS_BASE: AssetsBase = {
   // --- Special events ---
   specialEvents: {
     christmas: {
-      tree: "/3d/models/christmas-tree-50bcb465.glb",
-      song: "/3d/audio/christmas-song-9ecee706.mp3"
+      tree: "/3d/models/christmas-tree-50bcb465.glb"
     }
   },
 
@@ -351,20 +350,6 @@ export const ASSETS_BASE: AssetsBase = {
     }
   ],
 
-  // --- Arcade ---
-  arcade: {
-    idleScreen: "/3d/textures/arcade-idleScreen-7c248ce4.mp4",
-    placeholderLab: "/3d/textures/arcade-placeholderLab-501eef8a.png",
-    boot: "/3d/textures/arcade-boot-decd8d60.png",
-    shaderLab: "/3d/textures/arcade-shader-lab.png",
-    chronicles: "/3d/textures/arcade-chronicles.png",
-    looper: "/3d/textures/arcade-looper.png",
-    palm: "/3d/textures/arcade-palm-67ee623c.png",
-    skybox: "/3d/textures/arcade-skybox-f8dd9185.webp",
-    cityscape: "/3d/textures/arcade-cityscape-bdf3692b.png",
-    introScreen: "/3d/textures/arcade-introScreen-4c437c4d.jpg"
-  },
-
   // --- Videos ---
   videos: [
     {
@@ -386,22 +371,11 @@ export const ASSETS_BASE: AssetsBase = {
       mesh: "SM_ScreenPatas",
       url: "/3d/video/video-SM_ScreenPatas-1e8af958.mp4",
       intensity: 18
-    },
-    {
-      mesh: "SM_PeopleMonitorA",
-      url: "/3d/video/video-SM_PeopleMonitorA-24a379df.mp4",
-      intensity: 18
-    },
-    {
-      mesh: "SM_PeopleMonitorD",
-      url: "/3d/video/video-SM_PeopleMonitorD-3d411157.mp4",
-      intensity: 18
     }
   ],
 
   // --- SFX (audio) ---
   sfx: {
-    basketballTheme: "/3d/audio/sfx-basketballTheme-1e7bf737.mp3",
     basketballSwoosh: "/3d/audio/sfx-basketballSwoosh-a8d6fe6e.mp3",
     basketballNet: "/3d/audio/sfx-basketballNet-0e3aeb31.mp3",
     basketballThump: "/3d/audio/sfx-basketballThump-a788eb90.mp3",
@@ -438,55 +412,6 @@ export const ASSETS_BASE: AssetsBase = {
           release: "/3d/audio/sfx-blog-lamp-1-release-0ba43b37.mp3"
         }
       ]
-    },
-    arcade: {
-      buttons: [
-        {
-          press: "/3d/audio/sfx-arcade-button-0-press-3ce420fa.mp3",
-          release: "/3d/audio/sfx-arcade-button-0-release-b509a45e.mp3"
-        },
-        {
-          press: "/3d/audio/sfx-arcade-button-1-press-f5c1a0d9.mp3",
-          release: "/3d/audio/sfx-arcade-button-1-release-81099ed8.mp3"
-        },
-        {
-          press: "/3d/audio/sfx-arcade-button-2-press-ea4eee5a.mp3",
-          release: "/3d/audio/sfx-arcade-button-2-release-6a77ad14.mp3"
-        },
-        {
-          press: "/3d/audio/sfx-arcade-button-3-press-6fbaedcd.mp3",
-          release: "/3d/audio/sfx-arcade-button-3-release-42ff68cb.mp3"
-        }
-      ],
-      sticks: [
-        {
-          press: "/3d/audio/sfx-arcade-stick-0-press-dc73ac08.mp3",
-          release: "/3d/audio/sfx-arcade-stick-0-release-004984d2.mp3"
-        },
-        {
-          press: "/3d/audio/sfx-arcade-stick-1-press-efde8856.mp3",
-          release: "/3d/audio/sfx-arcade-stick-1-release-3d9ec762.mp3"
-        },
-        {
-          press: "/3d/audio/sfx-arcade-stick-2-press-a2dee58f.mp3",
-          release: "/3d/audio/sfx-arcade-stick-2-release-80263473.mp3"
-        },
-        {
-          press: "/3d/audio/sfx-arcade-stick-3-press-17ac3989.mp3",
-          release: "/3d/audio/sfx-arcade-stick-3-release-588dbb0c.mp3"
-        },
-        {
-          press: "/3d/audio/sfx-arcade-stick-4-press-287bd514.mp3",
-          release: "/3d/audio/sfx-arcade-stick-4-release-159ff115.mp3"
-        }
-      ],
-      miamiHeatwave: "/3d/audio/sfx-arcade-miamiHeatwave-1305ed0f.mp3"
-    },
-    music: {
-      aqua: "/3d/audio/sfx-music-aqua-8bc13cdb.mp3",
-      rain: "/3d/audio/sfx-music-rain-5cc24dda.mp3",
-      tiger: "/3d/audio/sfx-music-tiger-5dba3c0c.mp3",
-      vhs: "/3d/audio/sfx-music-vhs-79ccc470.mp3"
     },
     contact: {
       interference: "/3d/audio/sfx-contact-interference-f417008f.mp3"

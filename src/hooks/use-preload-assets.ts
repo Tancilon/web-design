@@ -29,20 +29,7 @@ const ASSET_TO_NOT_PRELOAD = [
   "contactPhone",
 
   // Basket Ball
-  "basketball",
-
-  // Arcade
-  "boot",
-  "shaderLab",
-  "chronicles",
-  "looper",
-  "placeholderLab",
-
-  // Konami Code
-  "skybox",
-  "cityscape",
-  "introScreen",
-  "palm"
+  "basketball"
 ]
 
 // Assets has different keys for the url.

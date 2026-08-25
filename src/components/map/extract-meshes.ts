@@ -50,25 +50,6 @@ export const extractMeshes = ({
   const rain = office.getObjectByName("SM_Rain") as Mesh
   useMesh.setState({ weather: { loboMarino, rain } })
 
-  // --- Arcade --- //
-
-  let arcadeButtons: Mesh[] = []
-  for (let i = 1; i <= 14; i++) {
-    const b = office?.getObjectByName(`02_BT_${i}`) as Mesh
-    const buttonPos = { x: b.position.x, y: b.position.y, z: b.position.z }
-    b.userData.originalPosition = buttonPos
-    if (b) arcadeButtons.push(b)
-  }
-  useMesh.setState({
-    arcade: {
-      buttons: arcadeButtons,
-      sticks: [
-        office?.getObjectByName("02_JYTK_L") as Mesh,
-        office?.getObjectByName("02_JYTK_R") as Mesh
-      ]
-    }
-  })
-
   // --- Blog --- //
 
   // Locked door

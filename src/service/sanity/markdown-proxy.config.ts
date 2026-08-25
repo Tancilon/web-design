@@ -33,18 +33,6 @@ export const markdownRoutes: MarkdownRoute[] = [
     apiPath: "/api/post/[slug].md",
     publicMdPath: "/post/[slug].md"
   },
-  {
-    mdRegex: /^\/showcase\/([^/]+)\.md$/,
-    htmlRegex: /^\/showcase\/([^/]+)$/,
-    apiPath: "/api/showcase/[slug].md",
-    publicMdPath: "/showcase/[slug].md"
-  },
-  {
-    mdRegex: /^\/careers\/([^/]+)\.md$/,
-    htmlRegex: /^\/careers\/([^/]+)$/,
-    apiPath: "/api/careers/[slug].md",
-    publicMdPath: "/careers/[slug].md"
-  },
   // Singletons — no slug. The homepage HTML form is the site root (`/`).
   {
     mdRegex: /^\/index\.md$/,
@@ -57,12 +45,6 @@ export const markdownRoutes: MarkdownRoute[] = [
     htmlRegex: /^\/services$/,
     apiPath: "/api/services.md",
     publicMdPath: "/services.md"
-  },
-  {
-    mdRegex: /^\/people\.md$/,
-    htmlRegex: /^\/people$/,
-    apiPath: "/api/people.md",
-    publicMdPath: "/people.md"
   },
   {
     mdRegex: /^\/showcase\.md$/,
@@ -88,11 +70,5 @@ export const markdownRoutes: MarkdownRoute[] = [
     htmlRegex: /^\/contact$/,
     apiPath: "/api/contact.md",
     publicMdPath: "/contact.md"
-  },
-  {
-    mdRegex: /^\/lab\.md$/,
-    htmlRegex: /^\/lab$/,
-    apiPath: "/api/lab.md",
-    publicMdPath: "/lab.md"
   }
 ]

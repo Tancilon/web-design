@@ -13,16 +13,3 @@ export const formatDate = (
     minute: includeTime ? "numeric" : undefined,
     timeZone: timeZone
   })
-
-export const formatTestimonialDate = (date: string) => {
-  const formattedDate = new Date(date)
-  const hour = formattedDate.getHours()
-  const minute = formattedDate.getMinutes()
-
-  const hourSuffix = hour < 12 ? "AM" : "PM"
-  const month = formattedDate.toLocaleDateString("en-US", { month: "long" })
-  const day = formattedDate.toLocaleDateString("en-US", { day: "numeric" })
-  const year = formattedDate.toLocaleDateString("en-US", { year: "numeric" })
-
-  return `${hour % 12}:${minute} ${hourSuffix} · ${month} ${day}, ${year}`
-}

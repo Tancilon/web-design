@@ -42,9 +42,9 @@ const Homepage = async () => {
           })
         ]}
       />
-      <Intro data={data} />
+      <Intro />
       <Brands data={data} />
-      <FeaturedProjects data={data} />
+      <FeaturedProjects />
       <Capabilities data={data} />
       <Contact />
     </div>

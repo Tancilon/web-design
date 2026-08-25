@@ -4,7 +4,6 @@ import { memo, useCallback, useEffect, useRef, useState } from "react"
 import type * as THREE from "three"
 import { MathUtils, Vector2, Vector3 } from "three"
 
-import { normalizeDelta } from "@/components/arcade-game/lib/math"
 import { useAssets } from "@/components/assets-provider"
 import {
   handlePointerDown as utilsHandlePointerDown,
@@ -18,6 +17,7 @@ import { useFrameCallback } from "@/hooks/use-pausable-time"
 import { useSiteAudio } from "@/hooks/use-site-audio"
 import { useMinigameStore } from "@/store/minigame-store"
 import { easeInOutCubic } from "@/utils/animations"
+import { normalizeDelta } from "@/utils/math/interpolation"
 
 import { Basketball } from "./basketball"
 import { RigidBodies } from "./rigid-bodies"

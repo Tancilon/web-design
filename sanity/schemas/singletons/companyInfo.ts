@@ -32,12 +32,6 @@ export const companyInfo = defineType({
       name: "linkedIn",
       title: "LinkedIn",
       type: "url"
-    }),
-    defineField({
-      name: "newsletter",
-      title: "Newsletter",
-      type: "array",
-      of: [{ type: "block" }]
     })
   ]
 })

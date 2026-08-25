@@ -7,15 +7,11 @@
 - [Home](https://basement.studio/): Overview of the studio, featured work, capabilities, and clients.
 - [Machine view](https://basement.studio/ai): Single-page plain-HTML index of the entire site for agents.
 - [Services](https://basement.studio/services): The capabilities basement.studio offers — branding, design, and engineering.
-- [Showcase](https://basement.studio/showcase): Portfolio of selected projects and case studies.
+- [设计之外](https://basement.studio/showcase): 江含的个人设计作品图库，共 19 件作品。
 - [Blog](https://basement.studio/blog): Articles and writing from the studio.
-- [People](https://basement.studio/people): The team behind basement.studio and open positions.
 - [FAQ](https://basement.studio/faq): Answers to common questions — services, WebGL/3D interactive experiences, clients, technologies, and how to start a project.
 - [Contact](https://basement.studio/contact): Get in touch to start a project.
 
-## Lab & experiments
-
-- [Lab](https://basement.studio/lab): Experiments and interactive demos built by the studio.
 - [Basketball](https://basement.studio/basketball): An interactive basketball mini-game.
 - [Doom](https://basement.studio/doom): A playable in-browser Doom experiment.
 
@@ -28,8 +24,6 @@ via `Accept: text/markdown`). Full index: https://basement.studio/sitemap.md
 - https://basement.studio/services.md
 - https://basement.studio/showcase.md
 - https://basement.studio/blog.md
-- https://basement.studio/people.md
-- https://basement.studio/lab.md
 - https://basement.studio/faq.md
 - https://basement.studio/contact.md
 

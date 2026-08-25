@@ -1,31 +1,20 @@
+import { BEYOND_DESIGN_COUNT } from "@/lib/beyond-design"
+
 import { FooterContent } from "./footer-content"
-import {
-  fetchCompanyInfo,
-  fetchCurrentYear,
-  fetchPostsCount,
-  fetchProjectsCount
-} from "./sanity"
+import { fetchCompanyInfo } from "./sanity"
 
 export const Footer = async () => {
-  const [projectsCount, postsCount, companyInfo, year] = await Promise.all([
-    fetchProjectsCount(),
-    fetchPostsCount(),
-    fetchCompanyInfo(),
-    fetchCurrentYear()
-  ])
+  const companyInfo = await fetchCompanyInfo()
 
   return (
     <FooterContent
-      year={year}
-      projectsCount={projectsCount}
-      postsCount={postsCount}
+      projectsCount={BEYOND_DESIGN_COUNT}
       socialLinks={{
         twitter: companyInfo.twitter || "",
         instagram: companyInfo.instagram || "",
         github: companyInfo.github || "",
         linkedIn: companyInfo.linkedIn || ""
       }}
-      newsletter={companyInfo.newsletter || []}
     />
   )
 }

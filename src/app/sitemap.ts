@@ -1,19 +1,12 @@
 import type { MetadataRoute } from "next"
 
 import { SITE_URL } from "@/lib/constants"
+import { portfolioProjects } from "@/lib/portfolio"
 import { sanityFetchCached } from "@/service/sanity"
 
 const SITEMAP_QUERY = /* groq */ `{
   "posts": *[_type == "post" && defined(slug.current)]{
     "href": "/post/" + slug.current,
-    _updatedAt
-  },
-  "projects": *[_type == "showcasePage"][0].projects[]->{
-    "href": "/showcase/" + slug.current,
-    _updatedAt
-  },
-  "positions": *[_type == "openPosition" && isOpen == true && defined(slug.current)]{
-    "href": "/careers/" + slug.current,
     _updatedAt
   },
   "blogCategories": *[_type == "postCategory" && count(*[_type == "post" && references(^._id)]) > 0 && defined(slug.current)]{
@@ -29,21 +22,21 @@ interface SitemapEntry {
 
 interface SitemapData {
   posts: SitemapEntry[] | null
-  projects: SitemapEntry[] | null
-  positions: SitemapEntry[] | null
   blogCategories: SitemapEntry[] | null
 }
 
 const staticRoutes: Array<{ href: string; priority: number }> = [
   { href: "/", priority: 1 },
+  ...portfolioProjects.map(({ slug }) => ({
+    href: `/portfolio/${slug}`,
+    priority: 0.9
+  })),
   { href: "/showcase", priority: 0.9 },
   { href: "/services", priority: 0.9 },
   { href: "/blog", priority: 0.8 },
-  { href: "/people", priority: 0.7 },
   { href: "/contact", priority: 0.7 },
   { href: "/faq", priority: 0.7 },
   { href: "/ai", priority: 0.5 },
-  { href: "/lab", priority: 0.5 },
   { href: "/basketball", priority: 0.3 },
   { href: "/doom", priority: 0.3 }
 ]
@@ -78,9 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return [
       ...staticEntries,
-      ...buildEntries(data.projects, 0.8),
       ...buildEntries(data.posts, 0.7),
-      ...buildEntries(data.positions, 0.6),
       ...buildEntries(data.blogCategories, 0.6)
     ]
   } catch (error) {

@@ -22,6 +22,8 @@ interface LinkProps {
   onFocus?: () => void
   onBlur?: () => void
   fromMobileNav?: boolean
+  /** Use a native document navigation instead of the canvas-aware router. */
+  reloadDocument?: boolean
   /** For links whose visible text is a glyph a screen reader can't announce. */
   "aria-label"?: string
 }
@@ -36,6 +38,7 @@ export const Link = ({
   prefetch,
   disabled,
   fromMobileNav,
+  reloadDocument,
   ...rest
 }: LinkProps) => {
   const { handleNavigation } = useHandleNavigation()
@@ -59,6 +62,19 @@ export const Link = ({
     >
       {children}
     </NextLink>
+  ) : reloadDocument ? (
+    <a
+      aria-disabled={disabled}
+      tabIndex={disabled ? -1 : undefined}
+      href={href}
+      className={className}
+      target={target}
+      rel={rel}
+      onClick={onClick}
+      {...rest}
+    >
+      {children}
+    </a>
   ) : (
     <a
       aria-disabled={disabled}
@@ -67,12 +83,7 @@ export const Link = ({
       onClick={(e) => {
         e.preventDefault()
         // if href is /post/*, router.push instead of handleNavigation
-        if (
-          href.includes("/post/") ||
-          href.includes("/showcase/") ||
-          href.includes("/careers/") ||
-          href === "#open-positions"
-        ) {
+        if (href.includes("/post/") || href.includes("/portfolio/")) {
           router.push(href)
         } else {
           handleNavigation(href, fromMobileNav)

@@ -63,7 +63,7 @@ const MachinePostPage = async ({ params }: MachinePostProps) => {
       <PageJsonLd />
       <main className="mx-auto flex w-full max-w-2xl flex-col gap-8 px-4 pb-24 pt-12 text-f-p-mobile text-machine-base lg:text-f-p">
         {/* Header/meta stay uppercase like the /ai index; the article body keeps
-          its authored casing for readability. */}
+          its original casing for readability. */}
         <header className="flex flex-col gap-4 uppercase">
           <nav
             aria-label="Machine index"
@@ -83,11 +83,6 @@ const MachinePostPage = async ({ params }: MachinePostProps) => {
           <dl className="flex flex-col gap-1">
             {post.date ? (
               <Field label="published">{post.date.split("T")[0]}</Field>
-            ) : null}
-            {post.authors?.length ? (
-              <Field label="authors">
-                {post.authors.map((author) => author.title).join(", ")}
-              </Field>
             ) : null}
             {post.categories?.length ? (
               <Field label="tags">

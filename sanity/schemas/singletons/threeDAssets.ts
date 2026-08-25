@@ -85,11 +85,6 @@ export const threeDAssets = defineType({
               name: "tree",
               title: "Tree",
               type: "file"
-            }),
-            defineField({
-              name: "song",
-              title: "Song",
-              type: "file"
             })
           ]
         })
@@ -197,60 +192,6 @@ export const threeDAssets = defineType({
             })
           ]
         }
-      ]
-    }),
-
-    // --- Arcade ---
-    defineField({
-      name: "arcade",
-      title: "Arcade",
-      type: "object",
-      fields: [
-        defineField({
-          name: "idleScreen",
-          title: "Idle Screen",
-          type: "file"
-        }),
-        defineField({
-          name: "placeholderLab",
-          title: "Placeholder Lab",
-          type: "file"
-        }),
-        defineField({
-          name: "boot",
-          title: "Boot",
-          type: "file"
-        }),
-        defineField({
-          name: "chronicles",
-          title: "Chronicles",
-          type: "file"
-        }),
-        defineField({
-          name: "looper",
-          title: "Looper",
-          type: "file"
-        }),
-        defineField({
-          name: "palm",
-          title: "Palm",
-          type: "file"
-        }),
-        defineField({
-          name: "skybox",
-          title: "Skybox",
-          type: "file"
-        }),
-        defineField({
-          name: "cityscape",
-          title: "Cityscape",
-          type: "file"
-        }),
-        defineField({
-          name: "introScreen",
-          title: "Intro Screen",
-          type: "file"
-        })
       ]
     }),
 
@@ -383,11 +324,6 @@ export const threeDAssets = defineType({
       type: "object",
       fields: [
         defineField({
-          name: "basketballTheme",
-          title: "Basketball Theme",
-          type: "file"
-        }),
-        defineField({
           name: "basketballSwoosh",
           title: "Basketball Swoosh",
           type: "file"
@@ -486,99 +422,6 @@ export const threeDAssets = defineType({
                   ]
                 }
               ]
-            })
-          ]
-        }),
-        defineField({
-          name: "arcade",
-          title: "Arcade",
-          type: "object",
-          fields: [
-            defineField({
-              name: "buttons",
-              title: "Buttons",
-              type: "array",
-              of: [
-                {
-                  type: "object",
-                  preview: {
-                    select: {
-                      title: "press.asset->originalFilename"
-                    }
-                  },
-                  fields: [
-                    defineField({
-                      name: "press",
-                      title: "Press",
-                      type: "file"
-                    }),
-                    defineField({
-                      name: "release",
-                      title: "Release",
-                      type: "file"
-                    })
-                  ]
-                }
-              ]
-            }),
-            defineField({
-              name: "sticks",
-              title: "Sticks",
-              type: "array",
-              of: [
-                {
-                  type: "object",
-                  preview: {
-                    select: {
-                      title: "press.asset->originalFilename"
-                    }
-                  },
-                  fields: [
-                    defineField({
-                      name: "press",
-                      title: "Press",
-                      type: "file"
-                    }),
-                    defineField({
-                      name: "release",
-                      title: "Release",
-                      type: "file"
-                    })
-                  ]
-                }
-              ]
-            }),
-            defineField({
-              name: "miamiHeatwave",
-              title: "Miami Heatwave",
-              type: "file"
-            })
-          ]
-        }),
-        defineField({
-          name: "music",
-          title: "Music",
-          type: "object",
-          fields: [
-            defineField({
-              name: "aqua",
-              title: "Aqua",
-              type: "file"
-            }),
-            defineField({
-              name: "rain",
-              title: "Rain",
-              type: "file"
-            }),
-            defineField({
-              name: "tiger",
-              title: "Tiger",
-              type: "file"
-            }),
-            defineField({
-              name: "vhs",
-              title: "VHS",
-              type: "file"
             })
           ]
         }),

@@ -16,11 +16,6 @@ export interface OrganizationStructuredData {
   addressRegion: string | null
   addressCountry: string | null
   logoUrl: string | null
-  founders: Array<{
-    name: string
-    url: string | null
-    jobTitle: string | null
-  }>
   awards: Array<{
     title: string
     date: string | number | null
@@ -62,7 +57,6 @@ const getOrganizationFallback = (): OrganizationStructuredData => ({
   addressRegion: null,
   addressCountry: COMPANY_FACTS.addressCountry,
   logoUrl: COMPANY_FACTS.logoUrl,
-  founders: [],
   awards: [],
   social: {
     github: null,

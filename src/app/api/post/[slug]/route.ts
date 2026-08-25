@@ -42,9 +42,6 @@ export async function GET(
     const parts: Array<string | null> = [
       `# ${post.title}`,
       "",
-      post.authors?.length
-        ? `**Author:** ${post.authors.map((a) => a.title).join(", ")}`
-        : null,
       post.date
         ? `**Published:** ${new Date(post.date).toLocaleDateString()}`
         : null,

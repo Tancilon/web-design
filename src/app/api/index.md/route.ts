@@ -4,6 +4,8 @@ import { NextResponse } from "next/server"
 import { fetchHomepage } from "@/app/(site)/(canvas)/(content)/(home)/sanity"
 import { COMPANY_FACTS, formatFactList } from "@/lib/company-facts"
 import { SITE_URL } from "@/lib/constants"
+import { HOME_INTRO_SUBTITLE, HOME_INTRO_TITLE } from "@/lib/home-intro"
+import { portfolioProjects } from "@/lib/portfolio"
 import { portableTextToMarkdown } from "@/service/sanity/portable-text-to-markdown"
 
 const MD_HEADERS = {
@@ -22,18 +24,12 @@ export async function GET() {
       })
     }
 
-    const featuredWork = homepage.featuredProjects?.length
-      ? homepage.featuredProjects
-          .map((item) => {
-            const label = item.title || item.project?.title || "Untitled"
-            const slug = item.project?.slug?.current
-            const link = slug
-              ? `[${label}](${SITE_URL}/showcase/${slug}.md)`
-              : label
-            return item.excerpt ? `- ${link} — ${item.excerpt}` : `- ${link}`
-          })
-          .join("\n")
-      : null
+    const featuredWork = portfolioProjects
+      .map(
+        (project) =>
+          `- [${project.title}](${SITE_URL}/portfolio/${project.slug}) — ${project.images.length} 张图片`
+      )
+      .join("\n")
 
     const capabilities = homepage.capabilities?.length
       ? homepage.capabilities
@@ -67,15 +63,13 @@ export async function GET() {
     const parts: Array<string | null> = [
       "# basement.studio",
       "",
-      portableTextToMarkdown(homepage.introTitle, { baseUrl: SITE_URL }) ||
-        null,
+      HOME_INTRO_TITLE,
       "",
-      portableTextToMarkdown(homepage.introSubtitle, { baseUrl: SITE_URL }) ||
-        null,
+      HOME_INTRO_SUBTITLE,
       "",
       hasBody ? "---" : null,
       hasBody ? "" : null,
-      featuredWork ? "## Selected Work" : null,
+      featuredWork ? "## 主要作品" : null,
       featuredWork ? "" : null,
       featuredWork,
       featuredWork ? "" : null,
@@ -113,8 +107,6 @@ export async function GET() {
       `- [Services](${SITE_URL}/services.md)`,
       `- [Showcase](${SITE_URL}/showcase.md)`,
       `- [Blog](${SITE_URL}/blog.md)`,
-      `- [People](${SITE_URL}/people.md)`,
-      `- [Lab](${SITE_URL}/lab.md)`,
       `- [FAQ](${SITE_URL}/faq.md)`,
       "",
       "---",

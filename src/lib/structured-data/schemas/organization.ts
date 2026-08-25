@@ -3,12 +3,6 @@ import { SITE_URL } from "@/lib/constants"
 
 import { type Award, formatAwards } from "../format-award"
 
-interface Founder {
-  name: string
-  url?: string | null
-  jobTitle?: string | null
-}
-
 interface ContactPoint {
   email: string
   contactType: string
@@ -23,7 +17,6 @@ interface OrganizationData {
   addressRegion: string | null
   addressCountry: string | null
   logoUrl?: string | null
-  founders: Founder[]
   awards?: Award[]
   social: {
     github: string | null
@@ -83,17 +76,7 @@ export const generateOrganizationSchema = (data: OrganizationData) => {
         }
       : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
-    ...(award.length > 0 ? { award } : {}),
-    ...(data.founders.length > 0
-      ? {
-          founder: data.founders.map((f) => ({
-            "@type": "Person",
-            name: f.name,
-            ...(f.url ? { url: f.url } : {}),
-            ...(f.jobTitle ? { jobTitle: f.jobTitle } : {})
-          }))
-        }
-      : {})
+    ...(award.length > 0 ? { award } : {})
   }
 }
 

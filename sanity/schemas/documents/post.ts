@@ -34,12 +34,6 @@ export const post = defineType({
       of: [{ type: "reference", to: [{ type: "postCategory" }] }]
     }),
     defineField({
-      name: "authors",
-      title: "Authors",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "person" }] }]
-    }),
-    defineField({
       name: "heroImage",
       title: "Hero Image",
       type: "image",
@@ -83,7 +77,7 @@ export const post = defineType({
           ]
         },
         { type: "codeBlock" },
-        { type: "quoteWithAuthor" },
+        { type: "quote" },
         { type: "codeSandbox" },
         { type: "sideNote" },
         { type: "gridGallery" },

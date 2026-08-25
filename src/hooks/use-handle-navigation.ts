@@ -6,7 +6,6 @@ import { useAppLoadingStore } from "@/components/loading/app-loading-handler"
 import { useNavigationStore } from "@/components/navigation-handler/navigation-store"
 import { TRANSITION_DURATION } from "@/constants/transitions"
 import { useScrollTo } from "@/hooks/use-scroll-to"
-import { useArcadeStore } from "@/store/arcade-store"
 
 import { useScrollControl } from "./useScrollControl"
 
@@ -53,10 +52,6 @@ export const useHandleNavigation = () => {
 
       const routeWithoutParams = route.split("?")[0].split("#")[0]
       const finalRoute = routeWithoutParams.split("/").filter(Boolean)[0]
-
-      if (finalRoute === "careers") {
-        return scenes?.find((scene) => scene.name === "people")
-      }
 
       return scenes?.find((scene) => scene.name === finalRoute)
     },
@@ -115,9 +110,6 @@ export const useHandleNavigation = () => {
           offset: 0,
           behavior: "smooth",
           callback: () => {
-            if (route !== "/lab") {
-              useArcadeStore.getState().setIsInLabTab(false)
-            }
             router.push(route, { scroll: false })
             enableScroll()
           }
@@ -138,9 +130,6 @@ export const useHandleNavigation = () => {
                 enableScroll()
               }
             })
-            if (route !== "/lab") {
-              useArcadeStore.getState().setIsInLabTab(false)
-            }
             router.push(route, { scroll: false })
           },
           window.innerWidth >= 1024 && !fromMobileNav ? TRANSITION_DURATION : 0

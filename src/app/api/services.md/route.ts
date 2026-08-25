@@ -3,8 +3,7 @@ import { NextResponse } from "next/server"
 
 import {
   fetchAwardsForMarkdown,
-  fetchServicesPage,
-  fetchTestimonial
+  fetchServicesPage
 } from "@/app/(site)/(canvas)/(content)/services/sanity"
 import { SITE_URL } from "@/lib/constants"
 import { portableTextToMarkdown } from "@/service/sanity/portable-text-to-markdown"
@@ -21,10 +20,9 @@ const escapeLinkLabel = (text: string) => text.replace(/[\\[\]]/g, "\\$&")
 
 export async function GET() {
   try {
-    const [services, awards, testimonial] = await Promise.all([
+    const [services, awards] = await Promise.all([
       fetchServicesPage({ published: true }),
-      fetchAwardsForMarkdown(),
-      fetchTestimonial({ published: true })
+      fetchAwardsForMarkdown()
     ])
     if (!services) {
       return new NextResponse("# 404 Not Found\n", {
@@ -72,31 +70,6 @@ export async function GET() {
           .join("\n")
       : null
 
-    // `role` is Portable Text or a plain string depending on document age.
-    const testimonialRole = testimonial
-      ? (Array.isArray(testimonial.role)
-          ? portableTextToMarkdown(testimonial.role, { baseUrl: SITE_URL })
-          : (testimonial.role ?? "")
-        )
-          .replace(/\s+/g, " ")
-          .trim()
-      : ""
-    const testimonialBlock = testimonial?.content
-      ? [
-          `> ${testimonial.content.replace(/\n/g, "\n> ")}`,
-          ">",
-          `> — ${[
-            testimonial.name,
-            testimonial.handle
-              ? `(${testimonial.handle.startsWith("@") ? testimonial.handle : `@${testimonial.handle}`})`
-              : null,
-            testimonialRole ? `— ${testimonialRole}` : null
-          ]
-            .filter(Boolean)
-            .join(" ")}`
-        ].join("\n")
-      : null
-
     const parts: Array<string | null> = [
       "# Services",
       "",
@@ -116,9 +89,6 @@ export async function GET() {
       awardsList ? "" : null,
       awardsList,
       awardsList ? "" : null,
-      testimonialBlock ? "## Testimonial" : null,
-      testimonialBlock ? "" : null,
-      testimonialBlock,
       "",
       "---",
       "",

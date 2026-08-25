@@ -5,8 +5,6 @@ import { memo, Suspense, useEffect, useRef, useState } from "react"
 import { Mesh, MeshStandardMaterial, Object3D } from "three"
 import * as THREE from "three"
 
-import { ArcadeBoard } from "@/components/arcade-board"
-import { ArcadeScreen } from "@/components/arcade-screen"
 import { useAssets } from "@/components/assets-provider"
 import { Net } from "@/components/basketball/net"
 import { BlogDoor } from "@/components/blog-door"
@@ -19,7 +17,6 @@ import { useNavigationStore } from "@/components/navigation-handler/navigation-s
 import { OutdoorCars } from "@/components/outdoor-cars"
 import { cctvConfig } from "@/components/postprocessing/renderer"
 import { RoutingElement } from "@/components/routing-element/routing-element"
-import { SpeakerHover } from "@/components/speaker-hover"
 import { Weather } from "@/components/weather"
 import { useCurrentScene } from "@/hooks/use-current-scene"
 import { useMesh } from "@/hooks/use-mesh"
@@ -55,6 +52,17 @@ const PhysicsWorld = dynamic(
   { ssr: false }
 )
 
+const DISABLED_ROUTING_NODES = new Set([
+  "LaboratoryHome_HoverA",
+  "LaboratoryHome_HoverB",
+  "Laboratory_Hover",
+  "People_Hover",
+  "BlogPeople_Hover",
+  "ShowcasePeople_Hover",
+  "PeopleBlog_Hover",
+  "PeopleHome_Hover"
+])
+
 export const Map = memo(() => {
   const { inspectables, videos, matcaps, glassMaterials, doubleSideElements } =
     useAssets()
@@ -80,6 +88,8 @@ export const Map = memo(() => {
     const routingNodes: Record<string, Mesh> = {}
     routingElements?.traverse((child) => {
       if (child instanceof Mesh) {
+        if (DISABLED_ROUTING_NODES.has(child.name)) return
+
         const matchingTab = currentScene?.tabs?.find(
           (tab) => child.name === tab.tabClickableName
         )
@@ -130,9 +140,7 @@ export const Map = memo(() => {
         if ("isMesh" in child) {
           const meshChild = child as Mesh
 
-          if (meshChild.name !== "SM_ArcadeLab_Screen") {
-            meshChild.raycast = () => null
-          }
+          meshChild.raycast = () => null
 
           const alreadyReplaced = meshChild.userData.hasGlobalMaterial
           if (alreadyReplaced) return
@@ -266,13 +274,6 @@ export const Map = memo(() => {
       {/*Godrays */}
       <Godrays />
 
-      {/*Homepage */}
-      <SpeakerHover />
-
-      {/*Arcade */}
-      <ArcadeScreen />
-      <ArcadeBoard />
-
       {/*Blog */}
       <BlogDoor />
       <LockedDoor />
@@ -302,18 +303,12 @@ export const Map = memo(() => {
           (tab) => tab.tabClickableName === node.name
         )
 
-        const isLabGroup =
-          node.name === "LaboratoryHome_HoverA" ||
-          node.name === "LaboratoryHome_HoverB"
-        const groupName = isLabGroup ? "laboratory-home" : undefined
-
         return (
           <RoutingElement
             key={node.name}
             node={node}
             route={matchingTab?.tabRoute ?? ""}
             hoverName={matchingTab?.tabHoverName ?? node.name}
-            groupName={groupName}
           />
         )
       })}

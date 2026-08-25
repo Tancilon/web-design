@@ -39,8 +39,6 @@ interface CodeBlockValue {
 
 interface QuoteValue {
   quote?: PortableTextBlock[]
-  author?: string
-  role?: string
 }
 
 interface SideNoteValue {
@@ -129,7 +127,7 @@ const Block = ({ block }: { block: PortableTextBlock }) => {
       )
     case "gridGallery":
       return <Gallery value={block as unknown as GalleryValue} />
-    case "quoteWithAuthor":
+    case "quote":
       return <Quote value={block as unknown as QuoteValue} />
     case "sideNote":
       return <SideNote value={block as unknown as SideNoteValue} />
@@ -323,11 +321,9 @@ const Gallery = ({ value }: { value: GalleryValue }) => {
 }
 
 const Quote = ({ value }: { value: QuoteValue }) => {
-  const attribution = [value.author, value.role].filter(Boolean).join(", ")
   return (
     <blockquote className={`flex flex-col gap-2 ${quoteClass}`}>
       <MachinePortableText blocks={value.quote} />
-      {attribution ? <p className="text-machine-dim">— {attribution}</p> : null}
     </blockquote>
   )
 }

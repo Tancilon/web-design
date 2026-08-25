@@ -26,16 +26,6 @@ export interface ServiceAward {
   certificate: SanityImage | null
 }
 
-export interface ServiceTestimonial {
-  _id: string
-  name: string
-  handle: string | null
-  content: string | null
-  avatar: SanityImage | null
-  date: string
-  role: PortableTextBlock[] | string | null
-}
-
 export type ServiceAwardMarkdown = Omit<ServiceAward, "certificate">
 
 export interface ServicesPageData {
@@ -87,18 +77,6 @@ const awardsForMarkdownQuery = /* groq */ `
   }
 `
 
-const testimonialQuery = /* groq */ `
-  *[_type == "testimonial"][0]{
-    _id,
-    name,
-    handle,
-    content,
-    avatar ${imageFragment},
-    date,
-    role
-  }
-`
-
 // Fetchers
 
 export async function fetchServicesPage(
@@ -131,14 +109,4 @@ export async function fetchAwardsForMarkdown(): Promise<
     perspective: "published"
   })
   return result ?? []
-}
-
-export async function fetchTestimonial(
-  /** Pass `published: true` for non-draft contexts (e.g. the `.md` endpoint) — disables stega so output isn't polluted with invisible chars. */
-  options?: { published?: boolean }
-): Promise<ServiceTestimonial | null> {
-  return sanityFetchCached<ServiceTestimonial | null>({
-    query: testimonialQuery,
-    ...(options?.published ? { perspective: "published" } : {})
-  })
 }

@@ -1,19 +1,9 @@
 import { useAssets } from "@/components/assets-provider"
 
 export const useAudioUrls = () => {
-  const { sfx, specialEvents } = useAssets()
+  const { sfx } = useAssets()
 
   return {
-    AMBIENCE: {
-      AMBIENCE_DEFAULT: sfx.music.tiger,
-      AMBIENCE_RAIN: sfx.music.rain,
-      AMBIENCE_AQUA: sfx.music.aqua,
-      AMBIENCE_TIGER: sfx.music.tiger,
-      AMBIENCE_VHS: sfx.music.vhs
-    },
-    GAME_THEME_SONGS: {
-      BASKETBALL_SONG: sfx.basketballTheme
-    },
     GAME_AUDIO_SFX: {
       BASKETBALL_THROW: sfx.basketballSwoosh,
       BASKETBALL_NET: sfx.basketballNet,
@@ -31,20 +21,6 @@ export const useAudioUrls = () => {
         PULL: item.pull,
         RELEASE: item.release
       }))
-    },
-    ARCADE_AUDIO_SFX: {
-      BUTTONS: sfx.arcade.buttons.map((item) => ({
-        PRESS: item.press,
-        RELEASE: item.release
-      })),
-      STICKS: sfx.arcade.sticks.map((item) => ({
-        PRESS: item.press,
-        RELEASE: item.release
-      })),
-      MIAMI_HEATWAVE: sfx.arcade.miamiHeatwave
-    },
-    SPECIAL_EVENTS_AUDIO_SFX: {
-      CHRISTMAS: specialEvents.christmas.song
     },
     CONTACT_AUDIO_SFX: {
       INTERFERENCE: sfx.contact.interference,

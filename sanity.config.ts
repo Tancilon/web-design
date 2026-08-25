@@ -7,16 +7,13 @@ import {
   FadersIcon,
   FilesIcon,
   FileTextIcon,
-  HeartIcon,
   HouseIcon,
   LightningIcon,
   QuestionIcon,
   RocketIcon,
-  SquaresFourIcon,
   StackIcon,
   StarIcon,
   TagIcon,
-  UserIcon,
   UsersIcon
 } from "@phosphor-icons/react/dist/ssr"
 import { visionTool } from "@sanity/vision"
@@ -39,7 +36,6 @@ const isProd = process.env.NODE_ENV === "production"
 const singletonTypes = new Set([
   "homepage",
   "servicesPage",
-  "peoplePage",
   "faqPage",
   "companyInfo",
   "threeDAssets",
@@ -117,13 +113,6 @@ function structure(S: StructureBuilder) {
                     .documentId("servicesPage")
                 ),
               S.listItem()
-                .title("People Page")
-                .id("peoplePage")
-                .icon(UsersIcon)
-                .child(
-                  S.document().schemaType("peoplePage").documentId("peoplePage")
-                ),
-              S.listItem()
                 .title("FAQ Page")
                 .id("faqPage")
                 .icon(QuestionIcon)
@@ -178,8 +167,7 @@ function structure(S: StructureBuilder) {
                 "projectCategory",
                 "Project Categories",
                 TagIcon
-              ),
-              collectionPane(S, "labProject", "Lab Projects", LightningIcon)
+              )
             ])
         ),
 
@@ -192,23 +180,7 @@ function structure(S: StructureBuilder) {
             .title("Company")
             .items([
               collectionPane(S, "client", "Clients", BriefcaseIcon),
-              collectionPane(S, "person", "People", UserIcon),
-              collectionPane(S, "department", "Departments", SquaresFourIcon),
-              collectionPane(S, "award", "Awards", StarIcon),
-              collectionPane(S, "testimonial", "Testimonials", HeartIcon),
-              collectionPane(S, "value", "Values", TagIcon)
-            ])
-        ),
-
-      // --- Careers ---
-      S.listItem()
-        .title("Careers")
-        .icon(RocketIcon)
-        .child(
-          S.list()
-            .title("Careers")
-            .items([
-              collectionPane(S, "openPosition", "Open Positions", BriefcaseIcon)
+              collectionPane(S, "award", "Awards", StarIcon)
             ])
         ),
 

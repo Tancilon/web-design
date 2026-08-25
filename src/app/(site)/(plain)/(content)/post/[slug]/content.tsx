@@ -203,17 +203,13 @@ export const Content = ({ post }: ContentProps) => {
                       </div>
                     )
                   },
-                  quoteWithAuthor: ({
+                  quote: ({
                     value
                   }: {
                     value: {
                       quote?: PortableTextBlock[]
-                      author?: string
-                      role?: string
-                      avatar?: SanityImage
                     }
                   }) => {
-                    const avatarImg = getImageUrl(value.avatar)
                     return (
                       <div className="custom-block relative mb-4 flex gap-x-4">
                         <div className="flex w-full flex-col gap-y-2.5">
@@ -222,29 +218,6 @@ export const Content = ({ post }: ContentProps) => {
                               <PortableText value={value.quote} />
                             </div>
                           )}
-                          <div className="flex flex-wrap items-center gap-x-2">
-                            {avatarImg ? (
-                              <Image
-                                src={avatarImg.src}
-                                alt={
-                                  avatarImg.alt || `Avatar for ${value.author}`
-                                }
-                                width={32}
-                                height={32}
-                                className="size-8 rounded-full object-cover"
-                              />
-                            ) : null}
-                            {value.author ? (
-                              <p className="text-f-p-mobile text-brand-w2 lg:text-f-p">
-                                {value.author}
-                              </p>
-                            ) : null}
-                            {value.role ? (
-                              <p className="text-f-p-mobile text-brand-g1 lg:text-f-p">
-                                {value.role}
-                              </p>
-                            ) : null}
-                          </div>
                         </div>
                       </div>
                     )

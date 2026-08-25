@@ -93,11 +93,6 @@ interface SanityLampSfx {
   release?: SanityFileUrl
 }
 
-interface SanityButtonSfx {
-  press?: SanityFileUrl
-  release?: SanityFileUrl
-}
-
 export interface SanityThreeDAssetsResult {
   // Map models (file → url string)
   officeItems?: SanityFileUrl
@@ -121,7 +116,6 @@ export interface SanityThreeDAssetsResult {
   specialEvents?: {
     christmas?: {
       tree?: SanityFileUrl
-      song?: SanityFileUrl
     }
   }
 
@@ -138,19 +132,6 @@ export interface SanityThreeDAssetsResult {
   // Glass reflexes
   glassReflexes?: SanityGlassReflex[]
 
-  // Arcade
-  arcade?: {
-    idleScreen?: SanityFileUrl
-    placeholderLab?: SanityFileUrl
-    boot?: SanityFileUrl
-    chronicles?: SanityFileUrl
-    looper?: SanityFileUrl
-    palm?: SanityFileUrl
-    skybox?: SanityFileUrl
-    cityscape?: SanityFileUrl
-    introScreen?: SanityFileUrl
-  }
-
   // Videos
   videos?: SanityVideo[]
 
@@ -159,7 +140,6 @@ export interface SanityThreeDAssetsResult {
 
   // SFX
   sfx?: {
-    basketballTheme?: SanityFileUrl
     basketballSwoosh?: SanityFileUrl
     basketballNet?: SanityFileUrl
     basketballThump?: SanityFileUrl
@@ -171,17 +151,6 @@ export interface SanityThreeDAssetsResult {
       lockedDoor?: SanityFileUrl[]
       door?: SanityDoorSfx[]
       lamp?: SanityLampSfx[]
-    }
-    arcade?: {
-      buttons?: SanityButtonSfx[]
-      sticks?: SanityButtonSfx[]
-      miamiHeatwave?: SanityFileUrl
-    }
-    music?: {
-      aqua?: SanityFileUrl
-      rain?: SanityFileUrl
-      tiger?: SanityFileUrl
-      vhs?: SanityFileUrl
     }
     contact?: {
       interference?: SanityFileUrl
@@ -254,8 +223,7 @@ const threeDAssetsQuery = /* groq */ `
     // --- Special events ---
     specialEvents {
       christmas {
-        tree ${fileProjection},
-        song ${fileProjection}
+        tree ${fileProjection}
       }
     },
 
@@ -282,19 +250,6 @@ const threeDAssetsQuery = /* groq */ `
     glassReflexes[] {
       mesh,
       url ${fileProjection}
-    },
-
-    // --- Arcade ---
-    arcade {
-      idleScreen ${fileProjection},
-      placeholderLab ${fileProjection},
-      boot ${fileProjection},
-      chronicles ${fileProjection},
-      looper ${fileProjection},
-      palm ${fileProjection},
-      skybox ${fileProjection},
-      cityscape ${fileProjection},
-      introScreen ${fileProjection}
     },
 
     // --- Videos ---
@@ -325,7 +280,6 @@ const threeDAssetsQuery = /* groq */ `
 
     // --- SFX ---
     sfx {
-      basketballTheme ${fileProjection},
       basketballSwoosh ${fileProjection},
       basketballNet ${fileProjection},
       basketballThump ${fileProjection},
@@ -343,23 +297,6 @@ const threeDAssetsQuery = /* groq */ `
           pull ${fileProjection},
           release ${fileProjection}
         }
-      },
-      arcade {
-        buttons[] {
-          press ${fileProjection},
-          release ${fileProjection}
-        },
-        sticks[] {
-          press ${fileProjection},
-          release ${fileProjection}
-        },
-        miamiHeatwave ${fileProjection}
-      },
-      music {
-        aqua ${fileProjection},
-        rain ${fileProjection},
-        tiger ${fileProjection},
-        vhs ${fileProjection}
       },
       contact {
         interference ${fileProjection}

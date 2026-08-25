@@ -8,9 +8,8 @@ import { getImageUrl } from "@/service/sanity/helpers"
 
 import { Awards } from "./awards"
 import { Hero } from "./hero"
-import { fetchAwards, fetchServicesPage, fetchTestimonial } from "./sanity"
+import { fetchAwards, fetchServicesPage } from "./sanity"
 import { Services } from "./services"
-import { Testimonials } from "./testimonials"
 import { VenturesBanner } from "./ventures"
 
 export const metadata: Metadata = {
@@ -33,11 +32,7 @@ export interface AwardDisplay {
 }
 
 const ServicesPage = async () => {
-  const [data, awards, testimonial] = await Promise.all([
-    fetchServicesPage(),
-    fetchAwards(),
-    fetchTestimonial()
-  ])
+  const [data, awards] = await Promise.all([fetchServicesPage(), fetchAwards()])
 
   if (!data) notFound()
 
@@ -61,7 +56,6 @@ const ServicesPage = async () => {
       <PageJsonLd nodes={[servicesSchema]} />
       <Hero data={data} className="lg:-mb-11" />
       <Services data={data} />
-      {testimonial && <Testimonials data={testimonial} />}
       <Awards data={displayAwards} />
       <VenturesBanner data={data} />
       <Contact />

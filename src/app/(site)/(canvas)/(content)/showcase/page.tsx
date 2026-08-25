@@ -1,32 +1,28 @@
 import type { Metadata } from "next"
 
+import { beyondDesignWorks } from "@/lib/beyond-design"
 import { PageJsonLd } from "@/lib/structured-data/page-json-ld"
 import { generateCollectionPageSchema } from "@/lib/structured-data/schemas/collection"
 
+import { DesignGallery } from "./gallery"
 import { Hero } from "./hero"
-import { fetchProjectListForSchema } from "./sanity"
-import { ShowcaseList } from "./showcase-list"
 
 export const metadata: Metadata = {
-  title: "Showcase",
-  description:
-    "Explore basement.studio's showcase — a selection of brands, websites, 3D experiences, and products we've designed and engineered for clients worldwide.",
+  title: "设计之外",
+  description: "江含的个人设计作品图库，收录插画、视觉设计与创意练习。",
   alternates: {
-    canonical: "https://basement.studio/showcase"
+    canonical: "/showcase"
   }
 }
 
-const ShowcaseIndexPage = async () => {
-  const projects = await fetchProjectListForSchema()
-
+const ShowcaseIndexPage = () => {
   const collectionSchema = generateCollectionPageSchema({
     path: "/showcase",
-    name: "Showcase",
-    description:
-      "A selection of brands, websites, 3D experiences, and products basement.studio has designed and engineered.",
-    items: projects.map((p) => ({
-      name: p.title,
-      path: `/showcase/${p.slug}`
+    name: "设计之外",
+    description: "江含的个人设计作品图库。",
+    items: beyondDesignWorks.map((work) => ({
+      name: work.label,
+      path: `/showcase#${work.id}`
     }))
   })
 
@@ -34,9 +30,9 @@ const ShowcaseIndexPage = async () => {
     <>
       <PageJsonLd nodes={[collectionSchema]} />
       <div id="list" className="-translate-y-[3.25rem]" />
-      <div className="flex scroll-m-4 flex-col gap-9 lg:gap-24">
+      <div className="flex scroll-m-4 flex-col gap-9 lg:gap-16">
         <Hero />
-        <ShowcaseList />
+        <DesignGallery works={beyondDesignWorks} />
       </div>
     </>
   )

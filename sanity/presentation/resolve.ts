@@ -13,9 +13,6 @@ export const resolve: PresentationPluginOptions["resolve"] = {
     servicesPage: defineLocations({
       locations: [{ title: "Services", href: "/services" }]
     }),
-    peoplePage: defineLocations({
-      locations: [{ title: "People", href: "/people" }]
-    }),
     showcasePage: defineLocations({
       locations: [{ title: "Showcase", href: "/showcase" }]
     }),
@@ -25,8 +22,7 @@ export const resolve: PresentationPluginOptions["resolve"] = {
     companyInfo: defineLocations({
       locations: [
         { title: "Home", href: "/" },
-        { title: "Services", href: "/services" },
-        { title: "People", href: "/people" }
+        { title: "Services", href: "/services" }
       ]
     }),
     post: defineLocations({
@@ -46,21 +42,11 @@ export const resolve: PresentationPluginOptions["resolve"] = {
           { title: "Showcase", href: "/showcase" }
         ]
       })
-    }),
-    openPosition: defineLocations({
-      select: { title: "title", slug: "slug.current" },
-      resolve: (doc) => ({
-        locations: [
-          { title: doc?.title || "Untitled", href: `/careers/${doc?.slug}` },
-          { title: "Careers", href: "/careers" }
-        ]
-      })
     })
   },
   mainDocuments: defineDocuments([
     { route: "/", filter: `_type == "homepage"` },
     { route: "/services", filter: `_type == "servicesPage"` },
-    { route: "/people", filter: `_type == "peoplePage"` },
     { route: "/showcase", filter: `_type == "showcasePage"` },
     { route: "/faq", filter: `_type == "faqPage"` },
     {
@@ -70,10 +56,6 @@ export const resolve: PresentationPluginOptions["resolve"] = {
     {
       route: "/showcase/:slug",
       filter: `_type == "project" && slug.current == $slug`
-    },
-    {
-      route: "/careers/:slug",
-      filter: `_type == "openPosition" && slug.current == $slug`
     }
   ])
 }

@@ -87,12 +87,6 @@ export const project = defineType({
       name: "caseStudy",
       title: "Case Study",
       type: "url"
-    }),
-    defineField({
-      name: "people",
-      title: "People",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "person" }] }]
     })
   ]
 })

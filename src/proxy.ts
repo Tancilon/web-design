@@ -1,5 +1,4 @@
-import { isbot } from "isbot"
-import { type NextRequest, NextResponse, userAgent } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 
 import { markdownRoutes } from "@/service/sanity/markdown-proxy.config"
 
@@ -16,21 +15,6 @@ import { markdownRoutes } from "@/service/sanity/markdown-proxy.config"
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const accept = request.headers.get("accept") ?? ""
-
-  // Mobile visitors to /lab go to the lightweight external lab (the WebGL
-  // arcade is desktop-only). Done here so the /lab page stays prerenderable.
-  // Crawlers are exempt even with mobile UAs (Googlebot Smartphone, site
-  // auditors): redirecting them turns the sitemap's /lab entry into a 3XX.
-  // Non-redirected requests fall through to the markdown handling below so
-  // /lab still advertises and negotiates its `.md` mirror.
-  if (pathname === "/lab") {
-    const userAgentString = request.headers.get("user-agent") ?? ""
-    const { device } = userAgent(request)
-    const isMobile = device.type === "mobile" || device.type === "tablet"
-    if (isMobile && !isbot(userAgentString)) {
-      return NextResponse.redirect("https://lab.basement.studio/")
-    }
-  }
 
   // Slug-based routes capture the slug in group 1; singletons match with no
   // group. `match[1]` is therefore the slug or `undefined` for singletons.
@@ -83,24 +67,18 @@ export const config = {
   // Add a line here when registering a new content type in markdown-proxy.config.ts.
   matcher: [
     "/post/:path*",
-    "/showcase/:path*",
-    "/careers/:path*",
+    "/showcase",
     // Singleton pages (no slug): both the HTML path and its `.md` form.
     "/",
     "/index.md",
     "/services",
     "/services.md",
-    "/people",
-    "/people.md",
     "/showcase.md",
     "/faq",
     "/faq.md",
     "/blog",
     "/blog.md",
     "/contact",
-    "/contact.md",
-    // /lab also runs the mobile user-agent redirect (see top of proxy()).
-    "/lab",
-    "/lab.md"
+    "/contact.md"
   ]
 }

@@ -1,8 +1,6 @@
-import type { PortableTextBlock } from "@/service/sanity/types"
 import { cn } from "@/utils/cn"
 
-import { Copyright, InternalLinks, SocialLinks } from "./shared-sections"
-import { StayConnected } from "./stay-connected"
+import { InternalLinks, SocialLinks } from "./shared-sections"
 
 const Logo = ({ className }: { className?: string }) => (
   <>
@@ -36,51 +34,37 @@ const Logo = ({ className }: { className?: string }) => (
 )
 
 interface FooterContentProps {
-  year: number
   projectsCount: number
-  postsCount: number
   socialLinks: {
     twitter: string
     instagram: string
     github: string
     linkedIn: string
   }
-  newsletter: PortableTextBlock[]
 }
 
 export const FooterContent = ({
-  year,
   projectsCount,
-  postsCount,
-  socialLinks,
-  newsletter
+  socialLinks
 }: FooterContentProps) => {
   const LINKS = [
     {
-      title: "Home",
+      title: "首页",
       href: "/"
     },
     {
-      title: "Services",
+      title: "荣誉",
       href: "/services"
     },
     {
-      title: "Showcase",
+      title: "设计之外",
       href: "/showcase",
       count: projectsCount
     },
     {
-      title: "People",
-      href: "/people"
-    },
-    {
-      title: "Blog",
-      href: "/blog",
-      count: postsCount
-    },
-    {
-      title: "Lab",
-      href: "/lab"
+      title: "个人简历",
+      href: "/ai",
+      reloadDocument: true
     }
   ]
 
@@ -90,29 +74,22 @@ export const FooterContent = ({
         <Logo className="col-span-full mx-auto border-b border-brand-w1/30 pb-2 text-brand-w2 lg:pb-4" />
       </div>
 
-      <div className="grid-layout relative grid-rows-[auto_auto_28px] !gap-y-10 pb-2 pt-4 lg:grid-rows-[auto] lg:items-end lg:!gap-y-2 lg:py-0">
+      <div className="grid-layout relative grid-rows-[auto_28px] !gap-y-10 pb-2 pt-4 lg:grid-rows-[auto] lg:items-end lg:!gap-y-2 lg:py-0">
         <InternalLinks
           className="col-start-1 col-end-5 row-start-1 border-b border-brand-w1/30 pb-4 lg:col-start-7 lg:col-end-9 lg:border-none lg:pb-0"
           links={LINKS}
           onNav={false}
         />
 
-        <StayConnected
-          className="col-start-1 col-end-5 row-start-2 hidden lg:row-auto"
-          content={newsletter}
-        />
-
-        <div className="col-span-full row-start-3 flex flex-col justify-end gap-y-2 lg:hidden">
+        <div className="col-span-full row-start-2 flex flex-col justify-end gap-y-2 lg:hidden">
           <SocialLinks
             className="col-start-1 col-end-5 row-start-2 lg:hidden"
             links={socialLinks}
           />
-          <Copyright year={year} className="text-left" />
         </div>
 
         <div className="col-start-10 col-end-13 hidden translate-y-[3px] flex-col items-end gap-y-2 lg:flex">
           <SocialLinks links={socialLinks} />
-          <Copyright year={year} />
         </div>
       </div>
     </footer>

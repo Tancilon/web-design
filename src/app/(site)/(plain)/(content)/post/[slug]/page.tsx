@@ -72,7 +72,6 @@ export default async function Blog({ params }: ProjectPostProps) {
     modifiedAt: post._updatedAt,
     intro: post.intro,
     heroImage: post.heroImage,
-    authors: post.authors,
     categories: post.categories
   })
 

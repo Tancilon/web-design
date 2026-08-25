@@ -13,11 +13,6 @@ interface weather {
   loboMarino: Mesh | null
 }
 
-interface arcade {
-  buttons: Mesh[] | null
-  sticks: Mesh[] | null
-}
-
 interface basketball {
   hoop: Mesh | null
   hoopGlass: Mesh | null
@@ -33,7 +28,6 @@ export interface MeshStore {
   godrays: Mesh[]
   inspectables: Mesh[]
   blog: blog
-  arcade: arcade
   basketball: basketball
   weather: weather
   services: services
@@ -50,10 +44,6 @@ export const useMesh = create<MeshStore>()(() => ({
     door: null,
     lamp: null,
     lampTargets: null
-  },
-  arcade: {
-    buttons: null,
-    sticks: null
   },
   basketball: {
     hoop: null,

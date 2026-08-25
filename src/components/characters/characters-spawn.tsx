@@ -139,35 +139,9 @@ function CharactersSpawnInner() {
           }
         }}
       />
-      {/* People01 */}
-      <Character
-        characterId={getCharacterId(4)}
-        position={[3.1, 3.71, -27.42]}
-        rotation={[0, degToRad(80), 0]}
-        animationName={CharacterAnimationName["People.01.a"]}
-        uniforms={{
-          uLightDirection: {
-            value: [0.5, 0.5, 0, 1]
-          }
-        }}
-      />
-      {/* People02 */}
-      <Character
-        characterId={getCharacterId(5)}
-        position={[6.57, 3.71, -24.7]}
-        rotation={[0, degToRad(80), 0]}
-        animationName={CharacterAnimationName["People.02.a"]}
-      />
-      {/* People03 */}
-      <Character
-        characterId={getCharacterId(6)}
-        position={[12.39, 3.71, -27.23]}
-        rotation={[0, Math.PI * -0.5, 0]}
-        animationName={CharacterAnimationName["People.01.a"]}
-      />
       {/* Blog01 */}
       <Character
-        characterId={getCharacterId(7)}
+        characterId={getCharacterId(4)}
         position={[9.21, 3.71, -17.97]}
         rotation={[0, degToRad(30), 0]}
         animationName={CharacterAnimationName["Blog.01"]}

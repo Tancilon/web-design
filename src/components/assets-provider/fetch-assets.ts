@@ -14,7 +14,6 @@ export interface AssetsResult {
   specialEvents: {
     christmas: {
       tree: string
-      song: string
     }
   }
   routingElements: string
@@ -31,18 +30,6 @@ export interface AssetsResult {
   }[]
   glassMaterials: string[]
   doubleSideElements: string[]
-  arcade: {
-    idleScreen: string
-    placeholderLab: string
-    boot: string
-    shaderLab: string
-    chronicles: string
-    looper: string
-    palm: string
-    skybox: string
-    cityscape: string
-    introScreen: string
-  }
   glassReflexes: {
     mesh: string
     url: string
@@ -70,7 +57,6 @@ export interface AssetsResult {
     intensity: number
   }[]
   sfx: {
-    basketballTheme: string
     basketballSwoosh: string
     basketballNet: string
     basketballThump: string
@@ -88,23 +74,6 @@ export interface AssetsResult {
         pull: string
         release: string
       }[]
-    }
-    arcade: {
-      buttons: {
-        press: string
-        release: string
-      }[]
-      sticks: {
-        press: string
-        release: string
-      }[]
-      miamiHeatwave: string
-    }
-    music: {
-      aqua: string
-      rain: string
-      tiger: string
-      vhs: string
     }
     contact: {
       interference: string
