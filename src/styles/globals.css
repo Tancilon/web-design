@@ -144,6 +144,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+.site-font-scope :where(h1, h2, h3, h4) {
+  @apply font-display;
+}
+
 [id] {
   scroll-margin-top: 40px;
 }
@@ -205,46 +209,6 @@ p {
   }
 }
 
-.blog-list-item {
-  @apply marker:text-brand-o;
-
-  & ol {
-    @apply marker:text-brand-g1;
-  }
-
-  & ul {
-    li {
-      @apply before:!bg-brand-g1;
-    }
-  }
-}
-
-/* tweet component */
-
-.react-tweet-theme {
-  --tweet-bg-color: theme("colors.brand.k") !important;
-  --tweet-bg-color-hover: rgba(255, 255, 255, 0.05) !important;
-  --tweet-border: 1px solid theme("colors.brand.g2") !important;
-  --tweet-color-blue-secondary-hover: rgba(255, 255, 255, 0.05) !important;
-  --tweet-skeleton-gradient: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0.05) 100%
-  ) !important;
-
-  max-width: 100% !important;
-  border-radius: 0 !important;
-
-  & div[class*="media"],
-  & div[class*="replies"] {
-    border-radius: 0 !important;
-
-    & > a {
-      border-radius: 0 !important;
-    }
-  }
-}
 /* Machine view (/ai) — orange phosphor monitor look. */
 .machine-screen {
   text-shadow: 0 0 6px rgba(255, 77, 0, 0.35);

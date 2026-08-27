@@ -2,28 +2,7 @@ import type { MetadataRoute } from "next"
 
 import { SITE_URL } from "@/lib/constants"
 import { portfolioProjects } from "@/lib/portfolio"
-import { sanityFetchCached } from "@/service/sanity"
-
-const SITEMAP_QUERY = /* groq */ `{
-  "posts": *[_type == "post" && defined(slug.current)]{
-    "href": "/post/" + slug.current,
-    _updatedAt
-  },
-  "blogCategories": *[_type == "postCategory" && count(*[_type == "post" && references(^._id)]) > 0 && defined(slug.current)]{
-    "href": "/blog/" + slug.current,
-    _updatedAt
-  }
-}`
-
-interface SitemapEntry {
-  href: string
-  _updatedAt: string
-}
-
-interface SitemapData {
-  posts: SitemapEntry[] | null
-  blogCategories: SitemapEntry[] | null
-}
+import { projectCategories } from "@/lib/project-taxonomy"
 
 const staticRoutes: Array<{ href: string; priority: number }> = [
   { href: "/", priority: 1 },
@@ -34,6 +13,10 @@ const staticRoutes: Array<{ href: string; priority: number }> = [
   { href: "/showcase", priority: 0.9 },
   { href: "/services", priority: 0.9 },
   { href: "/blog", priority: 0.8 },
+  ...projectCategories.map(({ slug }) => ({
+    href: `/blog/${slug}`,
+    priority: 0.7
+  })),
   { href: "/contact", priority: 0.7 },
   { href: "/faq", priority: 0.7 },
   { href: "/ai", priority: 0.5 },
@@ -41,41 +24,10 @@ const staticRoutes: Array<{ href: string; priority: number }> = [
   { href: "/doom", priority: 0.3 }
 ]
 
-async function getSitemapData(): Promise<SitemapData> {
-  return sanityFetchCached<SitemapData>({
-    query: SITEMAP_QUERY,
-    perspective: "published"
-  })
-}
-
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  try {
-    const data = await getSitemapData()
-
-    const staticEntries: MetadataRoute.Sitemap = staticRoutes.map((r) => ({
-      url: new URL(r.href, SITE_URL).toString(),
-      changeFrequency: "weekly",
-      priority: r.priority
-    }))
-
-    const buildEntries = (
-      entries: SitemapEntry[] | null,
-      priority: number
-    ): MetadataRoute.Sitemap =>
-      (entries ?? []).map((e) => ({
-        url: new URL(e.href, SITE_URL).toString(),
-        lastModified: new Date(e._updatedAt),
-        changeFrequency: "weekly",
-        priority
-      }))
-
-    return [
-      ...staticEntries,
-      ...buildEntries(data.posts, 0.7),
-      ...buildEntries(data.blogCategories, 0.6)
-    ]
-  } catch (error) {
-    console.error("Failed to generate sitemap:", error)
-    return []
-  }
+export default function sitemap(): MetadataRoute.Sitemap {
+  return staticRoutes.map((route) => ({
+    url: new URL(route.href, SITE_URL).toString(),
+    changeFrequency: "weekly",
+    priority: route.priority
+  }))
 }

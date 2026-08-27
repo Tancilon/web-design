@@ -1,7 +1,7 @@
 import "@/styles/globals.css"
 
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist_Mono } from "next/font/google"
 import localFont from "next/font/local"
 import { draftMode } from "next/headers"
 import { VisualEditing } from "next-sanity/visual-editing"
@@ -42,10 +42,49 @@ export const metadata: Metadata = {
   }
 }
 
-// TODO: find a way to load font-feature-settings
-const geistSans = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans"
+const pingFang = localFont({
+  src: [
+    {
+      path: "../../fonts/PingFang Regular.ttf",
+      weight: "400",
+      style: "normal"
+    },
+    {
+      path: "../../fonts/PingFang Medium.ttf",
+      weight: "500",
+      style: "normal"
+    },
+    {
+      path: "../../fonts/PingFang Medium.ttf",
+      weight: "600",
+      style: "normal"
+    },
+    {
+      path: "../../fonts/PingFang Bold.ttf",
+      weight: "700",
+      style: "normal"
+    }
+  ],
+  variable: "--font-sans",
+  display: "swap",
+  preload: false,
+  fallback: ["PingFang SC", "Microsoft YaHei", "sans-serif"],
+  adjustFontFallback: false
+})
+
+const goldenEra = localFont({
+  src: [
+    {
+      path: "../../fonts/造字工房黄金时代粗.ttf",
+      weight: "600",
+      style: "normal"
+    }
+  ],
+  variable: "--font-display",
+  display: "swap",
+  preload: false,
+  fallback: ["PingFang SC", "Microsoft YaHei", "sans-serif"],
+  adjustFontFallback: false
 })
 
 const geistMono = Geist_Mono({
@@ -79,7 +118,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          geistSans.variable,
+          pingFang.variable,
+          goldenEra.variable,
           geistMono.variable,
           flauta.variable,
           "font-sans"

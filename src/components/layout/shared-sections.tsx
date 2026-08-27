@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation"
 
 import { Link } from "@/components/primitives/link"
 import { useHandleContactButton } from "@/hooks/use-handle-contact"
+import { PORTFOLIO_CONTACT } from "@/lib/portfolio-contact"
+import { SITE_ROUTE_LABELS } from "@/lib/site-navigation"
 import { cn } from "@/utils/cn"
 import { isInPath } from "@/utils/is-in-path"
 
@@ -121,24 +123,14 @@ export const InternalLinks = ({
             onNav && isInPath("/contact", pathname) && "!text-brand-o"
           )}
         >
-          <span className="actionable">联系我</span>
+          <span className="actionable">{SITE_ROUTE_LABELS["/contact"]}</span>
         </button>
       </motion.li>
     </ul>
   )
 }
 
-interface SocialLinksProps {
-  className?: string
-  links: {
-    twitter: string
-    instagram: string
-    github: string
-    linkedIn: string
-  }
-}
-
-export const SocialLinks = ({ className, links }: SocialLinksProps) => (
+export const ContactLinks = ({ className }: { className?: string }) => (
   <div
     className={cn(
       "flex flex-row gap-x-1 whitespace-nowrap !text-f-h4-mobile text-brand-g1 lg:!text-f-p",
@@ -147,31 +139,21 @@ export const SocialLinks = ({ className, links }: SocialLinksProps) => (
   >
     <Link
       className="h-max text-brand-w1"
-      href={links.twitter}
-      target="_blank"
-      aria-label="X (Twitter)"
+      href={PORTFOLIO_CONTACT.phoneHref}
+      aria-label={`拨打电话 ${PORTFOLIO_CONTACT.phone}`}
     >
-      {/* U+1D54F — screen readers skip it, hence the aria-label above. */}
-      <span className="actionable" aria-hidden>
-        𝕏
-      </span>
+      <span className="actionable">电话</span>
     </Link>
-    <span aria-hidden>,</span>
+    <span aria-hidden>/</span>
     <Link
       className="h-max text-brand-w1"
-      href={links.instagram}
-      target="_blank"
+      href={PORTFOLIO_CONTACT.emailHref}
+      aria-label={`发送邮件至 ${PORTFOLIO_CONTACT.email}`}
     >
-      <span className="actionable">Instagram</span>
+      <span className="actionable">邮箱</span>
     </Link>
-    <span aria-hidden>,</span>
-    <Link className="h-max text-brand-w1" href={links.github} target="_blank">
-      <span className="actionable">GitHub</span>
-    </Link>
-    <span aria-hidden>,</span>
-    <Link className="h-max text-brand-w1" href={links.linkedIn} target="_blank">
-      <span className="actionable">LinkedIn</span>
-    </Link>
+    <span aria-hidden>/</span>
+    <span className="text-brand-w1">{PORTFOLIO_CONTACT.location}</span>
   </div>
 )
 

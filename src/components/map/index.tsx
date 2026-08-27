@@ -26,6 +26,7 @@ import { createGlobalShaderMaterial } from "@/shaders/material-global-shader"
 import { createNotFoundMaterial } from "@/shaders/material-not-found"
 
 import { extractMeshes } from "./extract-meshes"
+import { createPortfolioLogoTexture } from "./portfolio-logo-texture"
 import { useFrameLoop } from "./use-frame-loop"
 import { useLoader } from "./use-loader"
 
@@ -154,6 +155,13 @@ export const Map = memo(() => {
           const isClouds = meshChild.name === "cloudy_01"
           const isGlass = glassMaterials.includes(currentMaterial.name)
           const isDaylight = meshChild.name === "DL_ScreenB"
+          const isPortfolioLogo = meshChild.name === "SM_LogoBasement"
+
+          if (isPortfolioLogo) {
+            const logoTexture = createPortfolioLogoTexture()
+            currentMaterial.map = logoTexture
+            currentMaterial.emissiveMap = logoTexture
+          }
 
           currentMaterial.side = doubleSideElements.includes(meshChild.name)
             ? THREE.DoubleSide

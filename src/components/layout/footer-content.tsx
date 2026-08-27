@@ -1,6 +1,7 @@
+import { SITE_ROUTE_LABELS } from "@/lib/site-navigation"
 import { cn } from "@/utils/cn"
 
-import { InternalLinks, SocialLinks } from "./shared-sections"
+import { ContactLinks, InternalLinks } from "./shared-sections"
 
 const Logo = ({ className }: { className?: string }) => (
   <>
@@ -35,34 +36,25 @@ const Logo = ({ className }: { className?: string }) => (
 
 interface FooterContentProps {
   projectsCount: number
-  socialLinks: {
-    twitter: string
-    instagram: string
-    github: string
-    linkedIn: string
-  }
 }
 
-export const FooterContent = ({
-  projectsCount,
-  socialLinks
-}: FooterContentProps) => {
+export const FooterContent = ({ projectsCount }: FooterContentProps) => {
   const LINKS = [
     {
-      title: "首页",
+      title: SITE_ROUTE_LABELS["/"],
       href: "/"
     },
     {
-      title: "荣誉",
+      title: SITE_ROUTE_LABELS["/services"],
       href: "/services"
     },
     {
-      title: "设计之外",
+      title: SITE_ROUTE_LABELS["/showcase"],
       href: "/showcase",
       count: projectsCount
     },
     {
-      title: "个人简历",
+      title: SITE_ROUTE_LABELS["/ai"],
       href: "/ai",
       reloadDocument: true
     }
@@ -76,20 +68,17 @@ export const FooterContent = ({
 
       <div className="grid-layout relative grid-rows-[auto_28px] !gap-y-10 pb-2 pt-4 lg:grid-rows-[auto] lg:items-end lg:!gap-y-2 lg:py-0">
         <InternalLinks
-          className="col-start-1 col-end-5 row-start-1 border-b border-brand-w1/30 pb-4 lg:col-start-7 lg:col-end-9 lg:border-none lg:pb-0"
+          className="col-start-1 col-end-5 row-start-1 border-b border-brand-w1/30 pb-4 font-display lg:col-start-7 lg:col-end-9 lg:border-none lg:pb-0"
           links={LINKS}
           onNav={false}
         />
 
         <div className="col-span-full row-start-2 flex flex-col justify-end gap-y-2 lg:hidden">
-          <SocialLinks
-            className="col-start-1 col-end-5 row-start-2 lg:hidden"
-            links={socialLinks}
-          />
+          <ContactLinks className="col-start-1 col-end-5 row-start-2 lg:hidden" />
         </div>
 
         <div className="col-start-10 col-end-13 hidden translate-y-[3px] flex-col items-end gap-y-2 lg:flex">
-          <SocialLinks links={socialLinks} />
+          <ContactLinks />
         </div>
       </div>
     </footer>

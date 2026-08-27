@@ -97,7 +97,6 @@ export interface SanityThreeDAssetsResult {
   // Map models (file → url string)
   officeItems?: SanityFileUrl
   office?: SanityFileUrl
-  officeWireframe?: SanityFileUrl
   outdoor?: SanityFileUrl
   godrays?: SanityFileUrl
   basketball?: SanityFileUrl
@@ -205,7 +204,6 @@ const threeDAssetsQuery = /* groq */ `
     // --- Map models ---
     officeItems ${fileProjection},
     office ${fileProjection},
-    officeWireframe ${fileProjection},
     outdoor ${fileProjection},
     godrays ${fileProjection},
     basketball ${fileProjection},

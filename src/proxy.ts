@@ -4,20 +4,12 @@ import { markdownRoutes } from "@/service/sanity/markdown-proxy.config"
 
 /**
  * Serves a markdown version of content pages for AI agents / LLMs.
- *
- *   1. `/post/<slug>.md`                      → rewrite to the markdown route
- *   2. `/post/<slug>` + `Accept: text/markdown` → rewrite (content negotiation)
- *   3. `/post/<slug>` (HTML)                  → advertise the `.md` alternate
- *
  * Routes are declared in `markdown-proxy.config.ts`. The matcher below must be
  * kept in sync with that registry (Next requires a static matcher literal).
  */
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const accept = request.headers.get("accept") ?? ""
-
-  // Slug-based routes capture the slug in group 1; singletons match with no
-  // group. `match[1]` is therefore the slug or `undefined` for singletons.
 
   // 1. `.md` suffix → markdown API route.
   for (const route of markdownRoutes) {
@@ -66,7 +58,6 @@ export const config = {
   // Static literal — Next can't analyze a matcher built from markdownRoutes.
   // Add a line here when registering a new content type in markdown-proxy.config.ts.
   matcher: [
-    "/post/:path*",
     "/showcase",
     // Singleton pages (no slug): both the HTML path and its `.md` form.
     "/",

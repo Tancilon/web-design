@@ -17,7 +17,7 @@ export const VenturesBanner = ({ data }: { data: ServicesPageData }) => {
         {venture.title}
       </h2>
 
-      <div className="first:[&_p]:text-brt-0.75 col-span-full -mt-0.75 [&_p]:!text-f-h1-mobile lg:[&_p]:!text-f-h1">
+      <div className="first:[&_p]:text-brt-0.75 col-span-full -mt-0.75 font-display [&_p]:!text-f-h1-mobile lg:[&_p]:!text-f-h1">
         {venture.content && (
           <PortableText
             value={venture.content}

@@ -1,6 +1,8 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 
+import { PORTFOLIO_CONTACT } from "@/lib/portfolio-contact"
+
 import resumePhoto from "../../../assets/Personal-resume-photo.jpg"
 import { linkClass, Section } from "./components"
 
@@ -130,9 +132,9 @@ const ResumePage = () => {
             <p className="text-machine-dim">// PERSONAL RESUME · 个人简历</p>
             <p className="text-machine-bright">UX设计师</p>
             <h1 className="flex flex-wrap items-baseline gap-x-5 gap-y-1 text-[clamp(3rem,10vw,7.5rem)] font-semibold leading-[0.86] tracking-[-0.08em] text-machine-bright">
-              <span>江含</span>
+              <span>{PORTFOLIO_CONTACT.name}</span>
               <span className="text-[0.3em] font-normal tracking-normal text-machine-base">
-                Jianghan
+                {PORTFOLIO_CONTACT.englishName}
               </span>
             </h1>
           </div>
@@ -147,11 +149,11 @@ const ResumePage = () => {
             <p className="flex flex-col gap-1 sm:col-span-3">
               <span className="text-machine-dim">联系方式</span>
               <span className="flex flex-wrap gap-x-5 gap-y-1">
-                <a className={linkClass} href="tel:15157062932">
-                  15157062932
+                <a className={linkClass} href={PORTFOLIO_CONTACT.phoneHref}>
+                  {PORTFOLIO_CONTACT.phone}
                 </a>
-                <a className={linkClass} href="mailto:1209215981@qq.com">
-                  1209215981@qq.com
+                <a className={linkClass} href={PORTFOLIO_CONTACT.emailHref}>
+                  {PORTFOLIO_CONTACT.email}
                 </a>
               </span>
             </p>

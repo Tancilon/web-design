@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
 import type { BeyondDesignWork } from "@/lib/beyond-design"
 
@@ -9,6 +9,26 @@ import { DesignLightbox } from "./lightbox"
 
 export function DesignGallery({ works }: { works: BeyondDesignWork[] }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
+
+  const openFromHash = useCallback(() => {
+    const id = window.location.hash.slice(1)
+    if (!id) return
+    const index = works.findIndex((work) => work.id === id)
+    if (index >= 0) setActiveIndex(index)
+  }, [works])
+
+  useEffect(() => {
+    openFromHash()
+    window.addEventListener("hashchange", openFromHash)
+    return () => window.removeEventListener("hashchange", openFromHash)
+  }, [openFromHash])
+
+  const closeLightbox = useCallback(() => {
+    setActiveIndex(null)
+    if (window.location.hash.startsWith("#work-")) {
+      window.history.replaceState(null, "", window.location.pathname)
+    }
+  }, [])
 
   return (
     <>
@@ -51,6 +71,7 @@ export function DesignGallery({ works }: { works: BeyondDesignWork[] }) {
         works={works}
         activeIndex={activeIndex}
         onChange={setActiveIndex}
+        onClose={closeLightbox}
       />
     </>
   )

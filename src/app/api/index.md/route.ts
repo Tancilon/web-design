@@ -2,11 +2,17 @@ import * as Sentry from "@sentry/nextjs"
 import { NextResponse } from "next/server"
 
 import { fetchHomepage } from "@/app/(site)/(canvas)/(content)/(home)/sanity"
+import { ALL_PROJECTS_COUNT } from "@/lib/all-projects"
 import { COMPANY_FACTS, formatFactList } from "@/lib/company-facts"
 import { SITE_URL } from "@/lib/constants"
 import { HOME_INTRO_SUBTITLE, HOME_INTRO_TITLE } from "@/lib/home-intro"
 import { portfolioProjects } from "@/lib/portfolio"
-import { portableTextToMarkdown } from "@/service/sanity/portable-text-to-markdown"
+import {
+  PORTFOLIO_CAPABILITIES,
+  PORTFOLIO_CAPABILITIES_INTRO_LINES,
+  PORTFOLIO_CAPABILITIES_SECTION_TITLE
+} from "@/lib/portfolio-capabilities"
+import { PORTFOLIO_CONTACT } from "@/lib/portfolio-contact"
 
 const MD_HEADERS = {
   "Content-Type": "text/markdown; charset=utf-8",
@@ -31,21 +37,15 @@ export async function GET() {
       )
       .join("\n")
 
-    const capabilities = homepage.capabilities?.length
-      ? homepage.capabilities
-          .map((cap) => {
-            // Match HTML's title-based filter param (slug isn't used for filtering).
-            const lines = [
-              `### [${cap.title}](${SITE_URL}/showcase?category=${encodeURIComponent(cap.title)})`
-            ]
-            if (cap.description) lines.push("", cap.description)
-            if (cap.subcategories?.length) {
-              lines.push("", ...cap.subcategories.map((s) => `- ${s.title}`))
-            }
-            return lines.join("\n")
-          })
-          .join("\n\n")
-      : null
+    const capabilities = PORTFOLIO_CAPABILITIES.map((capability) =>
+      [
+        `### ${capability.title}`,
+        "",
+        capability.description,
+        "",
+        `标签：${capability.tags.map((tag) => `\`${tag}\``).join(" / ")}`
+      ].join("\n")
+    ).join("\n\n")
 
     const clients = homepage.clients?.length
       ? homepage.clients
@@ -53,12 +53,8 @@ export async function GET() {
           .join(", ")
       : null
 
-    const whatWeDoIntro =
-      portableTextToMarkdown(homepage.capabilitiesIntro, {
-        baseUrl: SITE_URL
-      }) || null
-    const hasWhatWeDo = Boolean(whatWeDoIntro || capabilities)
-    const hasBody = Boolean(featuredWork || hasWhatWeDo || clients)
+    const capabilitiesIntro = PORTFOLIO_CAPABILITIES_INTRO_LINES.join("\n")
+    const hasBody = Boolean(featuredWork || capabilities || clients)
 
     const parts: Array<string | null> = [
       "# basement.studio",
@@ -73,9 +69,9 @@ export async function GET() {
       featuredWork ? "" : null,
       featuredWork,
       featuredWork ? "" : null,
-      hasWhatWeDo ? "## What We Do" : null,
-      hasWhatWeDo ? "" : null,
-      whatWeDoIntro,
+      capabilities ? `## ${PORTFOLIO_CAPABILITIES_SECTION_TITLE}` : null,
+      capabilities ? "" : null,
+      capabilitiesIntro,
       capabilities ? "" : null,
       capabilities,
       capabilities ? "" : null,
@@ -98,15 +94,18 @@ export async function GET() {
       "",
       "## Contact",
       "",
-      `- General & project inquiries: ${COMPANY_FACTS.contactEmail}`,
-      `- New business / sales: ${COMPANY_FACTS.salesEmail}`,
+      `- Name: ${PORTFOLIO_CONTACT.name} (${PORTFOLIO_CONTACT.englishName})`,
+      `- Role: ${PORTFOLIO_CONTACT.role}`,
+      `- Location: ${PORTFOLIO_CONTACT.location}`,
+      `- Phone: ${PORTFOLIO_CONTACT.phone}`,
+      `- Email: ${PORTFOLIO_CONTACT.email}`,
       `- [Contact page](${SITE_URL}/contact.md)`,
       "",
       "## More",
       "",
       `- [Services](${SITE_URL}/services.md)`,
       `- [Showcase](${SITE_URL}/showcase.md)`,
-      `- [Blog](${SITE_URL}/blog.md)`,
+      `- [所有项目（${ALL_PROJECTS_COUNT}）](${SITE_URL}/blog.md)`,
       `- [FAQ](${SITE_URL}/faq.md)`,
       "",
       "---",

@@ -16,7 +16,7 @@ interface CollectionPageInput {
 
 /**
  * Builds a schema.org `CollectionPage` whose `mainEntity` is an `ItemList` of
- * the listed posts/projects. Item URLs are joined to the canonical origin so
+ * the listed projects. Item URLs are joined to the canonical origin so
  * every entry is an absolute https://basement.studio URL, consistent with the
  * other schema builders.
  */

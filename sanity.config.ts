@@ -6,7 +6,6 @@ import {
   CubeIcon,
   FadersIcon,
   FilesIcon,
-  FileTextIcon,
   HouseIcon,
   LightningIcon,
   QuestionIcon,
@@ -159,8 +158,6 @@ function structure(S: StructureBuilder) {
           S.list()
             .title("Content")
             .items([
-              collectionPane(S, "post", "Blog Posts", FileTextIcon),
-              collectionPane(S, "postCategory", "Post Categories", TagIcon),
               collectionPane(S, "project", "Projects", StackIcon),
               collectionPane(
                 S,

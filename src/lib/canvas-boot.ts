@@ -5,12 +5,7 @@ import { DefaultLoadingManager } from "three"
 // sticky and `canRunMainApp` only ever goes false -> true. A retry-boot feature
 // would need this module's one-shot guards (`marks`, `deadlineFired`) revisited.
 // map-ready and bakes-resolved are concurrent; the reveal waits for both.
-export type BootStage =
-  | "worker-spawned"
-  | "scene-chunk"
-  | "offscreen-ready"
-  | "map-ready"
-  | "bakes-resolved"
+export type BootStage = "scene-chunk" | "map-ready" | "bakes-resolved"
 
 const BOOT_ASSET_PATH = "/3d/"
 const TRANSCODER_PATH = "/basis-transcoder/"
@@ -120,8 +115,8 @@ export const startCanvasBootTrace = () => {
 }
 
 // Charged only while the tab is visible. A tab opened with cmd+click gets
-// throttled rAF and a worker that never runs its transition, so wall-clock time
-// there reports a failure nobody saw — and a tab never looked at never expires.
+// throttled rAF, so wall-clock time there would report a failure nobody saw —
+// and a tab never looked at never expires.
 export const armCanvasBootDeadline = (
   budgetMs: number,
   onExpire: () => void
@@ -154,7 +149,7 @@ export const markCanvasBootStage = (stage: BootStage) => {
 }
 
 // Each stage is written once, at the moment it happens, so the object's own key
-// order is already chronological — including the scene-chunk/worker-spawned race.
+// order is already chronological.
 const lastStage = (): BootStage | "none" => {
   const seen = Object.keys(marks) as BootStage[]
   return seen[seen.length - 1] ?? "none"

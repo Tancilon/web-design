@@ -19,7 +19,7 @@ export const Services = ({ data }: { data: ServicesPageData }) => (
           {category.title}
         </h2>
         <hr className="col-span-7 -mt-px border-brand-w1/30 lg:-mt-px" />
-        <div className="col-span-5 text-f-h2-mobile text-brand-w2 lg:pr-4 lg:text-f-h2">
+        <div className="col-span-5 font-display text-f-h2-mobile text-brand-w2 lg:pr-4 lg:text-f-h2">
           {category.description && (
             <PortableText value={category.description} />
           )}

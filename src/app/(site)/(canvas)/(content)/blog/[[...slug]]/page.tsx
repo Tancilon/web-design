@@ -1,84 +1,84 @@
 import type { Metadata } from "next"
+import { notFound } from "next/navigation"
 
-import { BlogList } from "@/components/blog/list"
+import { Categories } from "@/components/blog/categories"
+import { ProjectList } from "@/components/blog/list"
+import { featuredProject, getProjectsByCategory } from "@/lib/all-projects"
+import { getProjectCategory, projectCategories } from "@/lib/project-taxonomy"
 import { PageJsonLd } from "@/lib/structured-data/page-json-ld"
 import { generateCollectionPageSchema } from "@/lib/structured-data/schemas/collection"
 
-import { fetchCategoriesNonEmpty, fetchPostListForSchema } from "../sanity"
+import { Featured } from "../featured"
+import { Hero } from "../hero"
 
-type Params = Promise<{ slug: string[] }>
+type Params = Promise<{ slug?: string[] }>
 
-export const generateMetadata = async (props: {
+export const generateMetadata = async ({
+  params
+}: {
   params: Params
 }): Promise<Metadata> => {
-  const { slug } = await props.params
-  const categorySlug = slug?.[0]
+  const { slug } = await params
+  const category = slug?.[0] ? getProjectCategory(slug[0]) : undefined
 
-  if (!categorySlug) {
-    return {
-      description:
-        "Read the basement.studio blog — articles, deep dives, and behind-the-scenes notes on design, branding, web engineering, 3D, and cool shit that performs.",
-      alternates: {
-        canonical: "https://basement.studio/blog"
-      }
-    }
-  }
-
-  const categories = await fetchCategoriesNonEmpty()
-  const category = categories.find((c) => c.slug === categorySlug)
-
-  // Unknown category or extra segments still render (HTML is frozen) — stop
-  // them from self-canonicalizing as distinct, indexable URLs.
-  if (!category || slug.length > 1) {
-    return {
-      description:
-        "Read the basement.studio blog — articles, deep dives, and behind-the-scenes notes on design, branding, web engineering, 3D, and cool shit that performs.",
-      alternates: {
-        canonical: "https://basement.studio/blog"
-      },
-      robots: { index: false }
-    }
+  if (slug?.length && (!category || slug.length > 1)) {
+    return { robots: { index: false } }
   }
 
   return {
-    description: `Explore basement.studio's ${category.title} articles — deep dives, tutorials, and behind-the-scenes notes from our design and engineering team.`,
+    title: category ? `${category.title}项目` : "所有项目",
+    description: category
+      ? `浏览江含的${category.title}作品。`
+      : "浏览江含的 23 件个人设计作品，涵盖 UI/UX、活动视觉、产品设计与插画。",
     alternates: {
-      canonical: `https://basement.studio/blog/${categorySlug}`
+      canonical: category ? `/blog/${category.slug}` : "/blog"
     }
   }
 }
 
-export default async function BlogIndexPage(props: { params: Params }) {
-  const params = await props.params
-  const isBlogHome = !params.slug?.[0]
+export default async function AllProjectsPage({ params }: { params: Params }) {
+  const { slug } = await params
+  const categorySlug = slug?.[0]
+  const category = categorySlug ? getProjectCategory(categorySlug) : undefined
 
-  const collectionSchema = isBlogHome
-    ? generateCollectionPageSchema({
-        path: "/blog",
-        name: "Blog",
-        description:
-          "Articles, deep dives, and behind-the-scenes notes from the basement.studio team.",
-        items: (await fetchPostListForSchema()).map((post) => ({
-          name: post.title,
-          path: `/post/${post.slug}`
-        }))
-      })
-    : null
+  if ((categorySlug && !category) || (slug?.length ?? 0) > 1) notFound()
+
+  const projects = getProjectsByCategory(category?.slug)
+  const isIndex = !category
+  const listedProjects = isIndex ? projects.slice(1) : projects
+  const collectionSchema = generateCollectionPageSchema({
+    path: category ? `/blog/${category.slug}` : "/blog",
+    name: category ? `${category.title}项目` : "所有项目",
+    description: category
+      ? `江含的${category.title}作品。`
+      : "江含的个人作品总览。",
+    items: projects.map((project) => ({
+      name: project.title,
+      path: project.href
+    }))
+  })
 
   return (
     <>
       <PageJsonLd nodes={[collectionSchema]} />
-      <BlogList params={params} />
+      <Hero count={projects.length} />
+      {isIndex && featuredProject ? (
+        <Featured project={featuredProject} />
+      ) : null}
+      <section className="grid-layout pb-[35px] lg:pt-12" id="projects-list">
+        <div className="col-span-full -mb-3 grid grid-cols-12 border-brand-w1/20 lg:border-b lg:pb-2">
+          <h2 className="col-span-full mt-auto text-f-h3-mobile text-brand-g1 lg:col-span-3 lg:col-start-5 lg:text-f-h3">
+            描述
+          </h2>
+          <Categories activeCategory={category?.slug} />
+        </div>
+        <ProjectList projects={listedProjects} />
+      </section>
     </>
   )
 }
 
-// pre build all the categories
-export const generateStaticParams = async () => {
-  const categories = await fetchCategoriesNonEmpty({ forStaticParams: true })
-
-  return [
-    { slug: [] },
-    ...categories.map((category) => ({ slug: [category.slug] }))
-  ]
-}
+export const generateStaticParams = () => [
+  { slug: [] },
+  ...projectCategories.map((category) => ({ slug: [category.slug] }))
+]

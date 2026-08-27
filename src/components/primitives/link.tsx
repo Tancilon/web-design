@@ -82,8 +82,8 @@ export const Link = ({
       href={href}
       onClick={(e) => {
         e.preventDefault()
-        // if href is /post/*, router.push instead of handleNavigation
-        if (href.includes("/post/") || href.includes("/portfolio/")) {
+        // Portfolio detail pages use the plain layout instead of a 3D scene.
+        if (href.includes("/portfolio/")) {
           router.push(href)
         } else {
           handleNavigation(href, fromMobileNav)

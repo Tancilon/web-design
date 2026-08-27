@@ -1,9 +1,8 @@
-import * as Sentry from "@sentry/nextjs"
 import { NextResponse } from "next/server"
 
-import { fetchBlogIndexForMarkdown } from "@/app/(site)/(canvas)/(content)/blog/sanity"
+import { allProjects } from "@/lib/all-projects"
 import { SITE_URL } from "@/lib/constants"
-import { truncateDescription } from "@/utils/seo"
+import { projectCategories } from "@/lib/project-taxonomy"
 
 const MD_HEADERS = {
   "Content-Type": "text/markdown; charset=utf-8",
@@ -11,69 +10,39 @@ const MD_HEADERS = {
   "X-Content-Type-Options": "nosniff"
 } as const
 
-// CMS strings land inside `[label](url)` syntax — escape the delimiters so a
-// bracketed label can't break the link.
 const escapeLinkLabel = (text: string) => text.replace(/[\\[\]]/g, "\\$&")
 
-export async function GET() {
-  try {
-    const { posts, categories } = await fetchBlogIndexForMarkdown()
-
-    // Category pages have no `.md` mirror (filtered lists, no unique content)
-    // — link the HTML pages.
-    const categoriesLine = categories.length
-      ? `**Categories:** ${categories
-          .map(
-            (c) => `[${escapeLinkLabel(c.title)}](${SITE_URL}/blog/${c.slug})`
-          )
-          .join(", ")}`
-      : null
-
-    const list = posts
-      .map((post) => {
-        const link = `[${escapeLinkLabel(post.title)}](${SITE_URL}/post/${post.slug}.md)`
-        const date = post.date ? post.date.split("T")[0] : null
-        const postCategories = post.categories?.length
-          ? `(${post.categories.map((c) => c.title).join(", ")})`
-          : null
-        const meta = [date, postCategories].filter(Boolean).join(" ")
-        const detail = [meta || null, truncateDescription(post.excerpt) || null]
-          .filter(Boolean)
-          .join(" — ")
-        return detail ? `- ${link} — ${detail}` : `- ${link}`
-      })
-      .join("\n")
-
-    const parts: Array<string | null> = [
-      "# Blog",
-      "",
-      "Articles and writing from basement.studio.",
-      "",
-      categoriesLine,
-      categoriesLine ? "" : null,
-      list ? "## All Posts" : null,
-      list ? "" : null,
-      list || null,
-      "",
-      "---",
-      "",
-      `[View all content](${SITE_URL}/sitemap.md)`
-    ]
-
-    const markdown = parts.filter((part) => part !== null).join("\n")
-
-    return new NextResponse(markdown, {
-      headers: {
-        ...MD_HEADERS,
-        Link: `<${SITE_URL}/blog>; rel="canonical"`
-      }
+export function GET() {
+  const filters = projectCategories
+    .map((category) => `[${category.title}](${SITE_URL}/blog/${category.slug})`)
+    .join("、")
+  const list = allProjects
+    .map((project) => {
+      const link = `[${escapeLinkLabel(project.title)}](${SITE_URL}${project.href})`
+      return `- ${link} — ${project.date} — ${project.tags.join("、")} — ${project.description}`
     })
-  } catch (error) {
-    console.error("Error building blog markdown:", error)
-    Sentry.captureException(error)
-    return new NextResponse("# 500 Error\n\nFailed to build markdown.", {
-      status: 500,
-      headers: MD_HEADERS
-    })
-  }
+    .join("\n")
+
+  const markdown = [
+    "# 所有项目",
+    "",
+    `江含的个人作品总览，共 ${allProjects.length} 件作品。`,
+    "",
+    `**标签：** ${filters}`,
+    "",
+    "## 作品列表",
+    "",
+    list,
+    "",
+    "---",
+    "",
+    `[查看全部内容](${SITE_URL}/sitemap.md)`
+  ].join("\n")
+
+  return new NextResponse(markdown, {
+    headers: {
+      ...MD_HEADERS,
+      Link: `<${SITE_URL}/blog>; rel="canonical"`
+    }
+  })
 }

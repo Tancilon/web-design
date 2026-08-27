@@ -61,7 +61,7 @@ const ProjectItem = ({ project }: ProjectItemProps) => {
           className="group block aspect-video overflow-hidden focus-visible:!ring-offset-0"
         >
           <Image
-            src={project.images[0]}
+            src={project.coverImage ?? project.images[0]}
             alt={`${project.title}封面`}
             fill
             sizes="(max-width: 1023px) 100vw, 58vw"

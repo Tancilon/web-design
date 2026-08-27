@@ -38,27 +38,6 @@ export const NavigationHandler = () => {
 
   useEffect(() => setScenes(scenes), [scenes, setScenes])
 
-  useEffect(() => {
-    const handleContactFormNavigate = (event: CustomEvent) => {
-      const path = event.detail?.path
-      if (path) {
-        handleNavigation(path)
-      }
-    }
-
-    window.addEventListener(
-      "contactFormNavigate",
-      handleContactFormNavigate as EventListener
-    )
-
-    return () => {
-      window.removeEventListener(
-        "contactFormNavigate",
-        handleContactFormNavigate as EventListener
-      )
-    }
-  }, [handleNavigation])
-
   const setCurrentTabIndex = useNavigationStore(
     (state) => state.setCurrentTabIndex
   )
@@ -81,21 +60,16 @@ export const NavigationHandler = () => {
       return
     }
 
-    const isFromPostToBlog =
-      previousPathRef.current.startsWith("/post/") && pathname === "/blog"
-
     const expectedScene = isNotFound
       ? scenes.find((scene) => scene.name === "404")
       : pathname === "/" || pathname === "/index"
         ? scenes.find((scene) => scene.name.toLowerCase() === "home")
-        : pathname.startsWith("/post/")
-          ? scenes.find((scene) => scene.name === "blog")
-          : scenes.find((scene) => scene.name === pathname.split("/")[1])
+        : scenes.find((scene) => scene.name === pathname.split("/")[1])
 
     if (
       expectedScene &&
       currentScene &&
-      (expectedScene.name !== currentScene.name || isFromPostToBlog)
+      expectedScene.name !== currentScene.name
     ) {
       setCurrentScene(expectedScene)
     }
@@ -127,9 +101,7 @@ export const NavigationHandler = () => {
     const currentScene =
       pathname === "/" || pathname === "/index"
         ? scenes.find((scene) => scene.name.toLowerCase() === "home")
-        : pathname.startsWith("/post/")
-          ? scenes.find((scene) => scene.name === "blog")
-          : scenes.find((scene) => scene.name === pathname.split("/")[1])
+        : scenes.find((scene) => scene.name === pathname.split("/")[1])
 
     if (!currentScene) {
       const notFoundScene = scenes.find((scene) => scene.name === "404")

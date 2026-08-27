@@ -25,15 +25,6 @@ export const resolve: PresentationPluginOptions["resolve"] = {
         { title: "Services", href: "/services" }
       ]
     }),
-    post: defineLocations({
-      select: { title: "title", slug: "slug.current" },
-      resolve: (doc) => ({
-        locations: [
-          { title: doc?.title || "Untitled", href: `/post/${doc?.slug}` },
-          { title: "All posts", href: "/blog" }
-        ]
-      })
-    }),
     project: defineLocations({
       select: { title: "title", slug: "slug.current" },
       resolve: (doc) => ({
@@ -49,10 +40,6 @@ export const resolve: PresentationPluginOptions["resolve"] = {
     { route: "/services", filter: `_type == "servicesPage"` },
     { route: "/showcase", filter: `_type == "showcasePage"` },
     { route: "/faq", filter: `_type == "faqPage"` },
-    {
-      route: "/post/:slug",
-      filter: `_type == "post" && slug.current == $slug`
-    },
     {
       route: "/showcase/:slug",
       filter: `_type == "project" && slug.current == $slug`

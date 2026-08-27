@@ -134,7 +134,7 @@ export default {
           {
             lineHeight: "1rem",
             letterSpacing: "0.0em",
-            fontWeight: "600"
+            fontWeight: "500"
           }
         ],
         "f-p-mobile": [
@@ -142,7 +142,7 @@ export default {
           {
             lineHeight: "1rem",
             letterSpacing: "0.0em",
-            fontWeight: "600"
+            fontWeight: "500"
           }
         ]
       },
@@ -161,7 +161,8 @@ export default {
         "61": "15.25rem"
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)"],
+        sans: ["var(--font-sans)"],
+        display: ["var(--font-display)"],
         mono: ["var(--font-geist-mono)"],
         flauta: ["var(--font-flauta)"]
       },

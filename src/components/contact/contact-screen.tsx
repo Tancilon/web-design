@@ -1,28 +1,17 @@
-import { track } from "@vercel/analytics"
 import { motion, useAnimation } from "motion/react"
 import { useEffect, useRef, useState } from "react"
-import { SubmitHandler, useForm } from "react-hook-form"
 
-import { submitContactForm } from "@/actions/contact-form"
-import { Inputs } from "@/app/(site)/(plain)/contact/form/contact-form"
-import { useCurrentScene } from "@/hooks/use-current-scene"
-import { useSiteAudio } from "@/hooks/use-site-audio"
+import { PORTFOLIO_CONTACT } from "@/lib/portfolio-contact"
 
 import { Link } from "../primitives/link"
 import { useContactStore } from "./contact-store"
 
 export const ContactScreen = () => {
   const contentRef = useRef(null)
-  const formRef = useRef<HTMLFormElement>(null)
   const animation = useAnimation()
   const worker = useContactStore((state) => state.worker)
   const closeContact = useContactStore.getState().setIsContactOpen
-  const { playSoundFX } = useSiteAudio()
-  const scene = useCurrentScene()
-  const isBlog = scene === "blog"
 
-  const [submitting, setSubmitting] = useState(false)
-  const [showSubmittedMessage, setShowSubmittedMessage] = useState(false)
   const [screenDimensions, setScreenDimensions] = useState({
     width: 580,
     height: 350
@@ -31,8 +20,8 @@ export const ContactScreen = () => {
   useEffect(() => {
     if (!worker) return
 
-    const handleMessage = (e: MessageEvent) => {
-      const { type, screenPos, dimensions } = e.data
+    const handleMessage = (event: MessageEvent) => {
+      const { type, screenPos, dimensions } = event.data
 
       if (type === "update-screen-skinned-matrix") {
         if (contentRef.current) {
@@ -81,68 +70,12 @@ export const ContactScreen = () => {
     }
 
     worker.addEventListener("message", handleMessage)
-    return () => {
-      worker.removeEventListener("message", handleMessage)
-    }
+    return () => worker.removeEventListener("message", handleMessage)
   }, [worker, animation])
 
-  const { register, handleSubmit, reset, watch } = useForm<Inputs>()
-
-  const email = watch("email")
-  const message = watch("message")
-
-  const isValid = !!email && !!message
-
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    track("contact_form_submit")
-    setSubmitting(true)
-    setShowSubmittedMessage(false)
-
-    // play interference sound when submitting
-    if (isBlog) {
-      playSoundFX("CONTACT_INTERFERENCE", 0.07)
-    }
-
-    if (worker) {
-      worker.postMessage({ type: "submit-clicked" })
-    }
-
-    try {
-      const formData = {
-        name: data.name || "",
-        company: data.company || "",
-        email: data.email,
-        budget: data.budget || "",
-        message: data.message
-      }
-
-      const result = await submitContactForm(formData)
-
-      if (result.success) {
-        setShowSubmittedMessage(true)
-
-        setTimeout(() => {
-          setShowSubmittedMessage(false)
-
-          if (worker) {
-            worker.postMessage({ type: "start-outro" })
-
-            closeContact(false)
-          }
-        }, 2000)
-
-        reset()
-      }
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey && isValid && !submitting) {
-      e.preventDefault()
-      formRef.current?.requestSubmit()
-    }
+  const handleClose = () => {
+    const state = useContactStore.getState()
+    if (!state.isAnimating) closeContact(false)
   }
 
   return (
@@ -165,117 +98,80 @@ export const ContactScreen = () => {
           animate={animation}
         >
           <div className="relative z-20 flex h-full w-full flex-col justify-between gap-7 font-flauta text-[14px] text-brand-o">
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit(onSubmit)}
-              className="relative flex h-full w-full flex-col justify-between gap-4 border border-brand-o pb-4 pt-6 uppercase [box-shadow:0_0_5px_rgba(255,140,0,0.15)]"
-            >
+            <section className="relative flex h-full w-full flex-col justify-between gap-4 border border-brand-o pb-4 pt-6 uppercase [box-shadow:0_0_5px_rgba(255,140,0,0.15)]">
               <fieldset className="absolute -top-[10px] left-[10px] z-10 -ml-px p-0">
-                <legend className="bg-black px-1">CONTACT US</legend>
+                <legend className="bg-black px-1">PERSONAL CONTACT</legend>
               </fieldset>
 
               <fieldset className="absolute -top-[10px] right-[10px] z-10 -mr-px p-0">
                 <legend className="px-1">
                   <button
                     type="button"
-                    className="hover:/90 bg-black px-1 uppercase transition-all duration-300"
-                    onClick={() => {
-                      const state = useContactStore.getState()
-                      if (!state.isAnimating) {
-                        closeContact(false)
-                      }
-                    }}
+                    className="bg-black px-1 uppercase transition-opacity duration-300 hover:opacity-70"
+                    onClick={handleClose}
                   >
-                    close
+                    CLOSE
                   </button>
                 </legend>
               </fieldset>
 
-              <div className="flex h-full flex-col gap-2 px-4">
-                <div className="flex w-full items-center gap-2">
-                  <input
-                    type="text"
-                    placeholder="NAME"
-                    className="h-8 w-full border-b border-dashed border-brand-o bg-transparent p-1 uppercase placeholder:text-brand-o"
-                    onKeyDown={handleKeyDown}
-                    {...register("name")}
-                  />
-                  <input
-                    type="text"
-                    placeholder="COMPANY"
-                    className="h-8 w-full border-b border-dashed border-brand-o bg-transparent p-1 uppercase placeholder:text-brand-o"
-                    onKeyDown={handleKeyDown}
-                    {...register("company")}
-                  />
+              <div className="flex h-full flex-col justify-between gap-5 px-5 font-sans normal-case">
+                <div className="flex items-end justify-between gap-6 border-b border-dashed border-brand-o pb-4">
+                  <div>
+                    <p className="mb-1 text-xs uppercase opacity-60">
+                      UX / VISUAL DESIGN
+                    </p>
+                    <h2 className="font-display text-[34px] font-semibold leading-none text-brand-o">
+                      {PORTFOLIO_CONTACT.name}
+                    </h2>
+                  </div>
+                  <div className="text-right text-sm leading-relaxed">
+                    <p>{PORTFOLIO_CONTACT.englishName}</p>
+                    <p>{PORTFOLIO_CONTACT.role}</p>
+                  </div>
                 </div>
-                <div className="flex w-full items-center gap-2">
-                  <input
-                    required
-                    type="email"
-                    placeholder="EMAIL"
-                    className="col-span-2 h-8 w-full border-b border-dashed border-brand-o bg-transparent p-1 uppercase placeholder:text-brand-o"
-                    onKeyDown={handleKeyDown}
-                    {...register("email", { required: "Email is required" })}
-                  />
-                  <input
-                    type="text"
-                    placeholder="BUDGET (OPTIONAL)"
-                    className="col-span-2 h-8 w-full border-b border-dashed border-brand-o bg-transparent p-1 uppercase placeholder:text-brand-o"
-                    onKeyDown={handleKeyDown}
-                    {...register("budget")}
-                  />
-                </div>
-                <textarea
-                  required
-                  autoComplete="off"
-                  placeholder="MESSAGE"
-                  className="col-span-2 h-full flex-1 resize-none border-b border-dashed border-brand-o bg-transparent p-1 uppercase placeholder:text-brand-o"
-                  {...register("message", { required: "Message is required" })}
-                />
-              </div>
 
-              <div className="w-full px-4">
-                <button
-                  className={`h-8 w-full border px-2 py-1 text-center transition-all duration-300 [box-shadow:0_0_5px_rgba(255,140,0,0.15)] ${
-                    isValid || showSubmittedMessage
-                      ? "cursor-pointer border-none bg-brand-o text-black"
-                      : "cursor-default border border-brand-o"
-                  }`}
-                >
-                  {submitting
-                    ? "SUBMITTING..."
-                    : showSubmittedMessage
-                      ? "FORM SUBMITTED ✓"
-                      : "SEND MESSAGE →"}
-                </button>
+                <dl className="grid grid-cols-[80px_1fr] gap-x-4 gap-y-3 text-sm">
+                  <dt className="uppercase opacity-60">Phone</dt>
+                  <dd>
+                    <Link href={PORTFOLIO_CONTACT.phoneHref}>
+                      <span className="actionable">
+                        {PORTFOLIO_CONTACT.phone}
+                      </span>
+                    </Link>
+                  </dd>
+                  <dt className="uppercase opacity-60">Email</dt>
+                  <dd>
+                    <Link href={PORTFOLIO_CONTACT.emailHref}>
+                      <span className="actionable">
+                        {PORTFOLIO_CONTACT.email}
+                      </span>
+                    </Link>
+                  </dd>
+                  <dt className="uppercase opacity-60">Location</dt>
+                  <dd>{PORTFOLIO_CONTACT.location}</dd>
+                </dl>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <Link
+                    href={PORTFOLIO_CONTACT.phoneHref}
+                    className="border border-brand-o px-3 py-2 text-center font-flauta uppercase transition-colors hover:bg-brand-o hover:text-black"
+                  >
+                    CALL NOW
+                  </Link>
+                  <Link
+                    href={PORTFOLIO_CONTACT.emailHref}
+                    className="bg-brand-o px-3 py-2 text-center font-flauta uppercase text-black transition-opacity hover:opacity-80"
+                  >
+                    SEND EMAIL →
+                  </Link>
+                </div>
               </div>
-            </form>
+            </section>
+
             <div className="flex w-full items-center justify-between text-[12px] uppercase">
-              <div className="flex items-center gap-[2px]">
-                <Link href="https://x.com/basementstudio" target="_blank">
-                  <span className="actionable [text-shadow:0_0_10px_rgba(255,140,0,0.15)]">
-                    X (Twitter)
-                  </span>
-                </Link>
-                <span className="opacity-50">, </span>
-                <Link
-                  href="https://www.instagram.com/basementdotstudio"
-                  target="_blank"
-                >
-                  <span className="actionable [text-shadow:0_0_10px_rgba(255,140,0,0.15)]">
-                    Instagram
-                  </span>
-                </Link>
-                <span className="opacity-50">, </span>
-                <Link href="https://github.com/basementstudio" target="_blank">
-                  <span className="actionable [text-shadow:0_0_10px_rgba(255,140,0,0.15)]">
-                    GitHub
-                  </span>
-                </Link>
-              </div>
-              <Link href="mailto:hello@basement.studio" target="_blank">
-                <span className="actionable">(hello@basement.studio)</span>
-              </Link>
+              <span>AVAILABLE FOR UX / VISUAL DESIGN</span>
+              <span>{PORTFOLIO_CONTACT.location} · CHINA</span>
             </div>
           </div>
         </motion.div>

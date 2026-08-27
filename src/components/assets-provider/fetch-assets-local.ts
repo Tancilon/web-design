@@ -1,4 +1,5 @@
 import { ASSETS_BASE, INSPECTABLES_META } from "@/lib/3d-config/asset-manifest"
+import { getSiteRouteLabel, normalizeSiteRoute } from "@/lib/site-navigation"
 import type { PortableTextBlock } from "@/service/sanity/types"
 
 import { fetchThreeDConfig } from "./fetch-3d-config-sanity"
@@ -7,6 +8,10 @@ import type { AssetsResult } from "./fetch-assets"
 // One log per missing inspectable per process — without dedup the warn loop
 // would fire on every request × every missing inspectable, flooding log drains.
 const warnedMissingInspectables = new Set<string>()
+
+const localRoutingOverrides: Record<string, string> = {
+  Services2_Hover: "/blog"
+}
 
 /** Joins the repo manifest with Sanity content into one `AssetsResult`. */
 export async function fetchAssetsLocal(): Promise<AssetsResult> {
@@ -68,17 +73,25 @@ export async function fetchAssetsLocal(): Promise<AssetsResult> {
         offsetMultiplier: s.cameraConfig?.offsetMultiplier ?? 1
       },
       tabs: (s.tabs ?? [])
-        .filter((tab) => {
-          const route = tab.tabRoute?.replace(/^\/+/, "").toLowerCase() ?? ""
-          return !disabledScenes.has(route)
+        .map((tab) => {
+          const tabRoute = normalizeSiteRoute(
+            localRoutingOverrides[tab.tabClickableName ?? ""] ??
+              tab.tabRoute ??
+              ""
+          )
+
+          return {
+            tabName: tab.tabName ?? "",
+            tabRoute,
+            tabHoverName: getSiteRouteLabel(tabRoute) ?? tab.tabHoverName ?? "",
+            tabClickableName: tab.tabClickableName ?? "",
+            plusShapeScale: tab.plusShapeScale ?? 1
+          }
         })
-        .map((tab) => ({
-          tabName: tab.tabName ?? "",
-          tabRoute: tab.tabRoute ?? "",
-          tabHoverName: tab.tabHoverName ?? "",
-          tabClickableName: tab.tabClickableName ?? "",
-          plusShapeScale: tab.plusShapeScale ?? 1
-        })),
+        .filter(
+          (tab) =>
+            !disabledScenes.has(tab.tabRoute.replace(/^\/+/, "").toLowerCase())
+        ),
       postprocessing: {
         contrast: s.postprocessing?.contrast ?? 1,
         brightness: s.postprocessing?.brightness ?? 1,

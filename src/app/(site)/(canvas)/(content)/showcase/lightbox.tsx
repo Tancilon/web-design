@@ -11,6 +11,7 @@ interface DesignLightboxProps {
   works: BeyondDesignWork[]
   activeIndex: number | null
   onChange: React.Dispatch<React.SetStateAction<number | null>>
+  onClose: () => void
 }
 
 const FOCUSABLE_SELECTOR =
@@ -19,14 +20,15 @@ const FOCUSABLE_SELECTOR =
 export function DesignLightbox({
   works,
   activeIndex,
-  onChange
+  onChange,
+  onClose
 }: DesignLightboxProps) {
   const dialogRef = useRef<HTMLDivElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const triggerRef = useRef<HTMLElement | null>(null)
   const isOpen = activeIndex !== null
 
-  const close = useCallback(() => onChange(null), [onChange])
+  const close = useCallback(() => onClose(), [onClose])
   const focusCloseButton = useCallback(() => {
     closeButtonRef.current?.focus()
   }, [])

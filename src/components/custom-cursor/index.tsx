@@ -8,6 +8,7 @@ import {
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { useMouseStore } from "@/hooks/use-mouse"
+import { cn } from "@/utils/cn"
 import { debounce } from "@/utils/debounce"
 
 const OFFSET = 16
@@ -67,6 +68,7 @@ export const CustomCursor = memo(() => {
   const springY = useSpring(y, springConfig)
 
   const hoverText = useMouseStore((state) => state.hoverText)
+  const hoverTextStyle = useMouseStore((state) => state.hoverTextStyle)
   const marquee = useMouseStore((state) => state.marquee)
   const mouseElementRef = useRef<HTMLDivElement>(null)
 
@@ -152,7 +154,10 @@ export const CustomCursor = memo(() => {
       {hoverText && (
         <motion.p
           ref={mouseElementRef}
-          className="pointer-events-none fixed z-50 bg-brand-k text-f-p-mobile text-brand-w1 lg:text-f-p"
+          className={cn(
+            "pointer-events-none fixed z-50 bg-brand-k text-f-p-mobile text-brand-w1 lg:text-f-p",
+            hoverTextStyle === "display" && "font-display font-semibold"
+          )}
           style={{ x: springX, y: springY }}
           {...animationProps}
         >

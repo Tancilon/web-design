@@ -183,10 +183,6 @@ const Bakes = () => {
 
   const scene = useThree((state) => state.scene)
 
-  const setMainAppRunning = useAppLoadingStore(
-    (state) => state.setMainAppRunning
-  )
-
   const setCanRunMainApp = useAppLoadingStore((state) => state.setCanRunMainApp)
 
   useEffect(() => {
@@ -237,11 +233,9 @@ const Bakes = () => {
 
     // Not on mount: bakes can resolve before the models exist.
     setCanRunMainApp(true)
-    const timeout = setTimeout(() => setMainAppRunning(true), 10)
     const timeout2 = setTimeout(() => (cctvConfig.shouldBakeCCTV = true), 10)
 
     return () => {
-      clearTimeout(timeout)
       clearTimeout(timeout2)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

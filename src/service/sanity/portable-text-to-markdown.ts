@@ -1,7 +1,7 @@
 import { normalizeHref } from "@/utils/seo"
 
 import { getImageUrl } from "./helpers"
-import type { PortableTextBlock, SanityImage, SanityMuxVideo } from "./types"
+import type { PortableTextBlock, SanityImage } from "./types"
 
 interface MarkDef {
   _key: string
@@ -24,27 +24,8 @@ interface TextBlock {
   markDefs?: MarkDef[]
 }
 
-interface CodeBlockValue {
-  files?: Array<{ title?: string; code?: string; language?: string }>
-}
-
 interface QuoteValue {
   quote?: PortableTextBlock[]
-}
-
-interface SideNoteValue {
-  content?: PortableTextBlock[]
-}
-
-interface GalleryValue {
-  images?: SanityImage[]
-  caption?: string
-}
-
-interface VideoValue {
-  videoUrl?: string
-  muxVideo?: SanityMuxVideo | null
-  caption?: string
 }
 
 // Marks that are inline decorators rather than references into `markDefs`.
@@ -57,14 +38,13 @@ const DECORATORS = new Set([
 ])
 
 interface Options {
-  /** Used to absolutize root-relative link hrefs (e.g. `/post/x` → `https://…/post/x`). */
+  /** Used to absolutize root-relative link hrefs. */
   baseUrl?: string
 }
 
 /**
- * Converts Sanity Portable Text (including this project's custom blocks) into
- * plain Markdown. Mirrors the block/mark coverage of the blog post renderer in
- * `post/[slug]/content.tsx` so the `.md` output matches what readers see.
+ * Converts the Portable Text blocks used by the remaining site content into
+ * plain Markdown.
  */
 export function portableTextToMarkdown(
   blocks: PortableTextBlock[] | null | undefined,
@@ -99,20 +79,8 @@ function renderBlock(
       return renderTextBlock(block as unknown as TextBlock, baseUrl)
     case "image":
       return renderImage(block as unknown as SanityImage & { caption?: string })
-    case "gridGallery":
-      return renderGallery(block as unknown as GalleryValue)
     case "quote":
       return renderQuote(block as unknown as QuoteValue, baseUrl)
-    case "sideNote":
-      return renderSideNote(block as unknown as SideNoteValue, baseUrl)
-    case "codeBlock":
-      return renderCodeBlock(block as unknown as CodeBlockValue)
-    case "videoEmbed":
-      return renderVideo(block as unknown as VideoValue)
-    case "tweetEmbed":
-      return renderTweet(block as unknown as { tweetId?: string })
-    case "codeSandbox":
-      return renderSandbox(block as unknown as { sandboxKey?: string })
     default:
       return null
   }
@@ -183,67 +151,12 @@ function renderImage(block: SanityImage & { caption?: string }): string | null {
   return md
 }
 
-function renderGallery(block: GalleryValue): string | null {
-  const parts = (block.images ?? [])
-    .map((image) => {
-      const img = getImageUrl(image)
-      return img ? `![${img.alt || "Image"}](${img.src})` : null
-    })
-    .filter((part): part is string => part !== null)
-
-  if (!parts.length) return null
-  let md = parts.join("\n\n")
-  if (block.caption) md += `\n\n_${block.caption}_`
-  return md
-}
-
 function renderQuote(
   block: QuoteValue,
   baseUrl: string | undefined
 ): string | null {
   const quoteMd = portableTextToMarkdown(block.quote, { baseUrl })
   return quoteMd ? blockquote(quoteMd) : null
-}
-
-function renderSideNote(
-  block: SideNoteValue,
-  baseUrl: string | undefined
-): string | null {
-  const contentMd = portableTextToMarkdown(block.content, { baseUrl })
-  const inner = ["**Note**", contentMd].filter(Boolean).join("\n\n")
-  return blockquote(inner)
-}
-
-function renderCodeBlock(block: CodeBlockValue): string | null {
-  const files = block.files ?? []
-  if (!files.length) return null
-  return files
-    .map((file) => {
-      const title = file.title ? `**${file.title}**\n\n` : ""
-      return `${title}\`\`\`${file.language ?? ""}\n${file.code ?? ""}\n\`\`\``
-    })
-    .join("\n\n")
-}
-
-function renderVideo(block: VideoValue): string | null {
-  const playbackId = block.muxVideo?.playbackId
-  const url = playbackId
-    ? `https://stream.mux.com/${playbackId}.m3u8`
-    : block.videoUrl
-  if (!url) return null
-  let md = `[${block.caption || "Watch video"}](${url})`
-  if (block.caption) md += `\n\n_${block.caption}_`
-  return md
-}
-
-function renderTweet(block: { tweetId?: string }): string | null {
-  if (!block.tweetId) return null
-  return `[View tweet](https://twitter.com/i/web/status/${block.tweetId})`
-}
-
-function renderSandbox(block: { sandboxKey?: string }): string | null {
-  if (!block.sandboxKey) return null
-  return `[Interactive code sandbox: ${block.sandboxKey}]`
 }
 
 function blockquote(text: string): string {

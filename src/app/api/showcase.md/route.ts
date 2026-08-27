@@ -12,7 +12,12 @@ const MD_HEADERS = {
 
 export async function GET() {
   try {
-    const list = beyondDesignWorks.map((work) => `- ${work.label}`).join("\n")
+    const list = beyondDesignWorks
+      .map(
+        (work) =>
+          `- [${work.label}](${SITE_URL}/showcase#${work.id}) — ${work.date} — ${work.tags.join("、")} — ${work.description}`
+      )
+      .join("\n")
 
     const parts: Array<string | null> = [
       "# 设计之外",

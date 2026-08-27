@@ -1,10 +1,6 @@
 import { sanityFetchCached } from "@/service/sanity"
 import { imageFragment } from "@/service/sanity/queries"
-import type {
-  PortableTextBlock,
-  SanityImage,
-  SanitySlug
-} from "@/service/sanity/types"
+import type { SanityImage } from "@/service/sanity/types"
 
 // ---------------------------------------------------------------------------
 // Types
@@ -12,8 +8,6 @@ import type {
 
 export interface HomepageData {
   homepage: {
-    capabilitiesIntro: PortableTextBlock[] | null
-    capabilities: SanityProjectCategory[] | null
     clients: SanityClient[] | null
   }
 }
@@ -25,28 +19,12 @@ export interface SanityClient {
   website: string | null
 }
 
-export interface SanityProjectCategory {
-  _id: string
-  title: string
-  slug: SanitySlug
-  description: string | null
-  subcategories: Array<{ _key: string; title: string }> | null
-}
-
 // ---------------------------------------------------------------------------
 // Query
 // ---------------------------------------------------------------------------
 
 const homepageQuery = /* groq */ `{
   "homepage": *[_type == "homepage"][0]{
-    capabilitiesIntro,
-    "capabilities": capabilities[]->{
-      _id,
-      title,
-      slug,
-      description,
-      subcategories[]{ _key, title }
-    },
     "clients": clients[]->{
       _id,
       title,

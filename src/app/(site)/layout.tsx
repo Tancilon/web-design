@@ -18,7 +18,7 @@ const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
   const assets = await fetchAssets()
 
   return (
-    <>
+    <div className="site-font-scope contents">
       <Analytics />
       <SpeedInsights />
       <Script
@@ -39,7 +39,7 @@ const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
         </InspectableProvider>
       </AssetsProvider>
       <ModeToggle mode="human" />
-    </>
+    </div>
   )
 }
 

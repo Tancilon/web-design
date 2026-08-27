@@ -1,7 +1,8 @@
+import { ALL_PROJECTS_COUNT } from "@/lib/all-projects"
 import { BEYOND_DESIGN_COUNT } from "@/lib/beyond-design"
+import { SITE_ROUTE_LABELS } from "@/lib/site-navigation"
 
 import { NavbarContent } from "./navbar-content"
-import { fetchCompanyInfo } from "./sanity"
 
 interface NavbarLink {
   title: string
@@ -11,39 +12,31 @@ interface NavbarLink {
 }
 
 export const Navbar = async () => {
-  const companyInfo = await fetchCompanyInfo()
-
   const LINKS: NavbarLink[] = [
     {
-      title: "首页",
+      title: SITE_ROUTE_LABELS["/"],
       href: "/"
     },
     {
-      title: "荣誉",
+      title: SITE_ROUTE_LABELS["/services"],
       href: "/services"
     },
     {
-      title: "设计之外",
+      title: SITE_ROUTE_LABELS["/showcase"],
       href: "/showcase",
       count: BEYOND_DESIGN_COUNT
     },
     {
-      title: "个人简历",
+      title: SITE_ROUTE_LABELS["/blog"],
+      href: "/blog",
+      count: ALL_PROJECTS_COUNT
+    },
+    {
+      title: SITE_ROUTE_LABELS["/ai"],
       href: "/ai",
       reloadDocument: true
     }
   ]
 
-  return (
-    <NavbarContent
-      key="navbar-content"
-      links={LINKS}
-      socialLinks={{
-        twitter: companyInfo.twitter || "",
-        instagram: companyInfo.instagram || "",
-        github: companyInfo.github || "",
-        linkedIn: companyInfo.linkedIn || ""
-      }}
-    />
-  )
+  return <NavbarContent key="navbar-content" links={LINKS} />
 }

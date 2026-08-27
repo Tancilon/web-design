@@ -30,11 +30,6 @@ export const threeDAssets = defineType({
       type: "file"
     }),
     defineField({
-      name: "officeWireframe",
-      title: "Office Wireframe",
-      type: "file"
-    }),
-    defineField({
       name: "outdoor",
       title: "Outdoor",
       type: "file"

@@ -4,8 +4,9 @@ import { sanityFetch } from "@/service/sanity"
 /**
  * Data feeding the schema.org Organization node rendered on every page (see
  * `src/lib/structured-data/page-json-ld.tsx`). Stable identity facts come from
- * `COMPANY_FACTS`; awards and social links come from Sanity so they stay in
- * sync with what the site publishes.
+ * `COMPANY_FACTS`; awards come from Sanity so they stay in sync with what the
+ * site publishes. Legacy company social/contact data is intentionally omitted
+ * from the personalized portfolio output.
  */
 export interface OrganizationStructuredData {
   description: string | null
@@ -30,12 +31,6 @@ export interface OrganizationStructuredData {
 }
 
 const organizationQuery = /* groq */ `{
-  "companyInfo": *[_type == "companyInfo"][0]{
-    github,
-    instagram,
-    twitter,
-    linkedIn
-  },
   "awards": *[_type == "award" && defined(title)] | order(date desc){
     title,
     date,
@@ -46,13 +41,8 @@ const organizationQuery = /* groq */ `{
 const getOrganizationFallback = (): OrganizationStructuredData => ({
   description: COMPANY_FACTS.description,
   foundingDate: COMPANY_FACTS.foundingDate,
-  // `email` is the primary general inbox; `contactPoints` exposes the same
-  // plus the sales inbox as schema.org ContactPoints.
-  email: COMPANY_FACTS.contactEmail,
-  contactPoints: [
-    { email: COMPANY_FACTS.contactEmail, contactType: "customer support" },
-    { email: COMPANY_FACTS.salesEmail, contactType: "sales" }
-  ],
+  email: null,
+  contactPoints: [],
   addressCity: COMPANY_FACTS.addressCity,
   addressRegion: null,
   addressCountry: COMPANY_FACTS.addressCountry,
@@ -71,12 +61,6 @@ export async function fetchOrganizationData(): Promise<OrganizationStructuredDat
 
   try {
     const data = await sanityFetch<{
-      companyInfo: {
-        github: string | null
-        instagram: string | null
-        twitter: string | null
-        linkedIn: string | null
-      } | null
       awards: Array<{
         title: string
         date: string | null
@@ -88,13 +72,7 @@ export async function fetchOrganizationData(): Promise<OrganizationStructuredDat
 
     return {
       ...getOrganizationFallback(),
-      awards: data.awards ?? [],
-      social: {
-        github: data.companyInfo?.github ?? null,
-        instagram: data.companyInfo?.instagram ?? null,
-        twitter: data.companyInfo?.twitter ?? null,
-        linkedIn: data.companyInfo?.linkedIn ?? null
-      }
+      awards: data.awards ?? []
     }
   } catch (error) {
     console.error(

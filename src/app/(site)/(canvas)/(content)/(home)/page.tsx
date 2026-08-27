@@ -1,13 +1,14 @@
 import type { Metadata } from "next"
 
 import { Contact } from "@/components/layout/contact"
+import { PORTFOLIO_CAPABILITIES } from "@/lib/portfolio-capabilities"
 import { PageJsonLd } from "@/lib/structured-data/page-json-ld"
 import { generateWebSiteSchema } from "@/lib/structured-data/schemas/organization"
 import { generateProfessionalServiceSchema } from "@/lib/structured-data/schemas/professional-service-entity"
 import { fetchOrganizationData } from "@/service/sanity/organization"
 
 import { Brands } from "./brands"
-import { Capabilities } from "./capabilities"
+import { SkillsSection } from "./capabilities"
 import { FeaturedProjects } from "./featured-projects"
 import { Intro } from "./intro"
 import { fetchHomepage } from "./sanity"
@@ -27,9 +28,9 @@ const Homepage = async () => {
     fetchOrganizationData()
   ])
 
-  const serviceTitles = (data.homepage?.capabilities ?? [])
-    .map((c) => c.title)
-    .filter((title): title is string => Boolean(title))
+  const serviceTitles = PORTFOLIO_CAPABILITIES.map(
+    (capability) => capability.title
+  )
 
   return (
     <div className="flex flex-col gap-18 lg:gap-32">
@@ -45,7 +46,7 @@ const Homepage = async () => {
       <Intro />
       <Brands data={data} />
       <FeaturedProjects />
-      <Capabilities data={data} />
+      <SkillsSection />
       <Contact />
     </div>
   )

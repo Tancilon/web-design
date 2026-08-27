@@ -103,7 +103,7 @@ const RoutingElementComponent = ({
           setHover(e.detail.hover)
           if (e.detail.hover) {
             router.prefetch(route)
-            setCursor("pointer", hoverName)
+            setCursor("pointer", hoverName, false, "display")
           } else {
             setCursor("default", null)
           }
@@ -144,7 +144,7 @@ const RoutingElementComponent = ({
       if (activeRoute) return
 
       setHover(true)
-      setCursor("pointer", hoverName)
+      setCursor("pointer", hoverName, false, "display")
       router.prefetch(route)
 
       groupHoverHandlers?.dispatchGroupHover(true)
@@ -175,7 +175,7 @@ const RoutingElementComponent = ({
 
       setEnteredByKeyboard(false)
       navigate(route)
-      setCursor("default")
+      setCursor("default", null)
       setCurrentTabIndex(-1)
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -183,7 +183,12 @@ const RoutingElementComponent = ({
   )
 
   useEffect(() => {
-    if (activeRoute) setHover(false)
+    if (activeRoute) {
+      setHover(false)
+      setCursor("default", null)
+      return
+    }
+
     if (!isCanvasTabMode || !currentScene?.tabs) {
       setHover(false)
       setCursor("default", null)
@@ -194,7 +199,7 @@ const RoutingElementComponent = ({
     if (currentTab && currentTab.tabClickableName === node.name) {
       setHover(true)
       router.prefetch(route)
-      setCursor("pointer", hoverName)
+      setCursor("pointer", hoverName, false, "display")
 
       window.addEventListener("keydown", handleKeyPress, { passive: true })
 

@@ -5,7 +5,6 @@ import { fetchAssetsLocal } from "./fetch-assets-local"
 export interface AssetsResult {
   officeItems: string
   office: string
-  officeWireframe: string
   outdoor: string
   godrays: string
   basketball: string

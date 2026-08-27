@@ -8,6 +8,8 @@ interface useCursorProps {
   container?: HTMLElement
 }
 
+export type CursorTextStyle = "body" | "display"
+
 type CursorType =
   | "default"
   | "grab"
@@ -21,6 +23,8 @@ type CursorType =
 interface MouseStore {
   hoverText: string | null
   setHoverText: (text: string | null) => void
+  hoverTextStyle: CursorTextStyle
+  setHoverTextStyle: (style: CursorTextStyle) => void
   cursorType: CursorType
   setCursorType: (type: CursorType) => void
   marquee: boolean | null
@@ -30,6 +34,8 @@ interface MouseStore {
 export const useMouseStore = create<MouseStore>((set) => ({
   hoverText: null,
   setHoverText: (text: string | null) => set({ hoverText: text }),
+  hoverTextStyle: "body",
+  setHoverTextStyle: (style: CursorTextStyle) => set({ hoverTextStyle: style }),
   cursorType: "default",
   setCursorType: (type: CursorType) => set({ cursorType: type }),
   marquee: false,
@@ -38,6 +44,7 @@ export const useMouseStore = create<MouseStore>((set) => ({
 
 export function useCursor(defaultStyle: useCursorProps["style"] = "default") {
   const setHoverText = useMouseStore((state) => state.setHoverText)
+  const setHoverTextStyle = useMouseStore((state) => state.setHoverTextStyle)
   const setMarquee = useMouseStore((state) => state.setMarquee)
   const setCursorType = useMouseStore((state) => state.setCursorType)
 
@@ -46,21 +53,26 @@ export function useCursor(defaultStyle: useCursorProps["style"] = "default") {
     return () => {
       setCursorType("default")
       setHoverText(null)
+      setHoverTextStyle("body")
       setMarquee(false)
     }
-  }, [defaultStyle, setCursorType, setHoverText, setMarquee])
+  }, [defaultStyle, setCursorType, setHoverText, setHoverTextStyle, setMarquee])
 
   const setCursor = useCallback(
     (
       newStyle: useCursorProps["style"],
       text?: string | null,
-      marquee?: boolean | null
+      marquee?: boolean | null,
+      textStyle: CursorTextStyle = "body"
     ) => {
-      if (text !== undefined) setHoverText(text)
+      if (text !== undefined) {
+        setHoverText(text)
+        setHoverTextStyle(text ? textStyle : "body")
+      }
       setMarquee(marquee !== undefined ? marquee : false)
       setCursorType(newStyle)
     },
-    [setHoverText, setMarquee, setCursorType]
+    [setHoverText, setHoverTextStyle, setMarquee, setCursorType]
   )
 
   return setCursor

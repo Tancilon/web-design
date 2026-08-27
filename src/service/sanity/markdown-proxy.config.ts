@@ -1,17 +1,14 @@
 export interface MarkdownRoute {
   /**
-   * Matches the public `.md` URL. Slug-based types capture the slug in group 1;
-   * singletons match with no capture group.
+   * Matches the public `.md` URL.
    */
   mdRegex: RegExp
   /**
-   * Matches the public HTML URL (no extension). Slug-based types capture the
-   * slug in group 1; singletons match with no capture group.
+   * Matches the public HTML URL (no extension).
    */
   htmlRegex: RegExp
   /**
-   * Internal API route template. For slug-based types `[slug]` is replaced with
-   * the captured slug; for singletons it's used verbatim.
+   * Internal API route.
    */
   apiPath: string
   /** Public `.md` URL template, used for the `Link` alternate header. */
@@ -25,15 +22,7 @@ export interface MarkdownRoute {
  * matcher computed from this array).
  */
 export const markdownRoutes: MarkdownRoute[] = [
-  {
-    mdRegex: /^\/post\/([^/]+)\.md$/,
-    // Same char class as mdRegex — dotted slugs (e.g. "next.js-thing") were
-    // silently skipped otherwise.
-    htmlRegex: /^\/post\/([^/]+)$/,
-    apiPath: "/api/post/[slug].md",
-    publicMdPath: "/post/[slug].md"
-  },
-  // Singletons — no slug. The homepage HTML form is the site root (`/`).
+  // The homepage HTML form is the site root (`/`).
   {
     mdRegex: /^\/index\.md$/,
     htmlRegex: /^\/$/,
