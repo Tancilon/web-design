@@ -28,7 +28,7 @@ export type AssetsBase = Omit<
 
 export const ASSETS_BASE: AssetsBase = {
   // --- Map models ---
-  office: "/3d/models/office-077b4007.glb",
+  office: "/3d/models/office-2d0e8ec7.glb",
   officeItems: "/3d/models/officeItems-d6e81382.glb",
   outdoor: "/3d/models/outdoor-7e5bd72e.glb",
   outdoorCars: "/3d/models/outdoorCars-d9030620.glb",
@@ -419,6 +419,9 @@ export const ASSETS_BASE: AssetsBase = {
   // --- Characters ---
   characters: {
     model: "/3d/models/character-model-daed86d4.glb",
+    homeModel: "/3d/models/home-character-308a48d7.glb",
+    blogModel: "/3d/models/blog-character-reader-web-6cb1fdb4.glb",
+    servicesModel: "/3d/models/services-character-laptop-web-f817e99b.glb",
     textureBody: "/3d/textures/character-body-a791b664.webp",
     textureFaces: "/3d/textures/character-faces-3f09fa28.webp",
     textureArms: "/3d/textures/character-arms-de19ba86.png",

@@ -39,16 +39,18 @@ export default async function PortfolioPage({ params }: PortfolioPageProps) {
   if (!project) notFound()
 
   const total = String(project.images.length).padStart(2, "0")
+  const backHref = project.showOnHome ? "/#featured-work" : "/blog"
+  const backLabel = project.showOnHome ? "返回主要作品" : "返回所有项目"
 
   return (
     <article className="grid-layout pb-8 pt-10 lg:pb-20 lg:pt-16">
       <header className="col-span-full grid grid-cols-4 gap-x-3 border-b border-brand-w1/30 pb-6 lg:grid-cols-12 lg:pb-10">
         <NextLink
-          href="/#featured-work"
+          href={backHref}
           className="actionable col-span-2 w-max self-start text-f-h4-mobile text-brand-w1 lg:col-span-3 lg:text-f-h4"
         >
           <Arrow className="mr-2 size-4 rotate-180 lg:size-5" />
-          返回主要作品
+          {backLabel}
         </NextLink>
         <div className="col-span-2 text-right text-f-h4-mobile text-brand-w2 lg:col-span-2 lg:col-start-11 lg:text-f-h4">
           作品 {project.index} / {total} 张图片

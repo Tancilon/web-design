@@ -1,11 +1,15 @@
 import { memo, useCallback, useMemo, useRef } from "react"
 import { Color, Group } from "three"
 
+import { useCurrentScene } from "@/hooks/use-current-scene"
 import { useFrameCallback } from "@/hooks/use-pausable-time"
 
 import { Character } from "."
+import { BlogCharacter } from "./blog-character"
 import { generateCharacterIds } from "./character-utils"
 import { CharacterAnimationName } from "./characters-config"
+import { HomeCharacter } from "./home-character"
+import { ServicesCharacter } from "./services-character"
 
 export const CharactersSpawn = memo(CharactersSpawnInner)
 
@@ -15,6 +19,7 @@ const degToRad = (deg: number) => (deg * Math.PI) / 180
 
 function CharactersSpawnInner() {
   const spinningTatoRef = useRef<Group>(null)
+  const currentScene = useCurrentScene()
 
   useFrameCallback(() => {
     if (spinningTatoRef.current) {
@@ -51,49 +56,8 @@ function CharactersSpawnInner() {
 
   return (
     <>
-      {/* Home01 */}
-      <Character
-        position={[2.62, 0.4, -10.16]}
-        rotation={[0, degToRad(-40), 0]}
-        animationName={CharacterAnimationName["Home.01"]}
-        characterId={getCharacterId(0)}
-        uniforms={{
-          uLightDirection: {
-            value: [0, 0, 3, 1]
-          },
-          uLightColor: {
-            value: [...new Color("#fff2cd").toArray(), 0.6]
-          },
-          uPointLightPosition: {
-            value: [2.11, 0.82, -9.4, 6]
-          },
-          uPointLightColor: {
-            value: [...new Color("#ffd258").toArray(), 3]
-          }
-        }}
-      />
-      {/* Services01 */}
-      <Character
-        position={[4.1, 0.34, -6.55]}
-        rotation={[0, degToRad(180), 0]}
-        animationName={CharacterAnimationName["Services.01"]}
-        characterId={getCharacterId(1)}
-        // debugLight
-        uniforms={{
-          uLightDirection: {
-            value: [1, 1, -1, 1]
-          },
-          uLightColor: {
-            value: [...new Color("#ffeec0").toArray(), 0.1]
-          },
-          uPointLightPosition: {
-            value: [3, 0, -8, 10]
-          },
-          uPointLightColor: {
-            value: [...new Color("#ffebb6").toArray(), 2]
-          }
-        }}
-      />
+      <HomeCharacter />
+      {currentScene === "services" && <ServicesCharacter />}
       {/* Downstairs01 */}
       <Character
         characterId={getCharacterId(2)}
@@ -139,27 +103,7 @@ function CharactersSpawnInner() {
           }
         }}
       />
-      {/* Blog01 */}
-      <Character
-        characterId={getCharacterId(4)}
-        position={[9.21, 3.71, -17.97]}
-        rotation={[0, degToRad(30), 0]}
-        animationName={CharacterAnimationName["Blog.01"]}
-        uniforms={{
-          uLightDirection: {
-            value: [0.4, 0.4, 0, 1]
-          },
-          uLightColor: {
-            value: [...new Color("#ffeec0").toArray(), 0.2]
-          },
-          uPointLightPosition: {
-            value: [10.5, 4.2, -17.8, 2]
-          },
-          uPointLightColor: {
-            value: [...new Color("#ffeec0").toArray(), 20]
-          }
-        }}
-      />
+      {currentScene === "blog" && <BlogCharacter />}
     </>
   )
 }

@@ -48,7 +48,7 @@ export const ProjectList = ({ projects }: { projects: AllProject[] }) => (
             dateTime={project.date}
             className="relative col-span-6 text-right text-f-p-mobile tabular-nums text-brand-w2 lg:col-start-11 lg:col-end-13 lg:text-left lg:text-f-p"
           >
-            {project.date.replaceAll("-", ".")}
+            {project.displayDate}
           </time>
         </Link>
       </article>

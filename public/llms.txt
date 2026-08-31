@@ -6,9 +6,9 @@
 
 - [Home](https://basement.studio/): Overview of the studio, featured work, capabilities, and clients.
 - [个人简历](https://basement.studio/ai): 江含的个人简介、工作经历、荣誉奖项与教育背景。
-- [Services](https://basement.studio/services): The capabilities basement.studio offers — branding, design, and engineering.
+- [个人荣誉](https://basement.studio/services): 江含在产品设计、视觉传达、色彩设计、文创与协作实践中获得的 7 项荣誉。
 - [设计之外](https://basement.studio/showcase): 江含的个人设计作品图库，共 19 件作品。
-- [所有项目](https://basement.studio/blog): 江含的 23 件个人作品总览，包含 4 个主要项目和 19 个设计之外项目。
+- [所有项目](https://basement.studio/blog): 江含的 25 件个人作品总览，包含 6 个主要项目和 19 个设计之外项目。
 - [FAQ](https://basement.studio/faq): Answers to common questions — services, WebGL/3D interactive experiences, clients, technologies, and how to start a project.
 - [Contact](https://basement.studio/contact): Get in touch to start a project.
 

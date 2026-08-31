@@ -3,7 +3,11 @@ import { notFound } from "next/navigation"
 
 import { Categories } from "@/components/blog/categories"
 import { ProjectList } from "@/components/blog/list"
-import { featuredProject, getProjectsByCategory } from "@/lib/all-projects"
+import {
+  ALL_PROJECTS_COUNT,
+  featuredProject,
+  getProjectsByCategory
+} from "@/lib/all-projects"
 import { getProjectCategory, projectCategories } from "@/lib/project-taxonomy"
 import { PageJsonLd } from "@/lib/structured-data/page-json-ld"
 import { generateCollectionPageSchema } from "@/lib/structured-data/schemas/collection"
@@ -29,7 +33,7 @@ export const generateMetadata = async ({
     title: category ? `${category.title}项目` : "所有项目",
     description: category
       ? `浏览江含的${category.title}作品。`
-      : "浏览江含的 23 件个人设计作品，涵盖 UI/UX、活动视觉、产品设计与插画。",
+      : `浏览江含的 ${ALL_PROJECTS_COUNT} 件个人设计作品，涵盖 UI/UX、活动视觉、产品设计与插画。`,
     alternates: {
       canonical: category ? `/blog/${category.slug}` : "/blog"
     }

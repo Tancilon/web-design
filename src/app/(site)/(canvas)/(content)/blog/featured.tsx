@@ -52,7 +52,7 @@ export function Featured({ project }: { project: AllProject }) {
                 dateTime={project.date}
                 className="relative col-span-2 col-start-3 text-right text-f-p-mobile tabular-nums text-brand-w2 lg:text-left lg:text-f-p"
               >
-                {project.date.replaceAll("-", ".")}
+                {project.displayDate}
               </time>
             </div>
           </Link>

@@ -6,7 +6,7 @@ import { ALL_PROJECTS_COUNT } from "@/lib/all-projects"
 import { COMPANY_FACTS, formatFactList } from "@/lib/company-facts"
 import { SITE_URL } from "@/lib/constants"
 import { HOME_INTRO_SUBTITLE, HOME_INTRO_TITLE } from "@/lib/home-intro"
-import { portfolioProjects } from "@/lib/portfolio"
+import { featuredPortfolioProjects } from "@/lib/portfolio"
 import {
   PORTFOLIO_CAPABILITIES,
   PORTFOLIO_CAPABILITIES_INTRO_LINES,
@@ -30,7 +30,7 @@ export async function GET() {
       })
     }
 
-    const featuredWork = portfolioProjects
+    const featuredWork = featuredPortfolioProjects
       .map(
         (project) =>
           `- [${project.title}](${SITE_URL}/portfolio/${project.slug}) — ${project.images.length} 张图片`
@@ -86,8 +86,6 @@ export async function GET() {
       "",
       `Founded in ${COMPANY_FACTS.foundingDate} and based in ${COMPANY_FACTS.locationName}, the studio works primarily with technology companies in the San Francisco Bay Area and has partnered with startups and enterprise brands including ${formatFactList(COMPANY_FACTS.notableClients)}.`,
       "",
-      `Services: ${formatFactList(COMPANY_FACTS.services)}.`,
-      "",
       COMPANY_FACTS.awardsSummary,
       "",
       COMPANY_FACTS.geistAttribution,
@@ -103,7 +101,7 @@ export async function GET() {
       "",
       "## More",
       "",
-      `- [Services](${SITE_URL}/services.md)`,
+      `- [个人荣誉](${SITE_URL}/services.md)`,
       `- [Showcase](${SITE_URL}/showcase.md)`,
       `- [所有项目（${ALL_PROJECTS_COUNT}）](${SITE_URL}/blog.md)`,
       `- [FAQ](${SITE_URL}/faq.md)`,

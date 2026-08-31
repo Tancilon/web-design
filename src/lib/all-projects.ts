@@ -12,12 +12,13 @@ export interface AllProject {
   category: ProjectCategorySlug
   tags: string[]
   date: string
+  displayDate: string
   image: StaticImageData
   href: string
 }
 
-export const allProjects: AllProject[] = [
-  ...portfolioProjects.map(
+const mainProjects = portfolioProjects
+  .map(
     (project): AllProject => ({
       id: `main-${project.index}`,
       type: "main",
@@ -26,11 +27,15 @@ export const allProjects: AllProject[] = [
       category: project.category,
       tags: project.tags,
       date: project.date,
+      displayDate: project.displayDate ?? project.date.replaceAll("-", "."),
       image: project.coverImage ?? project.images[0],
       href: `/portfolio/${project.slug}`
     })
-  ),
-  ...beyondDesignWorks.map(
+  )
+  .sort((a, b) => b.date.localeCompare(a.date))
+
+const beyondProjects = beyondDesignWorks
+  .map(
     (work): AllProject => ({
       id: work.id,
       type: "beyond",
@@ -39,11 +44,14 @@ export const allProjects: AllProject[] = [
       category: work.category,
       tags: work.tags,
       date: work.date,
+      displayDate: work.date.replaceAll("-", "."),
       image: work.image,
       href: `/showcase#${work.id}`
     })
   )
-].sort((a, b) => b.date.localeCompare(a.date))
+  .sort((a, b) => b.date.localeCompare(a.date))
+
+export const allProjects: AllProject[] = [...mainProjects, ...beyondProjects]
 
 export const ALL_PROJECTS_COUNT = allProjects.length
 export const featuredProject = allProjects[0]

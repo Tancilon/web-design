@@ -19,7 +19,7 @@ export function GET() {
   const list = allProjects
     .map((project) => {
       const link = `[${escapeLinkLabel(project.title)}](${SITE_URL}${project.href})`
-      return `- ${link} — ${project.date} — ${project.tags.join("、")} — ${project.description}`
+      return `- ${link} — ${project.displayDate} — ${project.tags.join("、")} — ${project.description}`
     })
     .join("\n")
 

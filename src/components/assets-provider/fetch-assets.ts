@@ -109,6 +109,9 @@ export interface AssetsResult {
   outdoorCars: string
   characters: {
     model: string
+    homeModel: string
+    blogModel: string
+    servicesModel: string
     textureBody: string
     textureFaces: string
     textureArms: string
