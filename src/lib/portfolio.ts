@@ -125,7 +125,7 @@ export const portfolioProjects: PortfolioProject[] = [
     category: "product-design",
     tags: ["产品设计", "IP 联名", "视觉延展"],
     date: "2026-08-18",
-    showOnHome: true
+    showOnHome: false
   },
   {
     index: "05",

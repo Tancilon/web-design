@@ -130,6 +130,12 @@ export interface AssetsResult {
     rain: string
     basketballVa: string
   }
+  serviceAwards: {
+    xianxianTemperatureCup: string
+    inkOrient: string
+    zhichen: string
+    shangQingTian: string
+  }
   physicsParams: {
     _title: string
     value: number

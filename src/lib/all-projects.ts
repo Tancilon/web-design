@@ -1,7 +1,11 @@
 import type { StaticImageData } from "next/image"
 
 import { beyondDesignWorks } from "./beyond-design"
-import { portfolioProjects } from "./portfolio"
+import {
+  featuredPortfolioProjects,
+  type PortfolioProject,
+  portfolioProjects
+} from "./portfolio"
 import type { ProjectCategorySlug } from "./project-taxonomy"
 
 export interface AllProject {
@@ -17,21 +21,21 @@ export interface AllProject {
   href: string
 }
 
+const toMainProject = (project: PortfolioProject): AllProject => ({
+  id: `main-${project.index}`,
+  type: "main",
+  title: project.title,
+  description: project.description,
+  category: project.category,
+  tags: project.tags,
+  date: project.date,
+  displayDate: project.displayDate ?? project.date.replaceAll("-", "."),
+  image: project.coverImage ?? project.images[0],
+  href: `/portfolio/${project.slug}`
+})
+
 const mainProjects = portfolioProjects
-  .map(
-    (project): AllProject => ({
-      id: `main-${project.index}`,
-      type: "main",
-      title: project.title,
-      description: project.description,
-      category: project.category,
-      tags: project.tags,
-      date: project.date,
-      displayDate: project.displayDate ?? project.date.replaceAll("-", "."),
-      image: project.coverImage ?? project.images[0],
-      href: `/portfolio/${project.slug}`
-    })
-  )
+  .map(toMainProject)
   .sort((a, b) => b.date.localeCompare(a.date))
 
 const beyondProjects = beyondDesignWorks
@@ -54,7 +58,7 @@ const beyondProjects = beyondDesignWorks
 export const allProjects: AllProject[] = [...mainProjects, ...beyondProjects]
 
 export const ALL_PROJECTS_COUNT = allProjects.length
-export const featuredProject = allProjects[0]
+export const featuredProjects = featuredPortfolioProjects.map(toMainProject)
 
 export const getProjectsByCategory = (category?: ProjectCategorySlug) =>
   category

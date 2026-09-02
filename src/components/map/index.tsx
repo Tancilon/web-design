@@ -1,5 +1,6 @@
 "use client"
 
+import { useTexture } from "@react-three/drei"
 import dynamic from "next/dynamic"
 import { memo, Suspense, useEffect, useRef, useState } from "react"
 import { Mesh, MeshStandardMaterial, Object3D } from "three"
@@ -27,6 +28,7 @@ import { createNotFoundMaterial } from "@/shaders/material-not-found"
 
 import { extractMeshes } from "./extract-meshes"
 import { createPortfolioLogoTexture } from "./portfolio-logo-texture"
+import { applyServiceAwardDisplays } from "./service-award-textures"
 import { useFrameLoop } from "./use-frame-loop"
 import { useLoader } from "./use-loader"
 
@@ -65,8 +67,14 @@ const DISABLED_ROUTING_NODES = new Set([
 ])
 
 export const Map = memo(() => {
-  const { inspectables, videos, matcaps, glassMaterials, doubleSideElements } =
-    useAssets()
+  const {
+    inspectables,
+    videos,
+    matcaps,
+    glassMaterials,
+    doubleSideElements,
+    serviceAwards
+  } = useAssets()
 
   const {
     office,
@@ -77,6 +85,13 @@ export const Map = memo(() => {
     basketballNet,
     routingElements
   } = useLoader()
+
+  const serviceAwardTextures = useTexture([
+    serviceAwards.xianxianTemperatureCup,
+    serviceAwards.inkOrient,
+    serviceAwards.zhichen,
+    serviceAwards.shangQingTian
+  ])
 
   useFrameLoop()
 
@@ -118,6 +133,8 @@ export const Map = memo(() => {
       godrays &&
       basketballNet
     ) {
+      applyServiceAwardDisplays(officeItems, serviceAwardTextures)
+
       const traverse = (
         child: Object3D,
         overrides?: { FOG?: boolean; GODRAY?: boolean }
@@ -156,6 +173,9 @@ export const Map = memo(() => {
           const isGlass = glassMaterials.includes(currentMaterial.name)
           const isDaylight = meshChild.name === "DL_ScreenB"
           const isPortfolioLogo = meshChild.name === "SM_LogoBasement"
+          const isServiceAward = serviceAwardTextures.includes(
+            currentMaterial.map as THREE.Texture
+          )
 
           if (isPortfolioLogo) {
             const logoTexture = createPortfolioLogoTexture()
@@ -188,7 +208,7 @@ export const Map = memo(() => {
             currentMaterial.emissiveIntensity = withVideo.intensity
           }
 
-          if (currentMaterial.map) {
+          if (currentMaterial.map && !isServiceAward) {
             currentMaterial.map.generateMipmaps = false
             currentMaterial.map.magFilter = THREE.NearestFilter
             currentMaterial.map.minFilter = THREE.NearestFilter
@@ -270,7 +290,8 @@ export const Map = memo(() => {
     outdoor,
     outdoorCars,
     godrays,
-    basketballNet
+    basketballNet,
+    serviceAwardTextures
   ])
 
   return (

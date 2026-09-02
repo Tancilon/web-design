@@ -16,7 +16,7 @@ const Close = ({ handleClose }: { handleClose: () => void }) => (
     tabIndex={0}
     onClick={handleClose}
   >
-    Close [ESC]
+    关闭 [ESC]
   </button>
 )
 

@@ -5,7 +5,7 @@ import { Categories } from "@/components/blog/categories"
 import { ProjectList } from "@/components/blog/list"
 import {
   ALL_PROJECTS_COUNT,
-  featuredProject,
+  featuredProjects,
   getProjectsByCategory
 } from "@/lib/all-projects"
 import { getProjectCategory, projectCategories } from "@/lib/project-taxonomy"
@@ -49,7 +49,12 @@ export default async function AllProjectsPage({ params }: { params: Params }) {
 
   const projects = getProjectsByCategory(category?.slug)
   const isIndex = !category
-  const listedProjects = isIndex ? projects.slice(1) : projects
+  const featuredProjectIds = new Set(
+    featuredProjects.map((project) => project.id)
+  )
+  const listedProjects = isIndex
+    ? projects.filter((project) => !featuredProjectIds.has(project.id))
+    : projects
   const collectionSchema = generateCollectionPageSchema({
     path: category ? `/blog/${category.slug}` : "/blog",
     name: category ? `${category.title}项目` : "所有项目",
@@ -66,8 +71,8 @@ export default async function AllProjectsPage({ params }: { params: Params }) {
     <>
       <PageJsonLd nodes={[collectionSchema]} />
       <Hero count={projects.length} />
-      {isIndex && featuredProject ? (
-        <Featured project={featuredProject} />
+      {isIndex && featuredProjects.length ? (
+        <Featured projects={featuredProjects} />
       ) : null}
       <section className="grid-layout pb-[35px] lg:pt-12" id="projects-list">
         <div className="col-span-full -mb-3 grid grid-cols-12 border-brand-w1/20 lg:border-b lg:pb-2">

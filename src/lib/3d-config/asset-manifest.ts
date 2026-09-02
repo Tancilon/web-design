@@ -43,6 +43,13 @@ export const ASSETS_BASE: AssetsBase = {
     rain: "/3d/textures/mapTextures-rain-d1b1ba0b.jpg",
     basketballVa: "/3d/textures/mapTextures-basketballVa-f77e5faf.exr"
   },
+  serviceAwards: {
+    xianxianTemperatureCup:
+      "/3d/textures/award-xianxian-temperature-cup-b1d86d79.webp",
+    inkOrient: "/3d/textures/award-ink-orient-f7065892.webp",
+    zhichen: "/3d/textures/award-zhichen-0ee8d27b.webp",
+    shangQingTian: "/3d/textures/award-shang-qing-tian-90b9a4f4.webp"
+  },
 
   // --- Special events ---
   specialEvents: {
@@ -261,16 +268,6 @@ export const ASSETS_BASE: AssetsBase = {
       mesh: "SM_ScreenPatas_Glass",
       file: "/3d/textures/matcap-SM_ScreenPatas_Glass-dffa5eb9.webp",
       isGlass: true
-    },
-    {
-      mesh: "SM_WebbyMrBeast",
-      file: "/3d/textures/matcap-SM_WebbyMrBeast-4e664cc8.webp",
-      isGlass: false
-    },
-    {
-      mesh: "SM_WebbyKidSuper",
-      file: "/3d/textures/matcap-SM_WebbyKidSuper-4e664cc8.webp",
-      isGlass: false
     },
     {
       mesh: "SM_07_02",
