@@ -1,6 +1,6 @@
 import { CanvasTexture, SRGBColorSpace } from "three"
 
-import { PORTFOLIO_TITLE } from "@/lib/portfolio-brand"
+import { PORTFOLIO_MARK } from "@/lib/portfolio-brand"
 
 const TEXTURE_WIDTH = 2048
 const TEXTURE_HEIGHT = 302
@@ -22,14 +22,14 @@ function drawLogo(context: CanvasRenderingContext2D) {
 
   while (fontSize > 48) {
     context.font = `600 ${fontSize}px ${fontFamily}`
-    if (context.measureText(PORTFOLIO_TITLE).width <= MAX_TEXT_WIDTH) break
+    if (context.measureText(PORTFOLIO_MARK).width <= MAX_TEXT_WIDTH) break
     fontSize -= 2
   }
 
   context.fillStyle = "#f2f2f2"
   context.textAlign = "center"
   context.textBaseline = "middle"
-  context.fillText(PORTFOLIO_TITLE, TEXTURE_WIDTH / 2, TEXTURE_HEIGHT / 2)
+  context.fillText(PORTFOLIO_MARK, TEXTURE_WIDTH / 2, TEXTURE_HEIGHT / 2)
 }
 
 function createPortfolioLogoCanvas() {

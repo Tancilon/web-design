@@ -160,10 +160,12 @@ export const Map = memo(() => {
 
           meshChild.raycast = () => null
 
-          const alreadyReplaced = meshChild.userData.hasGlobalMaterial
-          if (alreadyReplaced) return
-
           const currentMaterial = meshChild.material as MeshStandardMaterial
+          const isPortfolioLogo =
+            meshChild.name === "SM_LogoBasement" ||
+            currentMaterial.name === "basement"
+          const alreadyReplaced = meshChild.userData.hasGlobalMaterial
+          if (alreadyReplaced && !isPortfolioLogo) return
 
           const withVideo = videos.find(
             (video) => video.mesh === meshChild.name
@@ -172,7 +174,6 @@ export const Map = memo(() => {
           const isClouds = meshChild.name === "cloudy_01"
           const isGlass = glassMaterials.includes(currentMaterial.name)
           const isDaylight = meshChild.name === "DL_ScreenB"
-          const isPortfolioLogo = meshChild.name === "SM_LogoBasement"
           const isServiceAward = serviceAwardTextures.includes(
             currentMaterial.map as THREE.Texture
           )

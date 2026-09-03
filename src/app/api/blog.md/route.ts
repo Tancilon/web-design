@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server"
 
-import { allProjects } from "@/lib/all-projects"
+import { allProjectCategories, allProjects } from "@/lib/all-projects"
 import { SITE_URL } from "@/lib/constants"
-import { projectCategories } from "@/lib/project-taxonomy"
 
 const MD_HEADERS = {
   "Content-Type": "text/markdown; charset=utf-8",
@@ -13,7 +12,7 @@ const MD_HEADERS = {
 const escapeLinkLabel = (text: string) => text.replace(/[\\[\]]/g, "\\$&")
 
 export function GET() {
-  const filters = projectCategories
+  const filters = allProjectCategories
     .map((category) => `[${category.title}](${SITE_URL}/blog/${category.slug})`)
     .join("、")
   const list = allProjects

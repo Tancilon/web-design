@@ -5,10 +5,10 @@ import { Categories } from "@/components/blog/categories"
 import { ProjectList } from "@/components/blog/list"
 import {
   ALL_PROJECTS_COUNT,
+  allProjectCategories,
   featuredProjects,
   getProjectsByCategory
 } from "@/lib/all-projects"
-import { getProjectCategory, projectCategories } from "@/lib/project-taxonomy"
 import { PageJsonLd } from "@/lib/structured-data/page-json-ld"
 import { generateCollectionPageSchema } from "@/lib/structured-data/schemas/collection"
 
@@ -23,7 +23,9 @@ export const generateMetadata = async ({
   params: Params
 }): Promise<Metadata> => {
   const { slug } = await params
-  const category = slug?.[0] ? getProjectCategory(slug[0]) : undefined
+  const category = slug?.[0]
+    ? allProjectCategories.find((item) => item.slug === slug[0])
+    : undefined
 
   if (slug?.length && (!category || slug.length > 1)) {
     return { robots: { index: false } }
@@ -33,7 +35,7 @@ export const generateMetadata = async ({
     title: category ? `${category.title}项目` : "所有项目",
     description: category
       ? `浏览江含的${category.title}作品。`
-      : `浏览江含的 ${ALL_PROJECTS_COUNT} 件个人设计作品，涵盖 UI/UX、活动视觉、产品设计与插画。`,
+      : `浏览江含的 ${ALL_PROJECTS_COUNT} 件个人设计作品，涵盖 UI/UX、活动视觉与产品设计。`,
     alternates: {
       canonical: category ? `/blog/${category.slug}` : "/blog"
     }
@@ -43,7 +45,9 @@ export const generateMetadata = async ({
 export default async function AllProjectsPage({ params }: { params: Params }) {
   const { slug } = await params
   const categorySlug = slug?.[0]
-  const category = categorySlug ? getProjectCategory(categorySlug) : undefined
+  const category = categorySlug
+    ? allProjectCategories.find((item) => item.slug === categorySlug)
+    : undefined
 
   if ((categorySlug && !category) || (slug?.length ?? 0) > 1) notFound()
 
@@ -89,5 +93,5 @@ export default async function AllProjectsPage({ params }: { params: Params }) {
 
 export const generateStaticParams = () => [
   { slug: [] },
-  ...projectCategories.map((category) => ({ slug: [category.slug] }))
+  ...allProjectCategories.map((category) => ({ slug: [category.slug] }))
 ]

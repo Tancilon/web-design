@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next"
 
+import { allProjectCategories } from "@/lib/all-projects"
 import { SITE_URL } from "@/lib/constants"
 import { portfolioProjects } from "@/lib/portfolio"
-import { projectCategories } from "@/lib/project-taxonomy"
 
 const staticRoutes: Array<{ href: string; priority: number }> = [
   { href: "/", priority: 1 },
@@ -13,7 +13,7 @@ const staticRoutes: Array<{ href: string; priority: number }> = [
   { href: "/showcase", priority: 0.9 },
   { href: "/services", priority: 0.9 },
   { href: "/blog", priority: 0.8 },
-  ...projectCategories.map(({ slug }) => ({
+  ...allProjectCategories.map(({ slug }) => ({
     href: `/blog/${slug}`,
     priority: 0.7
   })),

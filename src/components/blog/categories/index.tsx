@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { projectCategories } from "@/lib/project-taxonomy"
+import { allProjectCategories } from "@/lib/all-projects"
 import { cn } from "@/utils/cn"
 
 export const Categories = ({ activeCategory }: { activeCategory?: string }) => (
@@ -8,7 +8,7 @@ export const Categories = ({ activeCategory }: { activeCategory?: string }) => (
     <p className="text-f-p-mobile text-brand-g1 lg:text-f-h3">标签</p>
 
     <ul className="flex flex-col gap-y-1 lg:flex-row lg:flex-wrap lg:gap-x-4">
-      {projectCategories.map((category) => {
+      {allProjectCategories.map((category) => {
         const isActive = activeCategory === category.slug
         const href = isActive ? "/blog" : `/blog/${category.slug}`
 
