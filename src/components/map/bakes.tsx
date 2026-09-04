@@ -215,6 +215,8 @@ const Bakes = () => {
     Object.entries(bakes).forEach(([mesh, maps]) => {
       const meshOrGroup = scene.getObjectByName(mesh)
       if (!meshOrGroup) return
+      // Original atlas UVs no longer describe the replacement frame geometry.
+      if (meshOrGroup.userData.isShowcaseFrame) return
 
       if (meshOrGroup instanceof Mesh) {
         addMaps({ mesh: meshOrGroup, maps })

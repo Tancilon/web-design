@@ -27,8 +27,10 @@ import { createGlobalShaderMaterial } from "@/shaders/material-global-shader"
 import { createNotFoundMaterial } from "@/shaders/material-not-found"
 
 import { extractMeshes } from "./extract-meshes"
+import { applyLuvbytePosterOverlay } from "./luvbyte-poster-texture"
 import { createPortfolioLogoTexture } from "./portfolio-logo-texture"
 import { applyServiceAwardDisplays } from "./service-award-textures"
+import { applyShowcaseDisplays } from "./showcase-displays"
 import { useFrameLoop } from "./use-frame-loop"
 import { useLoader } from "./use-loader"
 
@@ -73,7 +75,8 @@ export const Map = memo(() => {
     matcaps,
     glassMaterials,
     doubleSideElements,
-    serviceAwards
+    serviceAwards,
+    showcaseFrames
   } = useAssets()
 
   const {
@@ -93,10 +96,19 @@ export const Map = memo(() => {
     serviceAwards.shangQingTian
   ])
 
+  const showcaseTextures = useTexture(showcaseFrames)
+
   useFrameLoop()
 
   const scene = useCurrentScene()
   const currentScene = useNavigationStore((state) => state.currentScene)
+  const posterMaterials = useRef<THREE.ShaderMaterial[]>([])
+
+  useEffect(() => {
+    for (const material of posterMaterials.current) {
+      material.uniforms.posterWordmarksEnabled.value = scene === "blog"
+    }
+  }, [scene])
 
   const [routingNodes, setRoutingNodes] = useState<Record<string, Mesh>>({})
 
@@ -134,6 +146,7 @@ export const Map = memo(() => {
       basketballNet
     ) {
       applyServiceAwardDisplays(officeItems, serviceAwardTextures)
+      applyShowcaseDisplays(officeItems, showcaseTextures)
 
       const traverse = (
         child: Object3D,
@@ -209,7 +222,11 @@ export const Map = memo(() => {
             currentMaterial.emissiveIntensity = withVideo.intensity
           }
 
-          if (currentMaterial.map && !isServiceAward) {
+          if (
+            currentMaterial.map &&
+            !isServiceAward &&
+            !showcaseTextures.includes(currentMaterial.map)
+          ) {
             currentMaterial.map.generateMipmaps = false
             currentMaterial.map.magFilter = THREE.NearestFilter
             currentMaterial.map.minFilter = THREE.NearestFilter
@@ -231,6 +248,21 @@ export const Map = memo(() => {
                 createGlobalShaderMaterial(material, CONFIG)
               )
             : createGlobalShaderMaterial(currentMaterial, CONFIG)
+
+          // SM_06_02 carries TX_Poster, the five-poster atlas in the blog
+          // room. Blend its wordmark areas before the existing lighting.
+          if (meshChild.name === "SM_06_02") {
+            const materials = Array.isArray(newMaterials)
+              ? newMaterials
+              : [newMaterials]
+            for (const material of materials) {
+              applyLuvbytePosterOverlay(
+                material,
+                useNavigationStore.getState().currentScene?.name === "blog"
+              )
+              posterMaterials.current.push(material)
+            }
+          }
 
           if (isGlass) {
             Array.isArray(newMaterials)
@@ -292,7 +324,8 @@ export const Map = memo(() => {
     outdoorCars,
     godrays,
     basketballNet,
-    serviceAwardTextures
+    serviceAwardTextures,
+    showcaseTextures
   ])
 
   return (

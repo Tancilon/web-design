@@ -193,7 +193,7 @@ export const INSPECTABLES_META: InspectableMeta[] = [
     id: "nextjs",
     mesh: "SM_Nextjs",
     xOffset: -0.089,
-    yOffset: 0.03,
+    yOffset: 0,
     xRotationOffset: 0,
     sizeTarget: 0.35,
     scenes: ["showcase"],

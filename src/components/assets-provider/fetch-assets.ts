@@ -130,6 +130,7 @@ export interface AssetsResult {
     rain: string
     basketballVa: string
   }
+  showcaseFrames: string[]
   serviceAwards: {
     xianxianTemperatureCup: string
     inkOrient: string

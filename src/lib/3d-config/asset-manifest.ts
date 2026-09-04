@@ -7,6 +7,8 @@
 
 import type { AssetsResult } from "@/components/assets-provider/fetch-assets"
 
+import { SHOWCASE_DISPLAYS } from "./showcase-displays"
+
 export const MAP_MODEL_KEYS = [
   "office",
   "officeItems",
@@ -43,6 +45,7 @@ export const ASSETS_BASE: AssetsBase = {
     rain: "/3d/textures/mapTextures-rain-d1b1ba0b.jpg",
     basketballVa: "/3d/textures/mapTextures-basketballVa-f77e5faf.exr"
   },
+  showcaseFrames: SHOWCASE_DISPLAYS.map((display) => display.texture),
   serviceAwards: {
     xianxianTemperatureCup:
       "/3d/textures/award-xianxian-temperature-cup-b1d86d79.webp",
@@ -285,16 +288,6 @@ export const ASSETS_BASE: AssetsBase = {
       isGlass: false
     },
     {
-      mesh: "SM_VercelShipGlass",
-      file: "/3d/textures/matcap-SM_VercelShipGlass-e33b0ff5.webp",
-      isGlass: true
-    },
-    {
-      mesh: "SM_VercelGeistGlass",
-      file: "/3d/textures/matcap-SM_VercelGeistGlass-e33b0ff5.webp",
-      isGlass: true
-    },
-    {
       mesh: "SM_EDGLRD",
       file: "/3d/textures/matcap-SM_EDGLRD-4e664cc8.webp",
       isGlass: false
@@ -302,21 +295,6 @@ export const ASSETS_BASE: AssetsBase = {
     {
       mesh: "SM_KissBag_METAL",
       file: "/3d/textures/matcap-SM_KissBag_METAL-4e664cc8.webp",
-      isGlass: false
-    },
-    {
-      mesh: "SM_MrBeast",
-      file: "/3d/textures/matcap-SM_MrBeast-4e664cc8.webp",
-      isGlass: false
-    },
-    {
-      mesh: "SM_Nextjs",
-      file: "/3d/textures/matcap-SM_Nextjs-c8ecd274.jpg",
-      isGlass: false
-    },
-    {
-      mesh: "SM_NextjsMetallic",
-      file: "/3d/textures/matcap-SM_NextjsMetallic-4e664cc8.webp",
       isGlass: false
     }
   ],
@@ -334,9 +312,7 @@ export const ASSETS_BASE: AssetsBase = {
     "SM_04_8",
     "TX_board3",
     "SM_BasketballGlass",
-    "cloudy_01",
-    "SM_NextjsBelt",
-    "SM_NextJSText"
+    "cloudy_01"
   ],
   glassReflexes: [
     {
@@ -350,11 +326,6 @@ export const ASSETS_BASE: AssetsBase = {
     {
       mesh: "SM_TvScreen_1",
       url: "/3d/video/video-SM_TvScreen_1-7ab9d38c.mp4",
-      intensity: 18
-    },
-    {
-      mesh: "DL_Screen",
-      url: "/3d/video/video-DL_Screen-413df502.mp4",
       intensity: 18
     },
     {
