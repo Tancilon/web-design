@@ -6,6 +6,8 @@ import type { PortfolioProject } from "@/lib/portfolio"
 import { featuredPortfolioProjects } from "@/lib/portfolio"
 import { cn } from "@/utils/cn"
 
+import { ProjectCoverVideo } from "./project-cover-video"
+
 export const FeaturedProjects = () => {
   return (
     <section className="grid-layout !gap-y-0" id="featured-work">
@@ -14,7 +16,7 @@ export const FeaturedProjects = () => {
           key={project.slug}
           className={cn(
             "col-span-full",
-            "top-[6.7rem] lg:sticky lg:top-[9.2rem]",
+            !project.homeCoverVideo && "top-[6.7rem] lg:sticky lg:top-[9.2rem]",
             index === 0 && "!top-0 lg:!top-0",
             index === featuredPortfolioProjects.length - 1 &&
               "top-[6.8rem] lg:top-[9.3rem]"
@@ -58,16 +60,27 @@ const ProjectItem = ({ project }: ProjectItemProps) => {
         <Link
           href={href}
           aria-label={`查看作品：${project.title}`}
-          className="group block aspect-video overflow-hidden focus-visible:!ring-offset-0"
+          className={cn(
+            "group relative block overflow-hidden focus-visible:!ring-offset-0",
+            !project.homeCoverVideo && "aspect-video"
+          )}
         >
-          <Image
-            src={project.coverImage ?? project.images[0]}
-            alt={`${project.title}封面`}
-            fill
-            sizes="(max-width: 1023px) 100vw, 58vw"
-            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.015] motion-reduce:transition-none"
-            placeholder="blur"
-          />
+          {project.homeCoverVideo ? (
+            <ProjectCoverVideo
+              video={project.homeCoverVideo}
+              image={project.coverImage ?? project.images[0]}
+              title={project.title}
+            />
+          ) : (
+            <Image
+              src={project.coverImage ?? project.images[0]}
+              alt={`${project.title}封面`}
+              fill
+              sizes="(max-width: 1023px) 100vw, 58vw"
+              className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.015] motion-reduce:transition-none"
+              placeholder="blur"
+            />
+          )}
         </Link>
       </div>
       <div className="col-span-full flex min-h-24 flex-col justify-between gap-y-8 md:col-span-3 md:pr-12 lg:min-h-0 lg:pr-2">

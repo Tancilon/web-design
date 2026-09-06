@@ -59,6 +59,7 @@ export interface PortfolioProject {
   title: string
   images: StaticImageData[]
   coverImage?: StaticImageData
+  homeCoverVideo?: { src: string; width: number; height: number }
   description: string
   category: ProjectCategorySlug
   tags: string[]
@@ -105,6 +106,11 @@ export const portfolioProjects: PortfolioProject[] = [
   {
     index: "03",
     slug: "guoqing-cloud-tour",
+    homeCoverVideo: {
+      src: "/videos/portfolio/guoqing.mp4",
+      width: 432,
+      height: 640
+    },
     title: "国庆逐光行·云游中国",
     images: [guoqing01, guoqing02, guoqing03, guoqing04, guoqing05],
     description:
