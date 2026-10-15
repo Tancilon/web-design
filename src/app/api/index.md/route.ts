@@ -6,7 +6,7 @@ import { ALL_PROJECTS_COUNT } from "@/lib/all-projects"
 import { COMPANY_FACTS, formatFactList } from "@/lib/company-facts"
 import { SITE_URL } from "@/lib/constants"
 import { HOME_INTRO_SUBTITLE, HOME_INTRO_TITLE } from "@/lib/home-intro"
-import { featuredPortfolioProjects } from "@/lib/portfolio"
+import { homePortfolioProjects } from "@/lib/portfolio"
 import {
   PORTFOLIO_CAPABILITIES,
   PORTFOLIO_CAPABILITIES_INTRO_LINES,
@@ -30,7 +30,7 @@ export async function GET() {
       })
     }
 
-    const featuredWork = featuredPortfolioProjects
+    const featuredWork = homePortfolioProjects
       .map(
         (project) =>
           `- [${project.title}](${SITE_URL}/portfolio/${project.slug}) — ${project.images.length} 张图片`

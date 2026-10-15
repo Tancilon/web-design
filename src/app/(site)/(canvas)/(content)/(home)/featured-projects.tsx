@@ -3,7 +3,7 @@ import Image from "next/image"
 import { Arrow } from "@/components/primitives/icons/arrow"
 import { Link } from "@/components/primitives/link"
 import type { PortfolioProject } from "@/lib/portfolio"
-import { featuredPortfolioProjects } from "@/lib/portfolio"
+import { homePortfolioProjects } from "@/lib/portfolio"
 import { cn } from "@/utils/cn"
 
 import { ProjectCoverVideo } from "./project-cover-video"
@@ -11,14 +11,14 @@ import { ProjectCoverVideo } from "./project-cover-video"
 export const FeaturedProjects = () => {
   return (
     <section className="grid-layout !gap-y-0" id="featured-work">
-      {featuredPortfolioProjects.map((project, index) => (
+      {homePortfolioProjects.map((project, index) => (
         <div
           key={project.slug}
           className={cn(
             "col-span-full",
             !project.homeCoverVideo && "top-[6.7rem] lg:sticky lg:top-[9.2rem]",
             index === 0 && "!top-0 lg:!top-0",
-            index === featuredPortfolioProjects.length - 1 &&
+            index === homePortfolioProjects.length - 1 &&
               "top-[6.8rem] lg:top-[9.3rem]"
           )}
           style={{ zIndex: index + 1 }}

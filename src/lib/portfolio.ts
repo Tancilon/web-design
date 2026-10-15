@@ -1,24 +1,12 @@
 import type { StaticImageData } from "next/image"
 
+import chonghaobanCover from "../../assets/covers/chonghaoban.webp"
 import zhouhu01 from "../../assets/Main-Work-1/wechat-image_20260825231949.png"
 import zhouhu02 from "../../assets/Main-Work-1/wechat-image_20260825231954.png"
 import zhouhu03 from "../../assets/Main-Work-1/wechat-image_20260825231958.png"
 import zhouhu04 from "../../assets/Main-Work-1/wechat-image_20260825232001.png"
 import zhouhu05 from "../../assets/Main-Work-1/wechat-image_20260825232005.png"
-import qisong01 from "../../assets/Main-Work-2/wechat-image_20260825231842.jpg"
-import qisong02 from "../../assets/Main-Work-2/wechat-image_20260825231850.png"
-import qisong03 from "../../assets/Main-Work-2/wechat-image_20260825231855.png"
-import qisong04 from "../../assets/Main-Work-2/wechat-image_20260825231900.png"
-import qisong05 from "../../assets/Main-Work-2/wechat-image_20260825231910.png"
-import qisong06 from "../../assets/Main-Work-2/wechat-image_20260825231914.png"
-import qisong07 from "../../assets/Main-Work-2/wechat-image_20260825231917.png"
-import qisong08 from "../../assets/Main-Work-2/wechat-image_20260825231920.png"
-import qisong09 from "../../assets/Main-Work-2/wechat-image_20260825231923.png"
-import guoqing01 from "../../assets/Main-Work-3/wechat-image_20260825232013.png"
-import guoqing02 from "../../assets/Main-Work-3/wechat-image_20260825232018.png"
-import guoqing03 from "../../assets/Main-Work-3/wechat-image_20260825232021.png"
-import guoqing04 from "../../assets/Main-Work-3/wechat-image_20260825232024.png"
-import guoqing05 from "../../assets/Main-Work-3/wechat-image_20260825232028.png"
+import guoqingCover from "../../assets/Main-Work-3/wechat-image_20260825232013.png"
 import chiikawa01 from "../../assets/Main-Work-4/wechat-image_20260826212603.png"
 import chiikawa02 from "../../assets/Main-Work-4/wechat-image_20260826212609.png"
 import chiikawa03 from "../../assets/Main-Work-4/wechat-image_20260826212614.png"
@@ -51,6 +39,76 @@ import superPlayer05 from "../../assets/Main-Work-6/555.png"
 import superPlayer06 from "../../assets/Main-Work-6/666.png"
 import superPlayer07 from "../../assets/Main-Work-6/777.png"
 import superPlayer08 from "../../assets/Main-Work-6/888.png"
+import chonghaoban01 from "../../assets/Main-Work-7/1.png"
+import chonghaoban02 from "../../assets/Main-Work-7/2.png"
+import chonghaoban03 from "../../assets/Main-Work-7/3.png"
+import chonghaoban04 from "../../assets/Main-Work-7/4.png"
+import chonghaoban05 from "../../assets/Main-Work-7/5.png"
+import chonghaoban06 from "../../assets/Main-Work-7/6.png"
+import chonghaoban07 from "../../assets/Main-Work-7/7.png"
+import chonghaoban08 from "../../assets/Main-Work-7/8.png"
+import chonghaoban09 from "../../assets/Main-Work-7/9.png"
+import chonghaoban10 from "../../assets/Main-Work-7/10.png"
+import chonghaoban11 from "../../assets/Main-Work-7/11.png"
+import chonghaoban12 from "../../assets/Main-Work-7/12.png"
+import chonghaoban13 from "../../assets/Main-Work-7/13.png"
+import chonghaoban14 from "../../assets/Main-Work-7/14.png"
+import chonghaoban15 from "../../assets/Main-Work-7/15.png"
+import chonghaoban16 from "../../assets/Main-Work-7/16.png"
+import chonghaoban17 from "../../assets/Main-Work-7/17.png"
+import chonghaoban18 from "../../assets/Main-Work-7/18.png"
+import chonghaoban19 from "../../assets/Main-Work-7/19.png"
+import chonghaoban20 from "../../assets/Main-Work-7/20.png"
+import chonghaoban21 from "../../assets/Main-Work-7/21.png"
+import chonghaoban22 from "../../assets/Main-Work-7/22.png"
+import chonghaoban23 from "../../assets/Main-Work-7/23.png"
+import chonghaoban24 from "../../assets/Main-Work-7/24.png"
+import chonghaoban25 from "../../assets/Main-Work-7/25.png"
+import chonghaoban26 from "../../assets/Main-Work-7/26.png"
+import chonghaoban27 from "../../assets/Main-Work-7/27.png"
+import chonghaoban28 from "../../assets/Main-Work-7/28.png"
+import chonghaoban29 from "../../assets/Main-Work-7/29.png"
+import chonghaoban30 from "../../assets/Main-Work-7/30.png"
+import chonghaoban31 from "../../assets/Main-Work-7/31.png"
+import chonghaoban32 from "../../assets/Main-Work-7/32.png"
+import chonghaoban33 from "../../assets/Main-Work-7/33.png"
+import chonghaoban34 from "../../assets/Main-Work-7/34.png"
+import chonghaoban35 from "../../assets/Main-Work-7/35.png"
+import chonghaoban36 from "../../assets/Main-Work-7/36.png"
+import chonghaoban37 from "../../assets/Main-Work-7/37.png"
+import chonghaoban38 from "../../assets/Main-Work-7/38.png"
+import chonghaoban39 from "../../assets/Main-Work-7/39.png"
+import chonghaoban40 from "../../assets/Main-Work-7/40.png"
+import chonghaoban41 from "../../assets/Main-Work-7/41.png"
+import chonghaoban42 from "../../assets/Main-Work-7/42.png"
+import chonghaoban43 from "../../assets/Main-Work-7/43.png"
+import chonghaoban44 from "../../assets/Main-Work-7/44.png"
+import chonghaoban45 from "../../assets/Main-Work-7/45.png"
+import guoqingDetail01 from "../../assets/Main-Work-8/1.png"
+import guoqingDetail02 from "../../assets/Main-Work-8/2.png"
+import guoqingDetail03 from "../../assets/Main-Work-8/3.png"
+import guoqingDetail04 from "../../assets/Main-Work-8/4.png"
+import guoqingDetail05 from "../../assets/Main-Work-8/5.png"
+import guoqingDetail06 from "../../assets/Main-Work-8/6.png"
+import guoqingDetail07 from "../../assets/Main-Work-8/7.png"
+import guoqingDetail08 from "../../assets/Main-Work-8/8.png"
+import guoqingDetail09 from "../../assets/Main-Work-8/9.png"
+import guoqingDetail10 from "../../assets/Main-Work-8/10.png"
+import guoqingDetail11 from "../../assets/Main-Work-8/11.png"
+import guoqingDetail12 from "../../assets/Main-Work-8/12.png"
+import guoqingDetail13 from "../../assets/Main-Work-8/13.png"
+import guoqingDetail14 from "../../assets/Main-Work-8/14.png"
+import guoqingDetail15 from "../../assets/Main-Work-8/15.png"
+import guoqingDetail16 from "../../assets/Main-Work-8/16.png"
+import guoqingDetail17 from "../../assets/Main-Work-8/17.png"
+import guoqingDetail18 from "../../assets/Main-Work-8/18.png"
+import guoqingDetail19 from "../../assets/Main-Work-8/19.png"
+import guoqingDetail20 from "../../assets/Main-Work-8/20.png"
+import guoqingDetail21 from "../../assets/Main-Work-8/21.png"
+import guoqingDetail22 from "../../assets/Main-Work-8/22.png"
+import guoqingDetail23 from "../../assets/Main-Work-8/23.png"
+import guoqingDetail24 from "../../assets/Main-Work-8/24.png"
+import guoqingDetail25 from "../../assets/Main-Work-8/25.png"
 import type { ProjectCategorySlug } from "./project-taxonomy"
 
 export interface PortfolioProject {
@@ -88,24 +146,62 @@ export const portfolioProjects: PortfolioProject[] = [
   },
   {
     index: "02",
-    slug: "qisong-erp",
-    title: "企松云管 ERP",
+    slug: "chonghaoban",
+    title: "宠好伴",
+    coverImage: chonghaobanCover,
     images: [
-      qisong01,
-      qisong02,
-      qisong03,
-      qisong04,
-      qisong05,
-      qisong06,
-      qisong07,
-      qisong08,
-      qisong09
+      chonghaoban01,
+      chonghaoban02,
+      chonghaoban03,
+      chonghaoban04,
+      chonghaoban05,
+      chonghaoban06,
+      chonghaoban07,
+      chonghaoban08,
+      chonghaoban09,
+      chonghaoban10,
+      chonghaoban11,
+      chonghaoban12,
+      chonghaoban13,
+      chonghaoban14,
+      chonghaoban15,
+      chonghaoban16,
+      chonghaoban17,
+      chonghaoban18,
+      chonghaoban19,
+      chonghaoban20,
+      chonghaoban21,
+      chonghaoban22,
+      chonghaoban23,
+      chonghaoban24,
+      chonghaoban25,
+      chonghaoban26,
+      chonghaoban27,
+      chonghaoban28,
+      chonghaoban29,
+      chonghaoban30,
+      chonghaoban31,
+      chonghaoban32,
+      chonghaoban33,
+      chonghaoban34,
+      chonghaoban35,
+      chonghaoban36,
+      chonghaoban37,
+      chonghaoban38,
+      chonghaoban39,
+      chonghaoban40,
+      chonghaoban41,
+      chonghaoban42,
+      chonghaoban43,
+      chonghaoban44,
+      chonghaoban45
     ],
     description:
-      "围绕企业后台的复杂任务重组信息层级、表格与状态反馈，提升高频管理效率。",
+      "围绕宠物主人与专业服务者的需求，优化信息呈现、下单流程与接单体验，提升宠物服务平台的清晰度、效率与信任感。",
     category: "ui-ux",
-    tags: ["UI/UX", "企业服务", "设计系统"],
-    date: "2026-05-22",
+    tags: ["宠物服务", "用户体验", "移动产品"],
+    date: "2026",
+    displayDate: "2026",
     showOnHome: true
   },
   {
@@ -117,7 +213,34 @@ export const portfolioProjects: PortfolioProject[] = [
       height: 1760
     },
     title: "国庆逐光行·云游中国",
-    images: [guoqing01, guoqing02, guoqing03, guoqing04, guoqing05],
+    coverImage: guoqingCover,
+    images: [
+      guoqingDetail01,
+      guoqingDetail02,
+      guoqingDetail03,
+      guoqingDetail04,
+      guoqingDetail05,
+      guoqingDetail06,
+      guoqingDetail07,
+      guoqingDetail08,
+      guoqingDetail09,
+      guoqingDetail10,
+      guoqingDetail11,
+      guoqingDetail12,
+      guoqingDetail13,
+      guoqingDetail14,
+      guoqingDetail15,
+      guoqingDetail16,
+      guoqingDetail17,
+      guoqingDetail18,
+      guoqingDetail19,
+      guoqingDetail20,
+      guoqingDetail21,
+      guoqingDetail22,
+      guoqingDetail23,
+      guoqingDetail24,
+      guoqingDetail25
+    ],
     description:
       "以国庆出游路线为叙事线索，将地域文化、节庆视觉与线上互动体验串联起来。",
     category: "campaign-visual",
@@ -198,6 +321,16 @@ export const portfolioProjects: PortfolioProject[] = [
 
 export const featuredPortfolioProjects = portfolioProjects.filter(
   (project) => project.showOnHome
+)
+
+const homeProjectOrder = [
+  "chonghaoban",
+  "guoqing-cloud-tour",
+  "zhouhu-aurora-project"
+]
+
+export const homePortfolioProjects = [...featuredPortfolioProjects].sort(
+  (a, b) => homeProjectOrder.indexOf(a.slug) - homeProjectOrder.indexOf(b.slug)
 )
 
 export const getPortfolioProject = (slug: string) =>

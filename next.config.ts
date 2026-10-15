@@ -53,6 +53,11 @@ const nextConfig: NextConfig = {
 
   async redirects() {
     return [
+      {
+        source: "/portfolio/qisong-erp",
+        destination: "/portfolio/chonghaoban",
+        permanent: true
+      },
       // Old pages
       {
         source: "/about",

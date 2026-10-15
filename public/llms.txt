@@ -8,7 +8,8 @@
 - [个人简历](https://basement.studio/ai): 江含的个人简介、工作经历、荣誉奖项与教育背景。
 - [个人荣誉](https://basement.studio/services): 江含在产品设计、视觉传达、色彩设计、文创与协作实践中获得的 7 项荣誉。
 - [设计之外](https://basement.studio/showcase): 江含的个人设计作品图库，共 19 件作品。
-- [所有项目](https://basement.studio/blog): 江含的 25 件个人作品总览，包含 6 个主要项目和 19 个设计之外项目。
+- [所有项目](https://basement.studio/blog): 江含的 6 个主要项目，包含昼虎记账、宠好伴、国庆逐光行等 UI/UX、活动视觉和产品设计作品。
+- [宠好伴](https://basement.studio/portfolio/chonghaoban): 宠物服务平台体验改版，包含 45 张完整设计稿。
 - [FAQ](https://basement.studio/faq): Answers to common questions — services, WebGL/3D interactive experiences, clients, technologies, and how to start a project.
 - [Contact](https://basement.studio/contact): Get in touch to start a project.
 
