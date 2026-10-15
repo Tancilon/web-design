@@ -7,11 +7,9 @@ import { generateWebSiteSchema } from "@/lib/structured-data/schemas/organizatio
 import { generateProfessionalServiceSchema } from "@/lib/structured-data/schemas/professional-service-entity"
 import { fetchOrganizationData } from "@/service/sanity/organization"
 
-import { Brands } from "./brands"
 import { SkillsSection } from "./capabilities"
 import { FeaturedProjects } from "./featured-projects"
 import { Intro } from "./intro"
-import { fetchHomepage } from "./sanity"
 
 export const metadata: Metadata = {
   title: {
@@ -23,10 +21,7 @@ export const metadata: Metadata = {
 }
 
 const Homepage = async () => {
-  const [data, orgData] = await Promise.all([
-    fetchHomepage(),
-    fetchOrganizationData()
-  ])
+  const orgData = await fetchOrganizationData()
 
   const serviceTitles = PORTFOLIO_CAPABILITIES.map(
     (capability) => capability.title
@@ -44,7 +39,6 @@ const Homepage = async () => {
         ]}
       />
       <Intro />
-      <Brands data={data} />
       <FeaturedProjects />
       <SkillsSection />
       <Contact />

@@ -1,9 +1,9 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import NextLink from "next/link"
 import { notFound } from "next/navigation"
 
 import { Arrow } from "@/components/primitives/icons/arrow"
+import { ProjectGallery } from "@/components/primitives/zoomable-project-image"
 import { getPortfolioProject, portfolioProjects } from "@/lib/portfolio"
 
 interface PortfolioPageProps {
@@ -61,29 +61,11 @@ export default async function PortfolioPage({ params }: PortfolioPageProps) {
       </header>
 
       <div className="col-span-full mt-4 flex flex-col gap-4 lg:mt-6 lg:gap-6">
-        {project.images.map((image, index) => (
-          <figure
-            key={image.src}
-            className="border border-brand-w1/20 bg-brand-k"
-          >
-            <figcaption className="text-f-h5 flex items-center justify-between border-b border-brand-w1/20 px-3 py-2 text-brand-w2 lg:px-4">
-              <span>{project.title}</span>
-              <span>
-                {String(index + 1).padStart(2, "0")} / {total}
-              </span>
-            </figcaption>
-            <Image
-              src={image}
-              alt={`${project.title}作品图 ${index + 1}/${project.images.length}`}
-              sizes="(max-width: 1023px) 100vw, 96vw"
-              quality={90}
-              priority={index === 0}
-              loading={index === 0 ? "eager" : "lazy"}
-              placeholder="blur"
-              className="h-auto w-full"
-            />
-          </figure>
-        ))}
+        <ProjectGallery
+          key={project.slug}
+          images={project.images}
+          title={project.title}
+        />
       </div>
     </article>
   )

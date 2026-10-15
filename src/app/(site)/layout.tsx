@@ -7,9 +7,11 @@ import { AssetsProvider } from "@/components/assets-provider"
 import { fetchAssets } from "@/components/assets-provider/fetch-assets"
 import { Contact } from "@/components/contact/contact"
 import { InspectableProvider } from "@/components/inspectables/context"
+import { BackgroundMusic } from "@/components/layout/background-music"
 import { CanvasLayer } from "@/components/layout/canvas-layer"
 import { ModeToggle } from "@/components/layout/mode-toggle"
 import { Navbar } from "@/components/layout/navbar"
+import { RoomGuide } from "@/components/layout/room-guide"
 import { NavigationHandler } from "@/components/navigation-handler"
 import { Transitions } from "@/components/transitions"
 import { HtmlTunnelOut } from "@/components/tunnel"
@@ -39,6 +41,8 @@ const SiteLayout = async ({ children }: { children: React.ReactNode }) => {
         </InspectableProvider>
       </AssetsProvider>
       <ModeToggle mode="human" />
+      <RoomGuide />
+      <BackgroundMusic />
     </div>
   )
 }

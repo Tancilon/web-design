@@ -72,6 +72,11 @@ export const portfolioProjects: PortfolioProject[] = [
   {
     index: "01",
     slug: "zhouhu-aurora-project",
+    homeCoverVideo: {
+      src: "/videos/portfolio/zhouhu-aurora.mp4",
+      width: 1788,
+      height: 1160
+    },
     title: "昼虎记账·极光计划",
     images: [zhouhu01, zhouhu02, zhouhu03, zhouhu04, zhouhu05],
     description:
@@ -107,9 +112,9 @@ export const portfolioProjects: PortfolioProject[] = [
     index: "03",
     slug: "guoqing-cloud-tour",
     homeCoverVideo: {
-      src: "/videos/portfolio/guoqing.mp4",
-      width: 432,
-      height: 640
+      src: "/videos/portfolio/guoqing-20261014.mp4",
+      width: 1176,
+      height: 1760
     },
     title: "国庆逐光行·云游中国",
     images: [guoqing01, guoqing02, guoqing03, guoqing04, guoqing05],

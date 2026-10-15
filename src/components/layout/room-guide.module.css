@@ -1,0 +1,538 @@
+.guide {
+  position: fixed;
+  left: 28px;
+  bottom: 82px;
+  z-index: 100;
+  color: #f2f2f2;
+  font-family: sans-serif;
+}
+.invitation {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px 14px 14px;
+  border: 1px solid #424242;
+  background: linear-gradient(135deg, #242424, #101010);
+  border-radius: 10px;
+  box-shadow: 0 10px 32px #0005;
+  text-align: left;
+}
+.invitation strong,
+.invitation small,
+.header strong,
+.header small {
+  display: block;
+}
+.invitation strong {
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+.invitation small {
+  margin-top: 6px;
+  font-size: 10px;
+  color: #a8a8a8;
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  color: #fafafa;
+  background: linear-gradient(145deg, #404040, #202020);
+  border: 1px solid #666;
+  border-radius: 8px;
+  font-size: 24px;
+}
+.note {
+  width: min(640px, calc(100vw - 56px));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header header"
+    "intro story"
+    "atlas story"
+    "stops stops"
+    "actions actions";
+  background: radial-gradient(ellipse at 10% 0%, #292929 0%, transparent 48%),
+    #0c0c0c;
+  border: 1px solid #454545;
+  border-radius: 16px;
+  box-shadow:
+    0 32px 90px #000b,
+    0 1px 0 #ffffff18 inset;
+  animation: arrive 220ms ease-out;
+}
+.header {
+  grid-area: header;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid #ffffff12;
+}
+.header strong {
+  font: 9px monospace;
+  letter-spacing: 0.15em;
+  color: #dedede;
+}
+.header small {
+  font-size: 10px;
+  margin-top: 6px;
+  color: #969696;
+}
+.close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid #444;
+  border-radius: 50%;
+  line-height: 1;
+  color: #ccc;
+}
+.close svg {
+  display: block;
+}
+.close:hover {
+  background: #ffffff15;
+}
+.intro {
+  grid-area: intro;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 14px;
+  padding: 18px 24px 0;
+}
+.intro h2 {
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.05em;
+}
+.intro h2 span {
+  padding-left: 8px;
+  color: #fff;
+}
+.intro p {
+  display: none;
+  flex-shrink: 0;
+  color: #999;
+  font-size: 10px;
+  line-height: 1.9;
+  margin-bottom: 4px;
+}
+.atlas {
+  grid-area: atlas;
+  display: block;
+  width: calc(100% - 24px);
+  height: 132px;
+  margin: 0 12px;
+  color: #888;
+  background: radial-gradient(ellipse at center, #ffffff05, transparent 70%);
+}
+.dimension {
+  fill: none;
+  stroke: #888;
+  stroke-width: 0.6;
+  opacity: 0.35;
+}
+.tile {
+  color: #aaa;
+}
+.tileTop {
+  fill: #1e1e1e;
+  stroke: #626262;
+  stroke-width: 0.8;
+  transition: fill 240ms;
+}
+.tileSide {
+  fill: #111;
+  stroke: #484848;
+  stroke-width: 0.7;
+}
+.atlas text {
+  font: 12px monospace;
+  fill: currentColor;
+}
+.activeTile {
+  color: #fff;
+  filter: drop-shadow(0 0 8px #ffffff12);
+}
+.activeTile .tileTop {
+  fill: #494949;
+  stroke: #f0f0f0;
+  stroke-width: 1.5;
+}
+.activeTile .tileSide {
+  fill: #282828;
+  stroke: #aaa;
+}
+.atlas .mapLabel {
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  fill: #929292;
+}
+.stops {
+  grid-area: stops;
+  display: flex;
+  margin: 0 24px;
+  border: 1px solid #333;
+  border-radius: 9px;
+  background: #ffffff03;
+  padding: 4px;
+  gap: 3px;
+}
+.stops button {
+  position: relative;
+  flex: 1;
+  padding: 9px 2px;
+  color: #999;
+  border-radius: 6px;
+  transition:
+    background 180ms,
+    color 180ms;
+}
+.stops button:hover {
+  background: #ffffff08;
+}
+.stops button[aria-pressed="true"] {
+  color: #fff;
+  background: linear-gradient(180deg, #383838, #242424);
+  box-shadow:
+    0 1px 0 #ffffff20 inset,
+    0 2px 6px #0004;
+}
+.stops button[aria-pressed="true"]::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: calc(50% - 6px);
+  width: 12px;
+  height: 2px;
+  background: #ddd;
+  border-radius: 2px;
+}
+.stops span {
+  display: block;
+  font: 13px monospace;
+}
+.stops small {
+  display: block;
+  font-size: 10px;
+  margin-top: 7px;
+}
+.story {
+  grid-area: story;
+  position: relative;
+  padding: 20px 24px 16px;
+  min-height: 0;
+  border-left: 1px solid #ffffff12;
+  margin: 16px 0;
+}
+.eyebrow {
+  color: #a0a0a0;
+  font: 9px monospace;
+  letter-spacing: 0.16em;
+}
+.story h2 {
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin: 8px 0 12px;
+}
+.story p {
+  font-size: 12px;
+  line-height: 1.85;
+  color: #aaa;
+}
+.story .clue {
+  color: #e4e4e4;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+.actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 24px;
+}
+.next {
+  font-size: 11px;
+  color: #bbb;
+  padding: 12px 0;
+}
+.enter {
+  display: block;
+  min-width: 168px;
+  font-size: 12px;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, #fafafa, #cecece);
+  color: #111;
+  border: 1px solid #fff;
+  border-radius: 7px;
+  font-weight: 600;
+  box-shadow: 0 4px 14px #0005;
+  transition:
+    background 150ms,
+    box-shadow 150ms;
+}
+.enter:hover {
+  background: #fff;
+  box-shadow: 0 4px 20px #ffffff18;
+}
+.beacon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  white-space: nowrap;
+  padding: 13px 14px 13px 17px;
+  border: 1px solid #ffffff26;
+  border-radius: 12px;
+  background: linear-gradient(125deg, #242424ed, #101010f5);
+  color: #e8e8e8;
+  box-shadow:
+    0 8px 24px #0004,
+    0 1px 0 #ffffff0d inset;
+  backdrop-filter: blur(12px);
+  text-align: left;
+  font-family: sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    border-color 180ms,
+    box-shadow 180ms,
+    background 180ms;
+}
+.beaconCopy {
+  display: block;
+}
+.beaconLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  line-height: 1.4;
+  color: #aaa;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.beaconLabel > span {
+  color: #606060;
+}
+.beaconTitle {
+  display: block;
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.beaconArrow {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #ffffff1c;
+  border-radius: 50%;
+  background: #ffffff06;
+  color: #bdbdbd;
+  transition:
+    background 180ms,
+    color 180ms;
+}
+.beacon::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  height: 14px;
+  width: 1px;
+  background: linear-gradient(#ffffff30, #ffffff99);
+}
+.beacon::before {
+  content: "";
+  position: absolute;
+  bottom: -19px;
+  left: calc(50% - 1.5px);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ccc;
+  box-shadow: 0 0 0 3px #ffffff0c;
+}
+.beacon:hover {
+  border-color: #ffffff48;
+  box-shadow:
+    0 10px 28px #0005,
+    0 1px 0 #ffffff12 inset;
+}
+.beacon:hover .beaconArrow {
+  background: #e6e6e6;
+  color: #171717;
+}
+.guide button:focus-visible,
+.beacon:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+@keyframes arrive {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (min-width: 1024px) {
+  .fallback {
+    display: none;
+  }
+}
+@media (max-width: 1023px) {
+  .beacon {
+    display: none;
+  }
+  .guide {
+    left: 12px;
+    bottom: 78px;
+  }
+  .note {
+    width: min(640px, calc(100vw - 24px));
+  }
+}
+@media (max-width: 600px) {
+  .note {
+    width: min(420px, calc(100vw - 24px));
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "header" "intro" "atlas" "stops" "story" "actions";
+  }
+  .atlas {
+    height: clamp(64px, calc(100dvh - 590px), 120px);
+  }
+  .intro h2 {
+    font-size: 20px;
+  }
+  .intro h2 br {
+    display: none;
+  }
+  .story {
+    margin: 0;
+    border-left: 0;
+    padding: 14px 20px 8px;
+  }
+  .story h2 {
+    font-size: 22px;
+    margin: 6px 0 8px;
+  }
+  .story .clue {
+    display: none;
+  }
+  .actions {
+    padding-top: 8px;
+  }
+}
+@media (max-width: 420px) {
+  .header {
+    padding: 12px 18px;
+  }
+  .intro {
+    padding: 12px 18px 4px;
+  }
+  .intro h2 {
+    font-size: 18px;
+  }
+  .intro p {
+    display: none;
+  }
+  .stops {
+    margin: 0 18px;
+  }
+  .story {
+    padding: 12px 18px 8px;
+  }
+  .actions {
+    padding: 0 18px 14px;
+  }
+  .enter {
+    min-width: 148px;
+  }
+}
+@media (max-height: 650px) {
+  .guide {
+    bottom: 60px;
+  }
+  .intro {
+    display: none;
+  }
+  .atlas {
+    height: 100px;
+    align-self: center;
+  }
+  .header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .header small {
+    display: none;
+  }
+  .story {
+    padding-top: 10px;
+    padding-bottom: 8px;
+    margin: 0;
+  }
+  .story .clue {
+    display: none;
+  }
+  .actions {
+    padding-top: 8px;
+    padding-bottom: 10px;
+  }
+}
+@media (max-width: 600px) and (max-height: 650px) {
+  .atlas {
+    display: none;
+  }
+  .stops {
+    margin-top: 8px;
+  }
+}
+@media (max-height: 450px) and (min-width: 601px) {
+  .guide {
+    bottom: 12px;
+  }
+  .note {
+    grid-template-areas: "header header" "stops story" "actions actions";
+  }
+  .atlas {
+    display: none;
+  }
+  .stops {
+    align-self: center;
+    margin: 12px;
+  }
+  .story h2 {
+    font-size: 20px;
+    margin: 4px 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .note {
+    animation: none;
+  }
+  .beacon,
+  .beaconArrow,
+  .tileTop,
+  .stops button,
+  .enter {
+    transition: none;
+  }
+}

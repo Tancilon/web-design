@@ -1,6 +1,7 @@
 import { Vector3 } from "three"
 
 import { useAssets } from "../assets-provider"
+import { RoomGuideBeacon } from "./room-guide-beacon"
 import { StaticCharacter } from "./static-character"
 import { STATIC_CHARACTER_IDENTITIES } from "./static-character-config"
 
@@ -17,13 +18,16 @@ export function HomeCharacter() {
   const identity = STATIC_CHARACTER_IDENTITIES.home
 
   return (
-    <StaticCharacter
-      model={homeModel}
-      position={HOME_CHARACTER_POSITION}
-      rotation={HOME_CHARACTER_ROTATION}
-      lightDirection={HOME_CHARACTER_LIGHT_DIRECTION}
-      sceneName={identity.sceneName}
-      hoverName={identity.hoverName}
-    />
+    <>
+      <RoomGuideBeacon />
+      <StaticCharacter
+        model={homeModel}
+        position={HOME_CHARACTER_POSITION}
+        rotation={HOME_CHARACTER_ROTATION}
+        lightDirection={HOME_CHARACTER_LIGHT_DIRECTION}
+        sceneName={identity.sceneName}
+        hoverName={identity.hoverName}
+      />
+    </>
   )
 }
