@@ -1,6 +1,6 @@
 import type { StaticImageData } from "next/image"
 
-import chonghaobanCover from "../../assets/covers/chonghaoban.webp"
+import chonghaobanCover from "../../assets/covers/chonghaoban-redesign.png"
 import zhouhu01 from "../../assets/Main-Work-1/wechat-image_20260825231949.png"
 import zhouhu02 from "../../assets/Main-Work-1/wechat-image_20260825231954.png"
 import zhouhu03 from "../../assets/Main-Work-1/wechat-image_20260825231958.png"
